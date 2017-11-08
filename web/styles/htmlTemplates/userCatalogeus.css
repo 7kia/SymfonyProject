@@ -1,0 +1,11 @@
+.userBookCatalogues {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 10%;
+    height: 100%;
+    min-height: 400px;
+    
+    margin-left: 1px;
+    float: right;
+    outline: 2px solid black;
+}

@@ -1,0 +1,30 @@
+﻿{# app/Resources/views/Tables/userTable.html.twig #}
+
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Список пользователей</title>
+    <link rel="stylesheet" type="text/css" href="Table/styles/styles.css">
+</head>
+<body>
+
+    <table>
+         {% for item in users %}
+               <tr>
+                     <td>{{item.username}}</td>
+                     <td>{{item.email}}</td>
+               </tr>
+         {% endfor %}
+        
+    </table>
+{#{{ form_start(form) }}
+    {{ form_row(form.username) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.plainPassword.first) }}
+    {{ form_row(form.plainPassword.second) }}
+    {{ form_row(form.is_admin) }}
+    <button type="submit">Register!</button>
+{{ form_end(form) }}#}
+
+</body>
+
+</html>

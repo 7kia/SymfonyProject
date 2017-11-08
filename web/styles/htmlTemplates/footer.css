@@ -1,0 +1,21 @@
+footer {
+    box-sizing: border-box;
+    width: auto;
+    height: 100px;
+    outline: 2px solid black;
+    
+    line-height: 50px;
+}
+
+.footerContent
+{
+    display: inline;
+}
+
+.footerContent li
+{
+    display: inline;  
+    margin: 5px;
+    float:right;
+    text-align: center;
+}
