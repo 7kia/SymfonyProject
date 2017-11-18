@@ -41,3 +41,6 @@
 **/Entity/*~
 /bower_components
 /node_modules
+/vendor
+/demo
+/spec

@@ -48,6 +48,12 @@ class User implements UserInterface, \Serializable
      */
     private $password;
     
+	/**
+     * @ORM\Column(name="avatar", type="string", length=255)
+     * @Assert\NotBlank()
+     */
+    private $avatar;
+	
     /**
      * @ORM\Column(name="isAdmin", type="boolean")
      */
@@ -85,6 +91,17 @@ class User implements UserInterface, \Serializable
     public function setUsername($username)
     {
         $this->username = $username;
+    }
+	
+	// get/set for avatar
+	public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
     }
 
     public function getPlainPassword()

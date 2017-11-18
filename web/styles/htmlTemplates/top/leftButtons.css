@@ -1,0 +1,12 @@
+.leftButtons
+{
+    float: left;
+}
+
+.leftButtons li
+{
+    display: inline;  
+    float: left;
+    margin: 5px;
+    text-align: center;
+}

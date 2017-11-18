@@ -1,7 +1,35 @@
-{% include "top5Lab.html.twig" %}
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Шаблон</title>
+    
+    <link rel="stylesheet" type="text/css" href="styles/htmlTemplates/top/leftButtons.css">
+    <link rel="stylesheet" type="text/css" href="styles/htmlTemplates/top/AddBookBtn.css">
+    <link rel="stylesheet" type="text/css" href="styles/htmlTemplates/top/AddUserBtn.css">
+    <link rel="stylesheet" type="text/css" href="styles/htmlTemplates/top/AddToReadLaterBtn.css">
+    <link rel="stylesheet" type="text/css" href="styles/htmlTemplates/top/AddToFavoriteBtn.css">
+
+    <link rel="stylesheet" type="text/css" href="styles/htmlTemplates/top/centerElements.css">
+    <link rel="stylesheet" type="text/css" href="styles/htmlTemplates/top/SearchFields.css">
+    <link rel="stylesheet" type="text/css" href="styles/htmlTemplates/top/userInfo.css">
+
+    
+    <link rel="stylesheet" type="text/css" href="styles/htmlTemplates/bookTable.css">
+    <link rel="stylesheet" type="text/css" href="styles/htmlTemplates/userCatalogeus.css">
+    <link rel="stylesheet" type="text/css" href="styles/htmlTemplates/footer.css">
+    
+    <link rel="stylesheet" href="lib/jquery.raty.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="lib/jquery.raty.js"></script>
+    
+    <script type="text/javascript">
+        if (window.jQuery) alert("jQuery подключен");
+        else alert("jQuery не подключен");
+    </script>
+</head>
+{% include "top\\topPanel.html.twig" %}
 <div class="pageContent">     
     {% include "userList.html.twig" %}
-    {% include "bookTable.html.twig" %}
+    {# #}
+    {% include "center\\bookTable.html.twig" %}
     {% include "userBookCatalogues.html.twig" %}
 </div> 
 {% include "footer.html.twig" %}

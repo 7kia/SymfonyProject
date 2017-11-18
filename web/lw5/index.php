@@ -1,10 +1,10 @@
 <?php
-require_once 'f:\Study\7_Semester\Web-BackEnd\WebProject\vendor\autoload.php';
+require_once 'f:\Study\7_Semester\SymfonyProject\vendor\autoload.php';
 require_once 'src\Book.php';
 
 use Entity\Book;
 
-$loader = new Twig_Loader_Filesystem('f:\Study\7_Semester\Web-BackEnd\WebProject\app\Resources\views\htmlTemplates');
+$loader = new Twig_Loader_Filesystem('f:\Study\7_Semester\SymfonyProject\app\Resources\views\htmlTemplates');
 
 $twig = new Twig_Environment($loader, array('debug' => true));
 
