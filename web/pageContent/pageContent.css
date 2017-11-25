@@ -1,0 +1,33 @@
+.pageContent
+{
+    max-width: 980px;
+    margin: 0 auto;
+
+    outline: 2px;
+    outline-color: #000000;
+}
+
+.leftPanel
+{
+    width: 15%;
+}
+
+.rightPanel
+{
+    width: 15%;
+}
+
+.centralPanel
+{
+    width: 69%;
+}
+
+.inlineBlock
+{
+    display: inline-block;
+}
+
+.alignToCenter
+{
+    text-align: center;
+}
