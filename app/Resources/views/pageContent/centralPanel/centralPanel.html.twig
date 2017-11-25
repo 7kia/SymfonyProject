@@ -1,0 +1,19 @@
+<div class="centralPanel">
+    {% if pageName == "addBookPage" %}
+        {% include "pageContent\\centralPanel\\addBook\\addBook.html.twig" %}
+    {% elseif (pageName == "bookList") or (pageName == "bookCatalog")  %}
+        {% include "pageContent\\centralPanel\\bookList\\bookList.html.twig" %}
+    {% elseif pageName == "pageBook" %}
+        {% include "pageContent\\centralPanel\\bookPageContent\\bookPageContent.html.twig" %}
+    {% elseif pageName == "circulationBooks" %}
+        {% include "pageContent\\centralPanel\\circulateBookForm\\circulateBookForm.html.twig" %}
+    {% elseif pageName == "messgaes" %}
+        {% include "pageContent\\centralPanel\\messages\\messages.html.twig" %}
+    {% elseif pageName == "userList" %}
+        {% include "pageContent\\centralPanel\\userList\\userList.html.twig" %}
+    {% elseif pageName == "userProfile" %}
+        {% include "pageContent\\centralPanel\\userProfile\\userProfile.html.twig" %}
+    {% endif %}
+</div>
+{# links for "top\leftButtons.html.twig"
+#}

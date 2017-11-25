@@ -1,0 +1,24 @@
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Шаблон</title>
+    {# css for top panel#}
+    <link rel="stylesheet" type="text/css" href="topPanel/topPanel.css">
+    {# css for pageContent panel#}
+    <link rel="stylesheet" type="text/css" href="pageContent/leftPanel/menu/menu.css">
+    {# css for footer panel#}
+
+
+    <link rel="stylesheet" href="lib/jquery.raty.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="lib/jquery.raty.js"></script>
+    
+    <script type="text/javascript">
+        if (window.jQuery) alert("jQuery подключен");
+        else alert("jQuery не подключен");
+    </script>
+</head>
+<body>
+    {% include "topPanel\\topPanel.html.twig" %}
+    {% include "pageContent\\pageContent.html.twig" %}
+    {% include "footer\\footer.html.twig" %}
+</body>
+</html>

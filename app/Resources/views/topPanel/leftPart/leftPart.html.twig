@@ -1,0 +1,11 @@
+<div class="leftPart">
+    <ul>
+        {% if pageName == "circulationBooks" %}
+            {% include "topPanel\\leftPart\\circulationBookEdits\\circulationBookEdits.html.twig" %}
+        {% elseif pageName == "userList" %}
+            {% include "topPanel\\leftPart\\userListEdits\\userListEdits.html.twig" %}
+        {% elseif pageName == "pageBook" %}
+            {% include "topPanel\\leftPart\\bookPageEdits\\bookPageEdits.html.twig" %}
+        {% endif %}
+    </ul>
+</div>

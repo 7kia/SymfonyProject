@@ -44,6 +44,11 @@ class Book implements \Serializable
      */
     private $rating;
 	
+	/**
+     * @ORM\Column(name="bookImage", type="string")
+     */
+    private $bookImage;
+	
 	// get/set name
     public function getName()
     {
@@ -106,7 +111,42 @@ class Book implements \Serializable
         return null;
     }
 
-
+	
+	function __construct() {
+	}
+	
+	public static function generateWithData(
+		$name, 
+		$publishingYear,
+		$pageAmount,
+		$rating,
+		$bookImage
+	) {
+        $instance = new self();
+		$instance->fill(
+			$name, 
+			$publishingYear,
+			$pageAmount,
+			$rating,
+			$bookImage
+		);
+        return $instance;
+    }
+	
+	public function fill( 
+		$name, 
+		$publishingYear,
+		$pageAmount,
+		$rating,
+		$bookImage
+	) {
+        $this->name = $name;
+		$this->publishingYear = $publishingYear;
+		$this->pageAmount = $pageAmount;
+		$this->rating = $rating;
+		$this->bookImage = $bookImage;
+    }
+	
     /** @see \Serializable::serialize() */
     public function serialize()
     {

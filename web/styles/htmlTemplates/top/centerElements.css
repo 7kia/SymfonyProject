@@ -1,12 +1,5 @@
 .centerElements
 {
    text-align: center;
-}
-
-.centerElements li
-{
-    display: inline;  
-
-    margin: 5px;
-    text-align: center;
+   width: 33.33333%;
 }

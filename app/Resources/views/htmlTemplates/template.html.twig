@@ -1,5 +1,7 @@
 <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Шаблон</title>
+    {# css for top panel#}
+    <link rel="stylesheet" type="text/css" href="styles/htmlTemplates/top/topPanel.css">
     
     <link rel="stylesheet" type="text/css" href="styles/htmlTemplates/top/leftButtons.css">
     <link rel="stylesheet" type="text/css" href="styles/htmlTemplates/top/AddBookBtn.css">
@@ -26,13 +28,8 @@
     </script>
 </head>
 <body>
-    {% include "htmlTemplates\\top\\topPanel.html.twig" %}
-    <div class="pageContent">     
-        {% include "htmlTemplates\\userList.html.twig" %}
-        {# {% include "htmlTemplates\\center\\bookTable.html.twig" %}  #}
-        
-        {% include "htmlTemplates\\userBookCatalogues.html.twig" %}
-    </div> 
-    {% include "htmlTemplates\\footer.html.twig" %}
+    {% include "topPanel\\topPanel.html.twig" %}
+    {% include "pageContent\\bookLists.html.twig" %}
+    {% include "footer\\footer.html.twig" %}
 </body>
 </html>

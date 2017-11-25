@@ -1,9 +1,16 @@
 <div class="topPanel">
-    {% include "htmlTemplates\\top\\leftButtons.html.twig" %}
-    {% include "htmlTemplates\\top\\centerElements.html.twig" %}
-    {% include "htmlTemplates\\top\\userInfo.html.twig" %}
+    {% include "topPanel\\leftPart\\leftPart.html.twig" %}
+    {% include "topPanel\\centralPart\\centralPart.html.twig" %}
+    {% include "topPanel\\rightPart\\rightPart.html.twig" %}
 </div>
 {# links for "top\leftButtons.html.twig"
+#}
+
+
+
+{# links for "top\leftButtons.html.twig"
+    <link rel="stylesheet" type="text/css" href="styles/htmlTemplates/top/topPanel.css">
+
     <link rel="stylesheet" type="text/css" href="styles/htmlTemplates/top/leftButtons.css">
     <link rel="stylesheet" type="text/css" href="styles/htmlTemplates/top/AddBookBtn.css">
     <link rel="stylesheet" type="text/css" href="styles/htmlTemplates/top/AddUserBtn.css">
