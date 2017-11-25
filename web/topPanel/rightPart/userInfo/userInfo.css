@@ -1,9 +1,14 @@
 .userInfo {
     box-sizing: border-box;
-    height: 65px;
-    line-height: 50px;
+    height: 70px;
+    line-height: 60px;
 
     float: right;
+}
+
+.userInfo ul
+{
+    margin: 0px;
 }
 
 .userInfo li
@@ -14,15 +19,10 @@
     text-align: center;
 }
 
-.userInfo .avatar {
-    width: 50px;
-    height: 50px;
+.userInfo .avatar img{
+    width: 60px;
+    height: 60px;
 }
 
-
-.userInfo .avatar img {
-    width: 50px;
-    height: 50px;
-}
 
 

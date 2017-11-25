@@ -2,25 +2,27 @@
 {
     box-sizing: border-box;
     width: 100%;
-    height: 65px;
-
     margin: 0 auto;
+
+    height: 74px;
+}
+
+.heightTopPanel
+{
+    height: 72px;
 }
 
 .leftPart
 {
     width: 34%;
-    height: inherit;
 }
 
 .rightPart
 {
     width: 34%;
-    height: inherit;
 }
 
 .centralPart
 {
-    width: 29%;
-    height: inherit;
+    width: 30.8%;
 }
