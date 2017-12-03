@@ -9,12 +9,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class UserBookListController extends Controller
+class UserBookCatalogController extends Controller
 {
     function createPage($bookListName)
     {
         return $this->render(
-            'userBookList.html.twig',
+            'userBookCatalog.html.twig',
             array(
                 "pageName" => "bookList",
                 "bookListTitle" => $bookListName
@@ -32,30 +32,40 @@ class UserBookListController extends Controller
     }
 
     /**
-     * @Route("/userBookList/{bookListName}", name="bookList" )
+     * @Route("/userBookList", name="userBookList" )
      */
-    public function showBookList(Request $request, $bookListName)
+    public function showBookList()
     {
-        $bookLists = array(
-            "favoriteBooks",
-            "readLater",
-            "personalBooks"
-        );
+        try {
+            $bookListName = $this->getParamFromGetRequest("bookListName");
 
-        // TODO : fix style
-        if(in_array($bookListName, $bookLists)) {
-            return $this->createPage($bookListName);
-        } else {
-            header('HTTP/1.0 404');
+            $bookLists = array(
+                "favoriteBooks",
+                "readLater",
+                "personalBooks"
+            );
+
+            // TODO : fix style
+            if (in_array($bookListName, $bookLists)) {
+                return $this->createPage($bookListName);
+            } else {
+                header('HTTP/1.0 404');
+            }
+        } catch (InvalidArgumentException $e) {
+            // TODO : fix catch block later
+            header('HTTP/1.0 400');
+            echo 'Ошибка, не передан аргумент ' . $e->getMessage() . '.';
+
+
         }
-
         return $this->render(
             'template.html.twig',
             array(
                 "pageName" => "bookList",
-                "bookListTitle" => $bookListName
+                "bookListTitle" => "NOT TITLE"
             )
         );
+
     }
 
 
