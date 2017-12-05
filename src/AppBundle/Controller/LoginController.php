@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class SecurityController extends Controller
+class LoginController extends Controller
 {
      /**
      * @Route("/login", name="login")
@@ -22,7 +22,7 @@ class SecurityController extends Controller
         // last username entered by the user
         $lastUsername = $authUtils->getLastUsername();
 
-        return $this->render('security\login.html.twig', array(
+        return $this->render('security\\login.html.twig', array(
             'last_username' => $lastUsername,
             'error'         => $error,
         ));

@@ -11,61 +11,64 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserBookCatalogController extends Controller
 {
-    function createPage($bookListName)
+    function createPage($bookListName, $userLogin)
     {
         return $this->render(
             'userBookCatalog.html.twig',
             array(
                 "pageName" => "bookList",
-                "bookListTitle" => $bookListName
+                "bookListTitle" => $bookListName,
+                "userLogin" => $userLogin
             )
         );
     }
 
+    function createErrorPage($errorMessage)
+    {
+        // TODO : create error page
+        return $this->render(
+            'template.html.twig',
+            array(
+                "pageName" => "bookList",
+                "bookListTitle" => $errorMessage
+            )
+        );
+    }
+
+    // TODO : see might put in a separate file
     function getParamFromGetRequest($arg_name)
     {
         if(isset($_GET[$arg_name])) {
             return $_GET[$arg_name];
         }
 
-        throw new InvalidArgumentException($arg_name);
+        return null;
     }
 
     /**
-     * @Route("/userBookList", name="userBookList" )
+     * @Route("/userBookCatalog", name="userBookCatalogs" )
      */
     public function showBookList()
     {
-        try {
-            $bookListName = $this->getParamFromGetRequest("bookListName");
-
-            $bookLists = array(
-                "favoriteBooks",
-                "readLater",
-                "personalBooks"
-            );
-
-            // TODO : fix style
-            if (in_array($bookListName, $bookLists)) {
-                return $this->createPage($bookListName);
-            } else {
-                header('HTTP/1.0 404');
-            }
-        } catch (InvalidArgumentException $e) {
-            // TODO : fix catch block later
-            header('HTTP/1.0 400');
-            echo 'Ошибка, не передан аргумент ' . $e->getMessage() . '.';
-
-
-        }
-        return $this->render(
-            'template.html.twig',
-            array(
-                "pageName" => "bookList",
-                "bookListTitle" => "NOT TITLE"
-            )
+        $bookLists = array(
+            "favoriteBooks",
+            "readLater",
+            "personalBooks"
         );
 
+        $bookListName = $this->getParamFromGetRequest("bookListName");
+        if ($bookListName == null) {
+            $bookListName = "personalBooks";
+        }
+
+        $user = $this->getUser();
+        $userLogin = ($user != null);
+
+        if (in_array($bookListName, $bookLists)) {
+            return $this->createPage($bookListName, $userLogin);
+        }
+        header('HTTP/1.0 404');
+        createErrorPage("Ошибка, не передан аргумент  \'bookListName\'");
     }
 
 

@@ -1,19 +1,22 @@
 <div class="userInfo border">
     <ul>
-        <li>                       
-            <div class="avatar heightTopPanel">
-                <img src="img/NoAvatar.jpg" width="150" height="150"></a>
-            </div>                  
-        </li>
-        <li>
-            <label for="UserFullName"><ФИО пользователя></label> 
-        </li>
-        <li>
-            <input type="submit" class="log_in" value="Войти">
-        </li>
-        <li>
-            <input type="submit" class="log_out" value="Выйти">
-        </li>
+        {% if userLogin == true %}
+            <li>
+                <div class="avatar heightTopPanel">
+                    <img src="img/NoAvatar.jpg" width="150" height="150"></a>
+                </div>
+            </li>
+            <li>
+                <label for="UserFullName">{{ app.user.username }}</label>
+            </li>
+            <li>
+                <input type="submit" class="log_out" value="Выйти">
+            </li>
+        {% else %}
+            <li>
+                <input type="submit" class="log_in" value="Войти">
+            </li>
+        {% endif %}
     </ul>
 </div>
 
