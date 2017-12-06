@@ -8,14 +8,16 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
 use AppBundle\Entity\UserListBook;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Controller\MyController;
+
+
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class UserBookCatalogController extends Controller
+class UserBookCatalogController extends MyController
 {
     private function findUserCatalog($userId, $bookListName)
     {
@@ -87,6 +89,7 @@ class UserBookCatalogController extends Controller
         }
 
         $bookCards = null;
+
         //if ($userLogin) {
             $bookCards = $this->getUserCatalog($ownerName, $bookListName);
         //}
@@ -96,34 +99,14 @@ class UserBookCatalogController extends Controller
         return $this->render(
             'userBookCatalog.html.twig',
             array(
+                "serverUrl" => "http://localhost:8000/",
+                "currentUserName" => $this->getCurrentUserName($userLogin),
                 "pageName" => "bookList",
                 "bookListTitle" => $catalogTitle,
                 "userLogin" => $userLogin,
                 "bookCards" => $bookCards
             )
         );
-    }
-
-    function createErrorPage($errorMessage)
-    {
-        // TODO : create error page
-        return $this->render(
-            'template.html.twig',
-            array(
-                "pageName" => "bookList",
-                "bookListTitle" => $errorMessage
-            )
-        );
-    }
-
-    // TODO : see might put in a separate file
-    function getParamFromGetRequest($arg_name)
-    {
-        if (isset($_GET[$arg_name])) {
-            return $_GET[$arg_name];
-        }
-
-        return null;
     }
 
     /**

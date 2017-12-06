@@ -2,13 +2,48 @@
     <div class="pure-menu custom-restricted-width">
         <span class="pure-menu-heading">Меню</span>
         <ul class="pure-menu-list">
-            <li class="pure-menu-item"><a href="#" class="pure-menu-link">Профиль</a></li>
-            <li class="pure-menu-item"><a href="#" class="pure-menu-link">Личные книги</a></li>
-            <li class="pure-menu-item"><a href="#" class="pure-menu-link">Взятые книги</a></li>
-            <li class="pure-menu-item"><a href="#" class="pure-menu-link">Отданные книги</a></li>
-            <li class="pure-menu-item"><a href="#" class="pure-menu-link">Заявки</a></li>
-            <li class="pure-menu-item"><a href="#" class="pure-menu-link">Сообщения</a></li>
-            <li class="pure-menu-item"><a href="#" class="pure-menu-link">Поиск книг</a></li>
+            <li class="pure-menu-item">
+                <a href="#"
+                   class="pure-menu-link">
+                    Профиль
+                </a>
+            </li>
+            <li class="pure-menu-item">
+                <a href="{{ serverUrl }}userBookCatalog?bookListName=personalBooks&ownerName={{ currentUserName }}"
+                   class="pure-menu-link">
+                    Личные книги
+                </a>
+            </li>
+            <li class="pure-menu-item">
+                <a href="#"
+                   class="pure-menu-link">
+                    Взятые книги
+                </a>
+            </li>
+            <li class="pure-menu-item">
+                <a href="#"
+                   class="pure-menu-link">
+                    Отданные книги
+                </a>
+            </li>
+            <li class="pure-menu-item">
+                <a href="#"
+                   class="pure-menu-link">
+                    Заявки
+                </a>
+            </li>
+            <li class="pure-menu-item">
+                <a href="#"
+                   class="pure-menu-link">
+                    Сообщения
+                </a>
+            </li>
+            <li class="pure-menu-item">
+                <a href="#"
+                   class="pure-menu-link">
+                    Поиск книг
+                </a>
+            </li>
         </ul>
     </div>
 </div>
