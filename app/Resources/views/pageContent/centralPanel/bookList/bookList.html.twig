@@ -11,9 +11,10 @@
             </tr>
         </thead>
         <tbody style='cursor:pointer;'>
+            {% set columnCount = 3 %}
             {% for i in 0..(bookCards|length - 1) %}
                 {# {% for bookCard in bookCards %} #}
-                {% if (i % 3) == 0 %}
+                {% if (i % (columnCount + 1)) == 0 %}
                     <tr>
                 {% endif %}
                     <td>
@@ -38,7 +39,7 @@
                             </script>
                         </div>
                     </td>
-                {% if (i % 3) == 0 %}
+                {% if (i % (columnCount + 1)) == columnCount %}
                     </tr>
                 {% endif %}
 
