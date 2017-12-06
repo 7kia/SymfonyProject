@@ -23,7 +23,12 @@ class Book implements \Serializable
      * @ORM\Column(name="name", type="string")
      */
     private $name;
-	
+
+    /**
+     * @ORM\Column(name="author", type="string")
+     */
+    private $author;
+
 	/**
      * @ORM\Column(name="pageCount",type="integer")
      */
@@ -103,7 +108,18 @@ class Book implements \Serializable
     {
         $this->rating = $rating;
     }
-	
+
+    // get/set bookImage
+    public function getBookImage()
+    {
+        return $this->bookImage;
+    }
+
+    public function setBookImage($bookImage)
+    {
+        $this->bookImage = $bookImage;
+    }
+
     public function getSalt()
     {
         // The bcrypt algorithm doesn't require a separate salt.
@@ -141,6 +157,7 @@ class Book implements \Serializable
 		$bookImage
 	) {
         $this->name = $name;
+        $this->author = $name;
 		$this->publishingYear = $publishingYear;
 		$this->pageAmount = $pageAmount;
 		$this->rating = $rating;
@@ -153,6 +170,7 @@ class Book implements \Serializable
         return serialize(array(
             $this->id,
             $this->name,
+            $this->author,
             $this->pageCount,
 			$this->description,
 			$this->isbn,
@@ -168,6 +186,7 @@ class Book implements \Serializable
         list (
             $this->id,
             $this->name,
+            $this->author,
             $this->pageCount,
 			$this->description,
 			$this->isbn,

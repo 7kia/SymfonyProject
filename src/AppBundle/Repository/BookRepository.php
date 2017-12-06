@@ -1,34 +1,14 @@
 <?php
-// src/AppBundle/Repository/BookRepository.php
+// src/AppBundle/Repository/UserRepository.php
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Book;
 use Doctrine\ORM\EntityRepository;
 
-class BookRepository extends EntityRepository
+class BookRepository extends  ServiceEntityRepository
 {
-    public function findAllOrderedByName()
+    public function __construct(RegistryInterface $registry)
     {
-        return $this->getEntityManager()
-            ->createQuery(
-                'SELECT p FROM AppBundle:Book p ORDER BY p.name ASC'
-            )
-            ->getResult();
-    }
-
-    /**
-     * @param $start
-     * @param $end
-     * @return mixed
-     */
-    public function getBookRange($start, $end)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('id')
-            ->from('Book', 'id')
-            ->where('id.start >= :start')
-            ->andWhere('id.end <= :end')
-            ->setParameters(array('start' => $start, 'end' => $end));
-
-        return $qb->getQuery()->getArrayResult();
+        parent::__construct($registry, Book::class);
     }
 }

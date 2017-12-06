@@ -8,3 +8,23 @@
 {
     width: 100%;
 }
+
+.bookGrid
+{
+
+}
+
+.bookCart
+{
+    width: 108px;
+    hight: 195px;
+}
+
+.bookCart img
+{
+    text-align: center;
+}
+.bookCart .nameStr
+{
+    overflow: hidden;
+}
