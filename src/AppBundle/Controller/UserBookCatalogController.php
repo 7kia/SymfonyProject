@@ -25,7 +25,6 @@ class UserBookCatalogController extends Controller
                 FROM AppBundle\Entity\UserListBook p
                 WHERE p.userId = '" . $userId . '\' and p.listName = \'' . $bookListName .'\''
         );
-        print_r($query->execute());
         return $query->execute();
 
     }
@@ -49,24 +48,20 @@ class UserBookCatalogController extends Controller
         return $books;
     }
 
+    private function getOwnerUser($ownerName)
+    {
+        return $this->getDoctrine()
+                ->getRepository(User::class)
+                ->findOneBy(
+                    ['username' => $ownerName]
+                );
+    }
+
     function getUserCatalog($ownerName, $bookListName)
     {
-        $user =  $this->getDoctrine()
-            ->getRepository(User::class)
-            ->findOneBy(
-                ['username' => $ownerName]
-            );
-        print_r($user);
-
+        $user =  $this->getOwnerUser($ownerName);
         $catalog = $this->findUserCatalog($user->getId(), $bookListName);
-
         $catalogBooks = $this->extractBooks($catalog);
-//        $em = $this->getDoctrine()->getManager();
-//        $qb = $em->createQueryBuilder();
-//        $qb->
-//        $query = $qb->select(
-//
-        print_r($catalogBooks);
 
         return $catalogBooks;
     }
@@ -93,7 +88,6 @@ class UserBookCatalogController extends Controller
 
         $bookCards = null;
         //if ($userLogin) {
-            print_r($userLogin);
             $bookCards = $this->getUserCatalog($ownerName, $bookListName);
         //}
 
@@ -125,7 +119,7 @@ class UserBookCatalogController extends Controller
     // TODO : see might put in a separate file
     function getParamFromGetRequest($arg_name)
     {
-        if(isset($_GET[$arg_name])) {
+        if (isset($_GET[$arg_name])) {
             return $_GET[$arg_name];
         }
 
@@ -153,6 +147,7 @@ class UserBookCatalogController extends Controller
         if (in_array($bookListName, $bookLists)) {
             return $this->createPage($bookListName, $ownerName);
         }
+
         header('HTTP/1.0 404');
         createErrorPage("Ошибка, не передан аргумент  \'bookListName\'");
     }
