@@ -77,7 +77,7 @@ class UserBookCatalogController extends MyController
         return $this->render(
             'userBookCatalog.html.twig',
             array(
-                "serverUrl" => "http://localhost:8000/",
+                "serverUrl" => $this->getServerUrl(),
                 "currentUserName" => $this->getCurrentUserName($userLogin),
                 "pageName" => "bookList",
                 "bookListTitle" => $catalogTitle,

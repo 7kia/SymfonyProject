@@ -9,7 +9,12 @@ use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
 use AppBundle\Entity\UserListBook;
 use AppBundle\Controller\MyController;
+use AppBundle\SearchBook\SearchData;
 
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -29,36 +34,122 @@ class BookCatalogController extends MyController
             );
     }
 
-    function createPage($searchText, $searchCategory)
+
+    private function getSearchForm($searchData)
+    {
+        // TODO : поправь текст кнопки
+        $form = $this->createFormBuilder($searchData)
+            ->add(
+                'searchBtn',
+                SubmitType::class,
+                array(
+                    'attr' => array('class' => 'searchBtn', 'value' => 'Поиск'),
+                )
+            )
+            ->add(
+                'searchTextField',
+                null,
+                array(
+                    'data' => 'Здесь текст',
+                )
+            )
+            ->add(
+                'searchCategory',
+                ChoiceType::class,
+                array(
+                    'choices'  => array(
+                        'Название' => "name",
+                        'Автор' => "author"
+                    ),
+                )
+            )
+            ->getForm();
+
+        return $form;
+    }
+
+    private function handleClickedButtons(SearchData $searchData, $clickedBtn)
+    {
+        $runSearch = ($clickedBtn->getName() == 'searchBtn');
+        if ($runSearch) {
+
+            $text = $searchData->getSearchTextField();
+            $category = $searchData->getSearchCategory();
+
+            return $this->redirectToRoute(
+                'bookCatalogs',
+                array(
+                    'searchText' => $text,
+                    'searchCategory' => $category
+                )
+            );
+        }
+    }
+
+    /**
+     * @param $searchText
+     * @param $searchCategory
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    function createPage(Request $request, $searchText, $searchCategory)
     {
         $user = $this->getUser();
         $userLogin = ($user != null);
 
-        $book = $this->getBookId($searchText, $searchCategory);
-
         $bookCards = array();
-        if ($book != null) {
-            array_push($bookCards, $book);
+        if ($searchCategory != null) {
+            $book = $this->getBookId($searchText, $searchCategory);
+            if ($book != null) {
+                array_push($bookCards, $book);
+            }
+        }
+
+        $searchData = new SearchData();
+        $searchForm = $this->getSearchForm($searchData);
+        $searchForm->handleRequest($request);
+
+        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
+            $clickedBtn = $searchForm->getClickedButton();
+            if ($clickedBtn != null) {
+                // TODO : вынос это куска кода в отдельную функцию отключает redirectToRoute
+                // Возможно на момент запуска был глюк в Symfony
+                $runSearch = ($clickedBtn->getName() == 'searchBtn');
+                if ($runSearch) {
+
+                    $text = $searchData->getSearchTextField();
+                    $category = $searchData->getSearchCategory();
+
+                    return $this->redirectToRoute(
+                        'bookCatalogs',
+                        array(
+                            'searchText' => $text,
+                            'searchCategory' => $category
+                        )
+                    );
+                }
+            }
         }
 
         return $this->render(
             'userBookCatalog.html.twig',
             array(
-                "serverUrl" => "http://localhost:8000/",
+                "serverUrl" => $this->getServerUrl(),
                 "currentUserName" => $this->getCurrentUserName($userLogin),
                 "pageName" => "bookCatalog",
                 "userLogin" => $userLogin,
-                "bookCards" => $bookCards
+                "bookCards" => $bookCards,
+                "searchForm" => $searchForm->createView()
             )
         );
     }
 
 
-
     /**
-     * @Route("/bookCatalog", name="bookCatalog" )
+     * @Route("/bookCatalog", name="bookCatalogs" )
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showBookList()
+    public function showBookList(Request $request)
     {
 
         $searchText = $this->getParamFromGetRequest("searchText");
@@ -77,14 +168,13 @@ class BookCatalogController extends MyController
                 header('HTTP/1.0 500');
                 // TODO : поправить вывод
                 return $this->createErrorPage(
-                    "Ошибка, категория поиска должно иметь любое из значений массива слева."
-                    . print_r($categories)
+                    "Ошибка, категория поиска выставлена не корректно."
                 );
             }
         }
 
 
-        return $this->createPage($searchText, $searchCategory);
+        return $this->createPage($request, $searchText, $searchCategory);
     }
 
 

@@ -13,6 +13,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class MyController extends Controller
 {
+    protected function getServerUrl()
+    {
+        return "http://localhost:8000/";
+    }
+
     protected function createErrorPage($errorMessage)
     {
         // TODO : create error page
