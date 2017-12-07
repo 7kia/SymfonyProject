@@ -93,9 +93,6 @@ class BookCatalogController extends MyController
      */
     function createPage(Request $request, $searchText, $searchCategory)
     {
-        $user = $this->getUser();
-        $userLogin = ($user != null);
-
         $bookCards = array();
         if ($searchCategory != null) {
             $book = $this->getBookId($searchText, $searchCategory);
@@ -131,12 +128,12 @@ class BookCatalogController extends MyController
         }
 
         return $this->render(
-            'userBookCatalog.html.twig',
+            $this->getTemplatePath(),
             array(
                 "serverUrl" => $this->getServerUrl(),
-                "currentUserName" => $this->getCurrentUserName($userLogin),
+                "currentUserName" => $this->getCurrentUserName($this->userAuthorized()),
                 "pageName" => "bookCatalog",
-                "userLogin" => $userLogin,
+                "userLogin" => $this->userAuthorized(),
                 "bookCards" => $bookCards,
                 "searchForm" => $searchForm->createView()
             )
@@ -149,7 +146,7 @@ class BookCatalogController extends MyController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showBookList(Request $request)
+    public function showPage(Request $request)
     {
 
         $searchText = $this->getParamFromGetRequest("searchText");

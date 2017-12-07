@@ -57,32 +57,25 @@ class UserBookCatalogController extends MyController
 
     function createPage($bookListName, $ownerName)
     {
-        $user = $this->getUser();
-        $userLogin = ($user != null);
-
         // TODO : на эту страницу можно будет зайти только авторизированному пользователю
         // пока для более быстрой отладки зе будет ограничении по доступу
         if ($ownerName == null) {
-            $ownerName = $this->getCurrentUserName($userLogin);
+            $ownerName = $this->getCurrentUserName($this->userAuthorized());
         }
 
-        $bookCards = null;
-
-        //if ($userLogin) {
-            $bookCards = $this->getUserCatalog($ownerName, $bookListName);
-        //}
+        $bookCards = $this->getUserCatalog($ownerName, $bookListName);
 
         $catalogTitle = $bookListName . " пользователя " . $ownerName;
 
         return $this->render(
-            'userBookCatalog.html.twig',
+            $this->getTemplatePath(),
             array(
                 "serverUrl" => $this->getServerUrl(),
-                "currentUserName" => $this->getCurrentUserName($userLogin),
+                "currentUserName" => $this->getCurrentUserName($this->userAuthorized()),
                 "pageName" => "bookList",
                 "bookListTitle" => $catalogTitle,
                 "ownerName" => $ownerName,
-                "userLogin" => $userLogin,
+                "userLogin" => $this->userAuthorized(),
                 "bookCards" => $bookCards
             )
         );
@@ -91,7 +84,7 @@ class UserBookCatalogController extends MyController
     /**
      * @Route("/userBookCatalog", name="userBookCatalogs" )
      */
-    public function showBookList()
+    public function showPage()
     {
         $bookLists = array(
             "favoriteBooks",

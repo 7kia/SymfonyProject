@@ -21,12 +21,17 @@
                     <td>
                         <div class="bookCart">
                             <div class="imageContainer">
-                                <img class="bookImage" src="{{ bookCards[i].bookImage }}"
-                                     alt="{{ bookCards[i].name }}"/>
+                                <a href="{{ serverUrl }}bookPage?bookName={{ bookCards[i].name }}">
+                                    <img class="bookImage" src="{{ bookCards[i].bookImage }}"
+                                         alt="{{ bookCards[i].name }}"/>
+                                </a>
+
                             </div>
 
                             <div class="nameStr">
-                                {{ bookCards[i].name }}
+                                <a href="{{ serverUrl }}bookPage?bookName={{ bookCards[i].name }}">
+                                    {{ bookCards[i].name }}
+                                </a>
                             </div>
 
                             <div class="rating{{ i }} centerAlign"></div>

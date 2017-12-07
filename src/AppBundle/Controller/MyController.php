@@ -15,7 +15,18 @@ class MyController extends Controller
 {
     protected function getServerUrl()
     {
-        return "http://localhost:8000/";
+        return 'http://localhost:8000/';
+    }
+
+    protected function getTemplatePath()
+    {
+        return 'template.html.twig';
+    }
+
+    protected function userAuthorized()
+    {
+        $user = $this->getUser();
+        return ($user != null);
     }
 
     protected function createErrorPage($errorMessage)
