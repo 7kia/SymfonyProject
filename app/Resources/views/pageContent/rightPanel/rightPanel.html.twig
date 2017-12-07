@@ -1,6 +1,9 @@
 <div class="rightPanel inlineBlock border">
-    {% include "pageContent\\rightPanel\\bookLists\\bookLists.html.twig" %}
-    {% include "pageContent\\rightPanel\\ownersAndReadUsers\\ownersAndReadUsers.html.twig" %}
+    {% if pageName == "bookPage" %}
+        {% include "pageContent\\rightPanel\\ownersAndReadUsers\\ownersAndReadUsers.html.twig" %}
+    {% else %}
+        {% include "pageContent\\rightPanel\\bookLists\\bookLists.html.twig" %}
+    {% endif %}
 </div>
 {# links for "top\leftButtons.html.twig"
 #}

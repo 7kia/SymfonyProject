@@ -1,7 +1,7 @@
 <div class="bookList">
-    <div class="bookListTitle">{{ bookListTitle }}</div>
-    <p>bookList</p>
-
+    {% if (pageName == "bookList") %}
+        <div class="bookListTitle">{{ bookListTitle }}</div>
+    {% endif %}
     <table class="bookGrid" cellspacing="2" border='1'>
         <thead>
             <tr>
@@ -11,6 +11,7 @@
             </tr>
         </thead>
         <tbody style='cursor:pointer;'>
+        {% if bookCards|length > 0 %}
             {% set columnCount = 3 %}
             {% for i in 0..(bookCards|length - 1) %}
                 {# {% for bookCard in bookCards %} #}
@@ -44,6 +45,7 @@
                 {% endif %}
 
             {% endfor %}
+        {% endif %}
         </tbody>
     </table>
 

@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 
 
 
-use AppBundle\Entity\Book;
+
 use AppBundle\Entity\User;
 use AppBundle\Entity\UserListBook;
 use AppBundle\Controller\MyController;
@@ -21,33 +21,11 @@ class UserBookCatalogController extends MyController
 {
     private function findUserCatalog($userId, $bookListName)
     {
-        $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery(
-            "SELECT p
-                FROM AppBundle\Entity\UserListBook p
-                WHERE p.userId = '" . $userId . '\' and p.listName = \'' . $bookListName .'\''
+        return $this->findBooksByCriteria(
+            " AppBundle\Entity\UserListBook",
+            $userId, "userId",
+            $bookListName, "listName"
         );
-        return $query->execute();
-
-    }
-
-    private function extractBooks($catalog)
-    {
-        $repository = $this->getDoctrine()->getRepository(Book::class);
-
-        $books = array();
-
-        foreach ($catalog as &$catalogBook) {
-            $foundBook = $repository->find($catalogBook->getBookId());
-
-            if ($foundBook != null) {
-                array_push($books, $foundBook);
-            } else {
-                throw new Exception("Книга не найдена! Throw to UserBookCatalogController.extractBooks");
-            }
-        }
-
-        return $books;
     }
 
     private function getOwnerUser($ownerName)
@@ -103,6 +81,7 @@ class UserBookCatalogController extends MyController
                 "currentUserName" => $this->getCurrentUserName($userLogin),
                 "pageName" => "bookList",
                 "bookListTitle" => $catalogTitle,
+                "ownerName" => $ownerName,
                 "userLogin" => $userLogin,
                 "bookCards" => $bookCards
             )
@@ -132,7 +111,7 @@ class UserBookCatalogController extends MyController
         }
 
         header('HTTP/1.0 404');
-        createErrorPage("Ошибка, не передан аргумент  \'bookListName\'");
+        return $this->createErrorPage("Ошибка, не передан аргумент  \'bookListName\'");
     }
 
 

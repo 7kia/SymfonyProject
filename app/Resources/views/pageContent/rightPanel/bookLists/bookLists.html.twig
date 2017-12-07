@@ -1,10 +1,27 @@
 <div class="bookLists">
     <div class="pure-menu custom-restricted-width">
         <span class="pure-menu-heading">Списки книг</span>
+
+        {% set bookListOwner = currentUserName %}
+        {% if (pageName == "bookList") %}
+            {% set bookListOwner = ownerName %}
+        {% endif %}
         <ul class="pure-menu-list">
-            <li class="pure-menu-item"><a href="#" class="pure-menu-link">Любимые книги</a></li>
-            <li class="pure-menu-item"><a href="#" class="pure-menu-link">Прочитать позже</a></li>
-            <li class="pure-menu-item"><a href="#" class="pure-menu-link">Личные книги</a></li>
+            <li class="pure-menu-item">
+                <a href="{{ serverUrl }}userBookCatalog?bookListName=favoriteBooks&ownerName={{ bookListOwner }}" class="pure-menu-link">
+                    Любимые книги
+                </a>
+            </li>
+            <li class="pure-menu-item">
+                <a href="{{ serverUrl }}userBookCatalog?bookListName=readLater&ownerName={{ bookListOwner }}" class="pure-menu-link">
+                    Прочитать позже
+                </a>
+            </li>
+            <li class="pure-menu-item">
+                <a href="{{ serverUrl }}userBookCatalog?bookListName=personalBooks&ownerName={{ bookListOwner }}" class="pure-menu-link">
+                    Личные книги
+                </a>
+            </li>
         </ul>
     </div>
 </div>
