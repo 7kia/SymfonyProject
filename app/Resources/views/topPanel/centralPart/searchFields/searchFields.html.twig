@@ -1,20 +1,8 @@
-<div class="searchFields">
-
+<div class="searchFields centerAlign">
     {{ form_start(searchForm) }}
-    {{ form_row(searchForm.searchTextField) }}
-    {{ form_row(searchForm.searchCategory) }}
-    {{ form_row(searchForm.searchBtn) }}
-
+        {{ form_widget(searchForm.searchBtn) }}
+        {{ form_widget(searchForm.searchTextField) }}
+        {{ form_widget(searchForm.searchCategory) }}
     {{ form_end(searchForm) }}
-
-    {#
-    <input type="submit" class="SearchBtn" value="Поиск">
-    <input maxlength="25" size="40" placeholder="Вводить сюда">
-    <select>
-        <option selected="selected">Название</option>
-        <option>Автор</option>
-    </select>
-    #}
-
 </div>
 

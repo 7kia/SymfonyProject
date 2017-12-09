@@ -1,5 +1,62 @@
-<div class="bookPageContent">
+<div class="bookPageContent border">
     <p>bookPageContent</p>
+    <div class="imageAndCharacteristics border">
+        <div class="imageContainer centerAlign border">
+            <img src="<path>">
+        </div>
+        <div class="characteristicsContainer border">
+            <ul>
+                <li>
+                    <b>Название: </b><a>...</a>
+                </li>
+                <li>
+                    <b>Автор: </b><a>...</a>
+                </li>
+                <li>
+                    <b>Количество страниц: </b><a>...</a>
+                </li>
+                <li>
+                    <b>ISBN: </b><a>...</a>
+                </li>
+                <li>
+                    <div class="ratingBook centerAlign"></div>
+                    <script type="text/javascript">
+                        var rating = JSON.parse(" numberRating ")
+                        $('.ratingBook' ).raty({
+                            readOnly:  true,
+                            start:     0,
+                            score: Number(rating)
+                        });
+                    </script>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="amountAndDescription border">
+        <div class="amountContainer border">
+            <ul>
+                <li>
+                    <b>Количество</b>
+                </li>
+                <li>
+                    <b>(взято/всего): </b>
+                </li>
+                <li>
+                    <a>.../...</a>
+                </li>
+            </ul>
+        </div>
+        <div class="descriptionContainer border">
+            <ul>
+                <li>
+                    <b>Описание</b>
+                </li>
+                <li>
+                    <a>...</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 {# links for "top\leftButtons.html.twig"
 #}

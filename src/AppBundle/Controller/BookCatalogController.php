@@ -3,8 +3,6 @@
 // src/AppBundle/Controller/SecurityController.php
 namespace AppBundle\Controller;
 
-
-
 use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
 use AppBundle\Entity\UserListBook;
@@ -12,7 +10,6 @@ use AppBundle\Controller\MyController;
 use AppBundle\SearchBook\SearchData;
 
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -43,13 +40,16 @@ class BookCatalogController extends MyController
                 'searchBtn',
                 SubmitType::class,
                 array(
-                    'attr' => array('class' => 'searchBtn', 'value' => 'Поиск'),
+                    'attr' => array('class' => 'searchBtn'),
+                    'label' => 'Поиск'
                 )
             )
             ->add(
                 'searchTextField',
                 null,
                 array(
+                    'label' => false,
+                    'attr' => array('class' => 'searchTextField'),
                     'data' => 'Здесь текст',
                 )
             )
@@ -61,6 +61,8 @@ class BookCatalogController extends MyController
                         'Название' => "name",
                         'Автор' => "author"
                     ),
+                    'label' => false,
+                    'attr' => array('class' => 'searchCategory'),
                 )
             )
             ->getForm();

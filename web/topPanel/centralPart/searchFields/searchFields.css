@@ -1,4 +1,19 @@
 .searchFields
 {
-    padding-top: 0px;
+    padding-top: 24px;
+}
+
+.searchFields .searchBtn
+{
+    width: 15%;
+}
+
+.searchFields .searchTextField
+{
+    width: 60%;
+}
+
+.searchFields .searchCategory
+{
+    width: 20%;
 }
