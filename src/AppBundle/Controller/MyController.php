@@ -35,7 +35,7 @@ class MyController extends Controller
         return $this->render(
             'error.html.twig',
             array(
-                "errorMessage" => $errorMessage
+                'errorMessage' => $errorMessage
             )
         );
     }
@@ -55,23 +55,42 @@ class MyController extends Controller
         if ($userLogin != false) {
             return $this->getUser()->getUsername();
         } else {
-            return "7kia";
+            return '7kia';
         }
     }
 
-    protected function findBooksByCriteria(
+    protected function findThingByCriteria(
         $searchPlace,
-        $value1, $field1,
-        $value2, $field2
+        $criteria
     )
     {
         $em = $this->getDoctrine()->getManager();
+
+        $stringCriteria = '';
+        while ($key = current($criteria)) {
+            if (strlen($stringCriteria) > 1) {
+                $stringCriteria = $stringCriteria . ' and ';
+            }
+
+            $stringCriteria = $stringCriteria . ' p.' . key($criteria) . '=\'' . $key . '\'';
+            next($criteria);
+        }
+
         $query = $em->createQuery(
-            "SELECT p
-                FROM " . $searchPlace . " p " .
-                "WHERE p." . $field1 . "='" . $value1 . "' and p." . $field2 . "='" . $value2 . "'"
+            'SELECT p
+                FROM ' . $searchPlace . ' p ' .
+            'WHERE ' . $stringCriteria
         );
         return $query->execute();
+    }
+
+    protected function getOneThingByCriteria($searchText, $field, $class)
+    {
+        return $this->getDoctrine()
+            ->getRepository($class)
+            ->findOneBy(
+                [$field => $searchText]
+            );
     }
 
     protected function extractBooks($catalog)
@@ -86,7 +105,7 @@ class MyController extends Controller
             if ($foundBook != null) {
                 array_push($books, $foundBook);
             } else {
-                throw new Exception("Книга не найдена! Throw to UserBookCatalogController.extractBooks");
+                throw new Exception('Книга не найдена! Throw to UserBookCatalogController.extractBooks');
             }
         }
 

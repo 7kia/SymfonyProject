@@ -54,5 +54,6 @@
 .amountAndDescription .descriptionContainer
 {
     width: 76%;
+    height: 300px;
     float: right;
 }

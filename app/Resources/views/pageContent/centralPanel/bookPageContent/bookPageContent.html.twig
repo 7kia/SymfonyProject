@@ -1,27 +1,29 @@
 <div class="bookPageContent border">
-    <p>bookPageContent</p>
     <div class="imageAndCharacteristics border">
         <div class="imageContainer centerAlign border">
-            <img src="<path>">
+            <img src="{{ bookData.bookImage }}"
+                alt="{{ bookData.name }}">
         </div>
         <div class="characteristicsContainer border">
             <ul>
                 <li>
-                    <b>Название: </b><a>...</a>
+                    <b>Название: </b><a>{{ bookData.name }}</a>
                 </li>
                 <li>
-                    <b>Автор: </b><a>...</a>
+                    <b>Автор: </b><a>{{ bookData.author }}</a>
                 </li>
                 <li>
-                    <b>Количество страниц: </b><a>...</a>
+                    <b>Количество страниц: </b><a>{{ bookData.pageCount }}</a>
                 </li>
                 <li>
-                    <b>ISBN: </b><a>...</a>
+                    <b>ISBN: </b><a>{{ bookData.isbn }}</a>
                 </li>
                 <li>
-                    <div class="ratingBook centerAlign"></div>
+                    <div class="ratingBook">
+                        <b>Рейтинг: </b>
+                    </div>
                     <script type="text/javascript">
-                        var rating = JSON.parse(" numberRating ")
+                        var rating = JSON.parse("{{ bookData.rating }}")
                         $('.ratingBook' ).raty({
                             readOnly:  true,
                             start:     0,
@@ -42,7 +44,7 @@
                     <b>(взято/всего): </b>
                 </li>
                 <li>
-                    <a>.../...</a>
+                    <a>НЕ забудь взять из списка читающих/НЕ забудь взять из списка владеющих</a>
                 </li>
             </ul>
         </div>
@@ -52,7 +54,7 @@
                     <b>Описание</b>
                 </li>
                 <li>
-                    <a>...</a>
+                    <a>{{ bookData.description }}</a>
                 </li>
             </ul>
         </div>

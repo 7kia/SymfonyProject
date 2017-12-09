@@ -18,8 +18,8 @@ class TemplateController extends Controller
         return $this->render(
             'template.html.twig',
             array(
-                "pageName" => "bookList",
-                "bookListTitle" => "bookList"
+                'pageName' => 'bookList',
+                'bookListTitle' => 'bookList'
             )
         );
     }

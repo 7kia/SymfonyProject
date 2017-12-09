@@ -1,0 +1,113 @@
+.ownersAndReadUsers
+{
+    height: 200px;
+}
+
+.ownersContainers
+{
+    height: 200px;
+}
+
+.ownerList
+{
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.ownerList td
+{
+    width: 100%;
+    height: 58px;
+}
+
+
+.ownerContainer
+{
+    width: 100%;
+    height: 58px;
+}
+
+.ownerContainer .imageOwnerContainer
+{
+    width: 54px;
+    height: 54px;
+
+}
+
+.ownerContainer .imageOwnerContainer img
+{
+    width: 50px;
+    height: 50px;
+    margin: 2px;
+}
+
+
+.ownerNameContainer
+{
+    width: 70px;
+    height: 54px;
+
+}
+
+.ownerNameContainer .ownerName
+{
+    width: 68px;
+    height: 20px;
+    padding-top: 17px;
+}
+
+.readUsersContainer
+{
+    height: 200px;
+}
+
+
+.readUserList
+{
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.readUserList td
+{
+    width: 100%;
+    height: 58px;
+}
+
+
+.readUserContainer
+{
+    width: 100%;
+    height: 58px;
+}
+
+.readUserContainer .imageOwnerContainer
+{
+    width: 54px;
+    height: 54px;
+
+}
+
+.readUserContainer .imageOwnerContainer img
+{
+    width: 50px;
+    height: 50px;
+    margin: 2px;
+}
+
+
+.readUserNameContainer
+{
+    width: 70px;
+    height: 54px;
+
+}
+
+.readUserNameContainer .readUserName
+{
+    width: 68px;
+    height: 20px;
+    padding-top: 17px;
+}

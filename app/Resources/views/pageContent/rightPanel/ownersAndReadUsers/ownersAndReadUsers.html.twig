@@ -1,5 +1,72 @@
 <div class="ownersAndReadUsers">
-    <p>ownersAndReadUsers</p>
+    <div class="bookPageTitle border centerAlign"><b>Есть у пользователей</b></div>
+    <div class="ownersContainers border">
+        <table class="ownerList" >
+            <thead >
+            <tr>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if ownerList|length > 0 %}
+                {% for i in 0..(ownerList|length - 1) %}
+                    <tr>
+                        <td>
+                            <div class="ownerContainer border">
+                                <div class="imageOwnerContainer inlineBlock border">
+                                    <img class="bookImage" src="avatars/{{ ownerList[i].avatar }}"
+                                         alt="{{ ownerList[i].name }}"/>
+                                </div>
+                                <div class="ownerNameContainer inlineBlock border centerAlign">
+                                    <div class="ownerName">
+                                        <a href="{{ serverUrl }}userBookCatalog?bookListName=personalBooks&ownerName={{ ownerList[i].name }}">
+                                            <b>{{ ownerList[i].name }}</b>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="bookPageTitle border centerAlign"><b>Читают</b></div>
+    <div class="readUsersContainer border">
+        <table class="readUserList" >
+            <thead >
+            <tr>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if readUserList|length > 0 %}
+                {% for i in 0..(readUserList|length - 1) %}
+                    <tr>
+                        <td>
+                            <div class="readUserContainer border">
+                                <div class="imageOwnerContainer inlineBlock border">
+                                    <img class="bookImage" src="avatars/{{ readUserList[i].avatar }}"
+                                         alt="{{ readUserList[i].name }}"/>
+                                </div>
+                                <div class="readUserNameContainer inlineBlock border centerAlign">
+                                    <div class="readUserName">
+                                        <a href="{{ serverUrl }}userBookCatalog?bookListName=personalBooks&readUserName={{ readUserList[i].name }}">
+                                            <b>{{ readUserList[i].name }}</b>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+
 </div>
 {# links for "top\leftButtons.html.twig"
 #}

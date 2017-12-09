@@ -21,17 +21,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class BookCatalogController extends MyController
 {
-
-    private function getBookId($searchText, $field)
-    {
-        return $this->getDoctrine()
-            ->getRepository(Book::class)
-            ->findOneBy(
-                [$field => $searchText]
-            );
-    }
-
-
     private function getSearchForm($searchData)
     {
         // TODO : поправь текст кнопки
@@ -58,8 +47,8 @@ class BookCatalogController extends MyController
                 ChoiceType::class,
                 array(
                     'choices'  => array(
-                        'Название' => "name",
-                        'Автор' => "author"
+                        'Название' => 'name',
+                        'Автор' => 'author'
                     ),
                     'label' => false,
                     'attr' => array('class' => 'searchCategory'),
@@ -97,7 +86,7 @@ class BookCatalogController extends MyController
     {
         $bookCards = array();
         if ($searchCategory != null) {
-            $book = $this->getBookId($searchText, $searchCategory);
+            $book = $this->getOneThingByCriteria($searchText, $searchCategory, Book::class);
             if ($book != null) {
                 array_push($bookCards, $book);
             }
@@ -132,12 +121,12 @@ class BookCatalogController extends MyController
         return $this->render(
             $this->getTemplatePath(),
             array(
-                "serverUrl" => $this->getServerUrl(),
-                "currentUserName" => $this->getCurrentUserName($this->userAuthorized()),
-                "pageName" => "bookCatalog",
-                "userLogin" => $this->userAuthorized(),
-                "bookCards" => $bookCards,
-                "searchForm" => $searchForm->createView()
+                'serverUrl' => $this->getServerUrl(),
+                'currentUserName' => $this->getCurrentUserName($this->userAuthorized()),
+                'pageName' => 'bookCatalog',
+                'userLogin' => $this->userAuthorized(),
+                'bookCards' => $bookCards,
+                'searchForm' => $searchForm->createView()
             )
         );
     }
@@ -151,14 +140,14 @@ class BookCatalogController extends MyController
     public function showPage(Request $request)
     {
 
-        $searchText = $this->getParamFromGetRequest("searchText");
+        $searchText = $this->getParamFromGetRequest('searchText');
         $searchCategory = null;
         if ($searchText != null) {
-            $searchCategory = $this->getParamFromGetRequest("searchCategory");
+            $searchCategory = $this->getParamFromGetRequest('searchCategory');
 
             $categories = array(
-                "name",
-                "author"
+                'name',
+                'author'
             );
 
             // TODO : посмотри позже как можно обработать ошибку
@@ -167,7 +156,7 @@ class BookCatalogController extends MyController
                 header('HTTP/1.0 500');
                 // TODO : поправить вывод
                 return $this->createErrorPage(
-                    "Ошибка, категория поиска выставлена не корректно."
+                    'Ошибка, категория поиска выставлена не корректно.'
                 );
             }
         }

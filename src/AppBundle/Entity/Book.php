@@ -53,7 +53,18 @@ class Book implements \Serializable
      * @ORM\Column(name="bookImage", type="string")
      */
     private $bookImage;
-	
+
+    // get/set id
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
 	// get/set name
     public function getName()
     {
@@ -64,7 +75,18 @@ class Book implements \Serializable
     {
         $this->name = $name;
     }
-	
+
+    // get/set name
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+    }
+
 	// get/set pageCount
     public function getPageCount()
     {

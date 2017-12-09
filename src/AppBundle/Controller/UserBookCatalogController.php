@@ -3,9 +3,6 @@
 // src/AppBundle/Controller/SecurityController.php
 namespace AppBundle\Controller;
 
-
-
-
 use AppBundle\Entity\User;
 use AppBundle\Entity\UserListBook;
 use AppBundle\Controller\MyController;
@@ -21,20 +18,22 @@ class UserBookCatalogController extends MyController
 {
     private function findUserCatalog($userId, $bookListName)
     {
-        return $this->findBooksByCriteria(
-            " AppBundle\Entity\UserListBook",
-            $userId, "userId",
-            $bookListName, "listName"
+        return $this->findThingByCriteria(
+            ' AppBundle\Entity\UserListBook',
+            array(
+                 'userId' => $userId,
+                 'listName' => $bookListName
+            )
         );
     }
 
     private function getOwnerUser($ownerName)
     {
-        return $this->getDoctrine()
-                ->getRepository(User::class)
-                ->findOneBy(
-                    ['username' => $ownerName]
-                );
+        return $this->getOneThingByCriteria(
+            $ownerName,
+            'username',
+            User::class
+        );
     }
 
     function getUserCatalog($ownerName, $bookListName)
@@ -51,7 +50,7 @@ class UserBookCatalogController extends MyController
         if ($userLogin != false) {
             return $this->getUser()->getUsername();
         } else {
-            return "7kia";
+            return '7kia';
         }
     }
 
@@ -65,18 +64,18 @@ class UserBookCatalogController extends MyController
 
         $bookCards = $this->getUserCatalog($ownerName, $bookListName);
 
-        $catalogTitle = $bookListName . " пользователя " . $ownerName;
+        $catalogTitle = $bookListName . ' пользователя ' . $ownerName;
 
         return $this->render(
             $this->getTemplatePath(),
             array(
-                "serverUrl" => $this->getServerUrl(),
-                "currentUserName" => $this->getCurrentUserName($this->userAuthorized()),
-                "pageName" => "bookList",
-                "bookListTitle" => $catalogTitle,
-                "ownerName" => $ownerName,
-                "userLogin" => $this->userAuthorized(),
-                "bookCards" => $bookCards
+                'serverUrl' => $this->getServerUrl(),
+                'currentUserName' => $this->getCurrentUserName($this->userAuthorized()),
+                'pageName' => 'bookList',
+                'bookListTitle' => $catalogTitle,
+                'ownerName' => $ownerName,
+                'userLogin' => $this->userAuthorized(),
+                'bookCards' => $bookCards
             )
         );
     }
@@ -87,24 +86,24 @@ class UserBookCatalogController extends MyController
     public function showPage()
     {
         $bookLists = array(
-            "favoriteBooks",
-            "readLater",
-            "personalBooks"
+            'favoriteBooks',
+            'readLater',
+            'personalBooks'
         );
 
-        $bookListName = $this->getParamFromGetRequest("bookListName");
+        $bookListName = $this->getParamFromGetRequest('bookListName');
         if ($bookListName == null) {
-            $bookListName = "personalBooks";
+            $bookListName = 'personalBooks';
         }
 
-        $ownerName = $this->getParamFromGetRequest("ownerName");
+        $ownerName = $this->getParamFromGetRequest('ownerName');
 
         if (in_array($bookListName, $bookLists)) {
             return $this->createPage($bookListName, $ownerName);
         }
 
         header('HTTP/1.0 404');
-        return $this->createErrorPage("Ошибка, не передан аргумент  \'bookListName\'");
+        return $this->createErrorPage('Ошибка, не передан аргумент  \'bookListName\'');
     }
 
 
