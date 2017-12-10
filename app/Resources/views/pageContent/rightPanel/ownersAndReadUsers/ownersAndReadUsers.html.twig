@@ -16,6 +16,11 @@
                                 <div class="imageOwnerContainer inlineBlock border">
                                     <img class="bookImage" src="avatars/{{ ownerList[i].avatar }}"
                                          alt="{{ ownerList[i].name }}"/>
+                                    <a href="{{ path('bookPage') }}?bookName={{ bookData.name }}&sendApplicationTo={{ ownerList[i].name }}">
+                                        <img class="sendApplicationImage" src="images/sendApplication.png"
+                                             alt="Подать заявку"/>
+                                    </a>
+
                                 </div>
                                 <div class="ownerNameContainer inlineBlock border centerAlign">
                                     <div class="ownerName">
@@ -49,7 +54,7 @@
                             <div class="readUserContainer border">
                                 <div class="imageOwnerContainer inlineBlock border">
                                     <img class="bookImage" src="avatars/{{ readUserList[i].avatar }}"
-                                         alt="{{ readUserList[i].name }}"/>
+                                             alt="{{ readUserList[i].name }}"/>
                                 </div>
                                 <div class="readUserNameContainer inlineBlock border centerAlign">
                                     <div class="readUserName">

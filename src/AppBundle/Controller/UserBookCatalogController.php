@@ -57,10 +57,19 @@ class UserBookCatalogController extends MyController
     function createPage($bookListName, $ownerName)
     {
         // TODO : на эту страницу можно будет зайти только авторизированному пользователю
-        // пока для более быстрой отладки зе будет ограничении по доступу
+        // пока для более быстрой отладки не будет ограничении по доступу
         if ($ownerName == null) {
             $ownerName = $this->getCurrentUserName($this->userAuthorized());
         }
+
+        if ($this->getOwnerUser($ownerName) == null) {
+            $this->createErrorPage(
+                'Пользователя с именем \''
+                . $ownerName
+                . '\' не существует'
+            );
+        }
+
 
         $bookCards = $this->getUserCatalog($ownerName, $bookListName);
 
@@ -100,6 +109,12 @@ class UserBookCatalogController extends MyController
 
         if (in_array($bookListName, $bookLists)) {
             return $this->createPage($bookListName, $ownerName);
+        } else {
+            return $this->createErrorPage(
+                'Каталога с именем \''
+                . $bookListName
+                . '\' не существует'
+            );
         }
 
         header('HTTP/1.0 404');

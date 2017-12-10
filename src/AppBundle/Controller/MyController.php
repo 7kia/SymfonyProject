@@ -9,15 +9,19 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Book;
+use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class MyController extends Controller
 {
+    const SERVER_URL = 'http://localhost:8000/';
+    const TEMPLATE_PATH = 'template.html.twig';
+
     protected function getServerUrl()
     {
         return 'http://localhost:8000/';
     }
-
+    
     protected function getTemplatePath()
     {
         return 'template.html.twig';
@@ -59,6 +63,17 @@ class MyController extends Controller
         }
     }
 
+    protected function getCurrentUser()
+    {
+        if ($this->userAuthorized()) {
+            return $this->getUser();
+        } else {
+            return  $this->getDoctrine()
+                ->getRepository(User::class)
+                ->findOneBy(array('username' => '7kia'));
+        }
+    }
+
     protected function findThingByCriteria(
         $searchPlace,
         $criteria
@@ -84,6 +99,12 @@ class MyController extends Controller
         return $query->execute();
     }
 
+    /**
+     * @param $searchText
+     * @param $field
+     * @param $class
+     * @return object
+     */
     protected function getOneThingByCriteria($searchText, $field, $class)
     {
         return $this->getDoctrine()
