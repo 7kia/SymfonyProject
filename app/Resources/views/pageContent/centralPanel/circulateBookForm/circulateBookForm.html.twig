@@ -1,19 +1,47 @@
 <div class="circulateBookForm">
     <p>circulateBookForm</p>
 
+    {# bookListName #}
     <table id="circulateBookGrid" class="display" cellspacing="2" border='1'>
         <thead>
         <tr>
-            <th>ID</th>
-            <th>College</th>
+            <th>Название</th>
+            <th>Автор</th>
+            <th>Рейтинг</th>
+            {% if bookListName == "takenBooks" or bookListName == "application" %}
+                <th>Владелец</th>
+            {% elseif bookListName == "givenBooks" %}
+                <th>Кто взял</th>
+            {% endif %}
+            <th>Срок сдачи</th>
+            <th>Опции</th>
         </tr>
         </thead>
         <tbody style='cursor:pointer;'>
-        <tr>
-            <td>1</td>
-            <td>University departments of Anna University Chennai</td>
-        </tr>
+        {% for i in 0..(bookData|length - 1) %}
+            <tr>
+                <td>{{ bookData[i].name }}</td>
+                <td>{{ bookData[i].author }}</td>
+                <td>
+                    <div class="rating{{ i }} centerAlign"></div>
+                    <script type="text/javascript">
+                        var rating = JSON.parse("{{ bookData[i].rating }}")
+                        $('.rating{{ i }}' ).raty({
+                            readOnly:  true,
+                            start:     0,
+                            score: Number(rating)
+                        });
+                    </script>
+                </td>
+                <td>{# Владелец|Кто взял#}</td>
+                <td>{# { bookData[i].deadline }}#}</td>
+                <td>
+                    <div class="circulateBookGrid_options">
 
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
 </div>

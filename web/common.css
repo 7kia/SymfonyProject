@@ -12,3 +12,8 @@
 {
     height: 0px;
 }
+
+.listStyleType_none
+{
+    list-style-type: none;
+}

@@ -48,7 +48,12 @@ class Book implements \Serializable
      * @ORM\Column(name="rating",type="integer")
      */
     private $rating;
-	
+
+    /**
+     * @ORM\Column(name="deadline",type="date")
+     */
+    private $deadline;
+
 	/**
      * @ORM\Column(name="bookImage", type="string")
      */
@@ -129,6 +134,17 @@ class Book implements \Serializable
     public function setRating($rating)
     {
         $this->rating = $rating;
+    }
+
+    // get/set deadline
+    public function getDeadline()
+    {
+        return $this->deadline;
+    }
+
+    public function setDeadline($deadline)
+    {
+        $this->deadline = $deadline;
     }
 
     // get/set bookImage

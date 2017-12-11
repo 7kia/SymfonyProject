@@ -21,7 +21,7 @@ class MyController extends Controller
     {
         return 'http://localhost:8000/';
     }
-    
+
     protected function getTemplatePath()
     {
         return 'template.html.twig';
@@ -42,6 +42,11 @@ class MyController extends Controller
                 'errorMessage' => $errorMessage
             )
         );
+    }
+
+    protected function getMessageAboutLackArgument($argumentName)
+    {
+        return 'Не передан аргумент ' . $argumentName;
     }
 
     // TODO : see might put in a separate file

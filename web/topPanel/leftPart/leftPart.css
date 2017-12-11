@@ -2,3 +2,16 @@
 {
     float: left;
 }
+
+.leftPart .leftPart__elementList
+{
+    margin: 0px;
+    padding-left: 20px;
+    line-height: 60px;
+}
+.leftPart .leftPart__elementList li
+{
+    display: inline;
+    float: left;
+    margin: 5px;
+}

@@ -56,12 +56,6 @@ class UserBookCatalogController extends MyController
 
     function createPage($bookListName, $ownerName)
     {
-        // TODO : на эту страницу можно будет зайти только авторизированному пользователю
-        // пока для более быстрой отладки не будет ограничении по доступу
-        if ($ownerName == null) {
-            $ownerName = $this->getCurrentUserName($this->userAuthorized());
-        }
-
         if ($this->getOwnerUser($ownerName) == null) {
             $this->createErrorPage(
                 'Пользователя с именем \''
@@ -94,7 +88,7 @@ class UserBookCatalogController extends MyController
      */
     public function showPage()
     {
-        $bookLists = array(
+        $bookList = array(
             'favoriteBooks',
             'readLater',
             'personalBooks'
@@ -106,19 +100,22 @@ class UserBookCatalogController extends MyController
         }
 
         $ownerName = $this->getParamFromGetRequest('ownerName');
+        // TODO : на эту страницу можно будет зайти только авторизированному пользователю
+        // пока для более быстрой отладки не будет ограничении по доступу
+        if ($ownerName == null) {
+            $ownerName = $this->getCurrentUserName($this->userAuthorized());
+        }
 
-        if (in_array($bookListName, $bookLists)) {
+        if (in_array($bookListName, $bookList)) {
             return $this->createPage($bookListName, $ownerName);
         } else {
+            header('HTTP/1.0 404');
             return $this->createErrorPage(
                 'Каталога с именем \''
                 . $bookListName
                 . '\' не существует'
             );
         }
-
-        header('HTTP/1.0 404');
-        return $this->createErrorPage('Ошибка, не передан аргумент  \'bookListName\'');
     }
 
 
