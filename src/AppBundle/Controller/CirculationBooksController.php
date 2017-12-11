@@ -23,82 +23,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class CirculationBooksController extends MyController
 {
-    private function extractUserData($personalBooks, $readUsers)
-    {
-        $ownerData = array();
-        foreach ($personalBooks as &$personalBook)
-        {
-            $owner = $this->getOneThingByCriteria(
-                $personalBook->getUserId(),
-                'id',
-                User::class
-            );
-
-
-            if (!in_array($owner, $readUsers)) {
-
-                array_push(
-                    $ownerData,
-                    array(
-                        'name' => $owner->getUsername(),
-                        'avatar' => $owner->getAvatar()
-                    )
-                );
-            }
-
-        }
-
-        return $ownerData;
-    }
-
-    private function extractReadUserData($takenBooks)
-    {
-        $ownerData = array();
-        foreach ($takenBooks as &$takenBook)
-        {
-            $owner = $this->getOneThingByCriteria(
-                $takenBook->getApplicantId(),
-                'id',
-                User::class
-            );
-            array_push(
-                $ownerData,
-                array(
-                    'name' => $owner->getUsername(),
-                    'avatar' => $owner->getAvatar()
-                )
-            );
-        }
-
-        return $ownerData;
-    }
-
-    private function getOwnerData($bookId, $readUsers)
-    {
-        $personalBooks = $this->findThingByCriteria(
-            ' AppBundle\Entity\UserListBook',
-            array(
-                'bookId' => strval($bookId),
-                 'listName' => 'personalBooks'
-            )
-        );
-
-        return $this->extractUserData($personalBooks, $readUsers);
-    }
-
-
-    private function getReadUserData($bookId)
-    {
-        $takenBooks = $this->findThingByCriteria(
-            ' AppBundle\Entity\TakenBook',
-            array(
-                'bookId' => strval($bookId)
-            )
-        );
-
-        return $this->extractReadUserData($takenBooks);
-    }
-
     private function getBooks($idList)
     {
         $books = array();
@@ -115,11 +39,52 @@ class CirculationBooksController extends MyController
         return $books;
     }
 
+    private function getStringDeadline($bookData)
+    {
+        // TODO : неправильный перевод даты в строковый формат
+        $deadlines = array();
+        foreach ($bookData as $data) {
+            array_push($deadlines, $data->getDeadline()->format('Y-m-d H:i:s'));
+        }
+
+        return $deadlines;
+    }
+
+
+    private function getUsernames($userIds)
+    {
+        $userNames = array();
+        foreach ($userIds as $id) {
+            $user = $this->getOneThingByCriteria(
+                strval($id),
+                'id',
+                User::class
+            );
+            if ($user != null) {
+                array_push($userNames, $user->getUsername());
+            }
+        }
+
+        return $userNames;
+    }
+
+    private function generateTableData($bookIds, $userIds)
+    {
+        $bookData = $this->getBooks($bookIds);
+        $userNames = $this->getUsernames($userIds);
+
+        return array(
+            'books' => $bookData,
+            'deadlines' => $this->getStringDeadline($bookData),
+            'users' => $userNames
+        );
+    }
+
     /**
      * @param $getId
      * @return mixed
      */
-    private function getTakenBooks($getId)
+    private function getTakenBookTableData($getId)
     {
         $takenBooks = $this->findThingByCriteria(
             ' AppBundle\Entity\TakenBook',
@@ -129,17 +94,19 @@ class CirculationBooksController extends MyController
         );
 
         $bookIds = array();
+        $userIds = array();
         foreach ($takenBooks as $takenBook) {
             array_push($bookIds, $takenBook->getBookId());
+            array_push($userIds, $takenBook->getOwnerId());
         }
-        return $this->getBooks($bookIds);
+        return $this->generateTableData($bookIds, $userIds);
     }
 
     /**
      * @param $getId
      * @return mixed
      */
-    private function getGivenBooks($getId)
+    private function getGivenBookTableData($getId)
     {
         $givenBooks =  $this->findThingByCriteria(
             ' AppBundle\Entity\TakenBook',
@@ -148,18 +115,21 @@ class CirculationBooksController extends MyController
             )
         );
 
+        // TODO : убери дублирование
         $bookIds = array();
+        $users = array();
         foreach ($givenBooks as $givenBook) {
             array_push($bookIds, $givenBook->getBookId());
+            array_push($users, $givenBook->getOwnerId());
         }
-        return $this->getBooks($bookIds);
+        return $this->generateTableData($bookIds, $users);
     }
 
     /**
      * @param $getId
      * @return mixed
      */
-    private function getApplicationForBooks($getId)
+    private function getApplicationTableData($getId)
     {
         $applicationForBooks = $this->findThingByCriteria(
             ' AppBundle\Entity\ApplicationForBook',
@@ -169,11 +139,13 @@ class CirculationBooksController extends MyController
         );
 
         $bookIds = array();
+        $users = array();
         foreach ($applicationForBooks as $applicationForBook) {
             array_push($bookIds, $applicationForBook->getBookId());
+            array_push($users, $applicationForBook->getOwnerId());
         }
 
-        return $this->getBooks($bookIds);
+        return $this->generateTableData($bookIds, $users);
     }
 
     private function createPage($ownerName, $bookListName)
@@ -191,13 +163,13 @@ class CirculationBooksController extends MyController
         switch ($bookListName)
         {
             case 'takenBooks':
-                $bookData = $this->getTakenBooks($userData->getId());
+                $bookData = $this->getTakenBookTableData($userData->getId());
                 break;
             case 'givenBooks':
-                $bookData = $this->getGivenBooks($userData->getId());
+                $bookData = $this->getGivenBookTableData($userData->getId());
                 break;
             case 'application':
-                $bookData = $this->getApplicationForBooks($userData->getId());
+                $bookData = $this->getApplicationTableData($userData->getId());
                 break;
         }
 
@@ -237,11 +209,6 @@ class CirculationBooksController extends MyController
         if ($bookListName == null) {
             $this->createErrorPage($this->getMessageAboutLackArgument('bookListName'));
         }
-        print_r($bookListName);
-        print_r($bookList);
-
-        $b = in_array($bookListName, $bookList);
-        print_r($b);
         if (!in_array($bookListName, $bookList)) {
             $this->createErrorPage(
                 'bookListName должен иметь одно из следующих значений '
@@ -251,7 +218,6 @@ class CirculationBooksController extends MyController
 
         return $this->createPage($ownerName, $bookListName);
     }
-
 
 
 }

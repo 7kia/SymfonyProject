@@ -1,7 +1,5 @@
 <div class="circulateBookForm">
-    <p>circulateBookForm</p>
-
-    {# bookListName #}
+    {% if bookData.books|length > 0 %}
     <table id="circulateBookGrid" class="display" cellspacing="2" border='1'>
         <thead>
         <tr>
@@ -18,14 +16,14 @@
         </tr>
         </thead>
         <tbody style='cursor:pointer;'>
-        {% for i in 0..(bookData|length - 1) %}
+        {% for i in 0..(bookData.books|length - 1) %}
             <tr>
-                <td>{{ bookData[i].name }}</td>
-                <td>{{ bookData[i].author }}</td>
+                <td>{{ bookData.books[i].name }}</td>
+                <td>{{ bookData.books[i].author }}</td>
                 <td>
                     <div class="rating{{ i }} centerAlign"></div>
                     <script type="text/javascript">
-                        var rating = JSON.parse("{{ bookData[i].rating }}")
+                        var rating = JSON.parse("{{ bookData.books[i].rating }}")
                         $('.rating{{ i }}' ).raty({
                             readOnly:  true,
                             start:     0,
@@ -33,8 +31,8 @@
                         });
                     </script>
                 </td>
-                <td>{# Владелец|Кто взял#}</td>
-                <td>{# { bookData[i].deadline }}#}</td>
+                <td>{# Владелец|Кто взял#} {{ bookData.users[i] }}</td>
+                <td>{{ bookData.deadlines[i] }}</td>
                 <td>
                     <div class="circulateBookGrid_options">
 
@@ -44,6 +42,9 @@
         {% endfor %}
         </tbody>
     </table>
+    {% else %}
+        <b>Таблица пуста</b>
+    {% endif %}
 </div>
 {# links for "top\leftButtons.html.twig"
 #}
