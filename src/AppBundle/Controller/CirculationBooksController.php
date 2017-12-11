@@ -168,7 +168,7 @@ class CirculationBooksController extends MyController
             case 'givenBooks':
                 $bookData = $this->getGivenBookTableData($userData->getId());
                 break;
-            case 'application':
+            case 'applications':
                 $bookData = $this->getApplicationTableData($userData->getId());
                 break;
         }
@@ -196,7 +196,7 @@ class CirculationBooksController extends MyController
         $bookList = array(
             'takenBooks',
             'givenBooks',
-            'application',
+            'applications',
         );
 
         $ownerName = $this->getParamFromGetRequest('ownerName');

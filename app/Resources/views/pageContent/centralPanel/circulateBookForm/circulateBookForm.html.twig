@@ -31,7 +31,12 @@
                         });
                     </script>
                 </td>
-                <td>{# Владелец|Кто взял#} {{ bookData.users[i] }}</td>
+                <td>
+                    <a href="{{ serverUrl }}userBookCatalog?bookListName=personalBooks&ownerName={{ bookData.users[i] }}"
+                                              class="pure-menu-link">
+                        {{ bookData.users[i] }}
+                    </a>
+                </td>
                 <td>{{ bookData.deadlines[i] }}</td>
                 <td>
                     <div class="circulateBookGrid_options">
