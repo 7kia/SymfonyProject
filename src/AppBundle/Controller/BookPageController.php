@@ -37,7 +37,6 @@ class BookPageController extends MyController
                 User::class
             );
 
-
             if (!in_array($owner, $readUsers)) {
 
                 array_push(
@@ -182,7 +181,11 @@ class BookPageController extends MyController
             $applicationStatusInfo = $this->getApplicationInfo($applicationStatus);
         }
 
-
+        $currentUserKey = array_search($this->getCurrentUser()->getUsername(), $bookOwners);
+        if ($currentUserKey != null) {
+            // TODO : исключить из списка владельцев текущего пользователя
+            //$bookOwners
+        }
         return $this->render(
             $this->getTemplatePath(),
             array(

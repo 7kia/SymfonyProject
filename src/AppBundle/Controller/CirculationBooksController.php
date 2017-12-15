@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\ApplicationForBook;
 use AppBundle\Entity\Book;
+use AppBundle\Entity\TakenBook;
 use AppBundle\Entity\User;
 use AppBundle\Entity\UserListBook;
 use AppBundle\Controller\MyController;
@@ -19,6 +20,7 @@ use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
 
 
 class CirculationBooksController extends MyController
@@ -49,7 +51,6 @@ class CirculationBooksController extends MyController
 
         return $deadlines;
     }
-
 
     private function getUsernames($userIds)
     {
@@ -120,7 +121,7 @@ class CirculationBooksController extends MyController
         $users = array();
         foreach ($givenBooks as $givenBook) {
             array_push($bookIds, $givenBook->getBookId());
-            array_push($users, $givenBook->getOwnerId());
+            array_push($users, $givenBook->getApplicantId());
         }
         return $this->generateTableData($bookIds, $users);
     }
@@ -134,7 +135,7 @@ class CirculationBooksController extends MyController
         $applicationForBooks = $this->findThingByCriteria(
             ' AppBundle\Entity\ApplicationForBook',
             array(
-                'applicantId' => $getId
+                'ownerId' => $getId
             )
         );
 
@@ -142,36 +143,278 @@ class CirculationBooksController extends MyController
         $users = array();
         foreach ($applicationForBooks as $applicationForBook) {
             array_push($bookIds, $applicationForBook->getBookId());
-            array_push($users, $applicationForBook->getOwnerId());
+            array_push($users, $applicationForBook->getApplicantId());
         }
 
         return $this->generateTableData($bookIds, $users);
     }
 
-    private function createPage($ownerName, $bookListName)
+    /**
+     * @param $ownerName
+     * @return null|string
+     */
+    private function checkOwnerName($ownerName)
     {
-        $userData = $this->getOneThingByCriteria($ownerName, "username", User::class);
-        if ($userData == null) {
-            return $this->createErrorPage(
-                'Пользователь с никнэймом \''
-                . $ownerName
-                . '\' не найден'
-            );
+        // TODO : не хватает проверки существования пользователя
+        if ($ownerName == null) {
+            return $this->getMessageAboutLackArgument('ownerName');
+        }
+        return null;
+    }
+
+    /**
+     * @param $bookListName
+     * @param $bookList
+     * @return null|string
+     */
+    private function checkBookListName($bookListName, $bookList)
+    {
+        if ($bookListName == null) {
+            return $this->getMessageAboutLackArgument('bookListName');
+        }
+        if (!in_array($bookListName, $bookList)) {
+            return 'bookListName должен иметь одно из следующих значений '
+                . implode(",", $bookList);
+        }
+        return null;
+    }
+
+    private function checkOtherUser($otherUser, $typeRequest)
+    {
+        if (($otherUser == null) and ($typeRequest != null)) {
+            return $this->getMessageAboutLackArgument('otherUser');
+        }
+    }
+
+    private function checkCommands($bookListName)
+    {
+        $errorMessage = null;
+        if (($this->acceptCommand != null) and ($this->deleteCommand != null)) {
+            $errorMessage = 'Нельзя одновременно использовать запросы delete и accept';
+        }
+        if (($this->acceptCommand != null) and ($bookListName != 'applications')) {
+            $errorMessage = 'Нельзя использовать запрос accept в каталоге applications';
+        }
+        $checkDeleteName = $this->checkDeleteName($this->deleteCommand, $bookListName);
+        $checkAcceptName = $this->checkAcceptName($this->acceptCommand, $bookListName);
+
+        if (!$checkDeleteName and !$checkAcceptName) {
+            $errorMessage = 'В каталоге ' . $bookListName . ' нет книги ' . $this->deleteCommand;
         }
 
-        $bookData = null;
+        return $errorMessage;
+    }
+
+    private function getRequestType()
+    {
+        if ($this->acceptCommand) {
+            return 'accept';
+        } else if($this->deleteCommand) {
+            return 'delete';
+        }
+        return null;
+    }
+
+    private function getCommandArgument($typeRequest)
+    {
+        switch ($typeRequest)
+        {
+            case 'delete':
+                return $this->deleteCommand;
+                break;
+            case 'accept':
+                return $this->acceptCommand;
+                break;
+        }
+        return null;
+    }
+
+    // TODO : перенести переменные
+    private $deleteCommand = null;
+    private $acceptCommand = null;
+    /**
+     * @Route("/circulationBooks", name="circulationBooks" )
+     */
+    public function showBookList()
+    {
+        $bookList = array(
+            'takenBooks',
+            'givenBooks',
+            'applications',
+        );
+
+        $ownerName = $this->getParamFromGetRequest('ownerName');
+        $errorMessage = $this->checkOwnerName($ownerName);
+        if ($errorMessage != null) {
+            return $this->createErrorPage($errorMessage);
+        }
+
+        $bookListName = $this->getParamFromGetRequest('bookListName');
+        $errorMessage = $this->checkBookListName($bookListName, $bookList);
+        if ($errorMessage != null) {
+            return $this->createErrorPage($errorMessage);
+        }
+
+        $this->deleteCommand = $this->getParamFromGetRequest('delete');
+        $this->acceptCommand = $this->getParamFromGetRequest('accept');
+        $errorMessage = $this->checkCommands($bookListName);
+        if ($errorMessage != null) {
+            return $this->createErrorPage($errorMessage);
+        }
+        $typeRequest = $this->getRequestType();
+        $bookName = $this->getCommandArgument($typeRequest);
+
+        $otherUserName = $this->getParamFromGetRequest('otherUser');
+        $errorMessage = $this->checkOtherUser($otherUserName, $typeRequest);
+        if ($errorMessage != null) {
+            return $this->createErrorPage($errorMessage);
+        }
+
+        $requestValue = array(
+            'typeRequest' => $typeRequest,
+            'bookName' => $bookName,
+            'currentUser' => $this->getCurrentUser(),
+            'otherUser' => $this->getOneThingByCriteria($otherUserName, 'username', User::class)
+        );
+
+
+
+        return $this->createPage($ownerName, $bookListName, $requestValue);
+    }
+
+    private function checkDeleteName($deleteName, $bookListName)
+    {
+        if ($deleteName == null) {
+            return true;
+        }
+        throw new Exception('checkDeleteName Not implemented');
+        return false;
+    }
+
+    private function checkAcceptName($acceptName, $bookListName)
+    {
+        if ($acceptName == null) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $bookListName
+     * @param $userId
+     * @return mixed|null
+     */
+    private function getTableData($bookListName, $userId)
+    {
         switch ($bookListName)
         {
             case 'takenBooks':
-                $bookData = $this->getTakenBookTableData($userData->getId());
-                break;
+                return $this->getTakenBookTableData($userId);
             case 'givenBooks':
-                $bookData = $this->getGivenBookTableData($userData->getId());
-                break;
+                return $this->getGivenBookTableData($userId);
             case 'applications':
-                $bookData = $this->getApplicationTableData($userData->getId());
-                break;
+                return $this->getApplicationTableData($userId);
         }
+        return null;
+    }
+
+
+    /**
+     * @param $bookId
+     * @param $applicantId
+     * @return bool
+     */
+    // TODO : после того как всё заработает $ownerid заменить на текущего пользователя
+    private function acceptBookFromList($bookId, $applicantId, $ownerId)
+    {
+        $applicationForBook = $this->getApplicationForBook($bookId, $applicantId, $ownerId);
+        print_r($bookId);
+        print_r($applicantId);
+        print_r($ownerId);
+
+        if ($applicationForBook == null) {
+            return false;
+        }
+        print_r($applicationForBook);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($applicationForBook);
+
+        $em->flush();
+
+        return $this->giveBook($bookId, $applicantId, $ownerId);
+    }
+
+    private function getApplicationForBook($bookId, $applicantId, $ownerId)
+    {
+        $queryResult = $this->findThingByCriteria(
+            ' AppBundle\Entity\ApplicationForBook',
+            array(
+                'applicantId' => $applicantId,
+                'ownerId' => $ownerId,
+                'bookId' => $bookId
+            )
+        );
+		// TODO : не придумал как извлечь 1 элемент([] не получается)
+        $result = null;
+        foreach ($queryResult as $item) {
+            $result = $item;
+        }
+
+        return $result;
+    }
+
+
+    private function giveBook($bookId, $applicantId, $ownerId)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $takenBook = new TakenBook();
+        $takenBook->setBookId($bookId);
+        $takenBook->setApplicantId($applicantId);
+        $takenBook->setOwnerId($ownerId);
+        // TODO : установить deadline
+        $takenBook->setDeadline(new \DateTime());
+
+
+        $em->persist($takenBook);
+        $em->flush();
+
+        return true;// TODO : пока не предесмотрена неудачная передача книги
+    }
+
+    private function createPage($ownerName, $bookListName, $requestValue)
+    {
+        $userData = $this->getCurrentUser();//$this->getOneThingByCriteria($ownerName, 'username', User::class);//
+        $bookData = $this->getTableData($bookListName, $userData->getId());
+
+        if ($requestValue['typeRequest'] != null) {
+            $successful = false;
+
+            $book = $this->getOneThingByCriteria($requestValue['bookName'], 'name', Book::class);
+            $bookId = $book->getId();
+
+            if ($requestValue['typeRequest'] == 'delete') {
+                $successful = $this->deleteBookFromList($bookId, $bookListName);
+            } else if ($requestValue['typeRequest'] == 'accept') {
+
+                $successful = $this->acceptBookFromList($bookId, $requestValue['otherUser']->getId(), $userData->getId());
+            }
+            if ($successful) {
+//                $this->redirectToRoute(
+//                    'circulationBooks',
+//                    array(
+//                        'ownerName' => $userData->getId(),
+//                        'bookListName' => $bookListName
+//                    )
+//                );
+            } else {
+                $this->createErrorPage('Запрос ' . $requestValue['typeRequest'] . ' неудался');
+            }
+
+        }
+
+
 
         // TODO : исправь перевод в строковый формат {# { bookData[i].deadline }}#}
         return $this->render(
@@ -187,37 +430,6 @@ class CirculationBooksController extends MyController
         );
     }
 
-
-    /**
-     * @Route("/circulationBooks", name="circulationBooks" )
-     */
-    public function showBookList()
-    {
-        $bookList = array(
-            'takenBooks',
-            'givenBooks',
-            'applications',
-        );
-
-        $ownerName = $this->getParamFromGetRequest('ownerName');
-        if ($ownerName == null) {
-            $this->createErrorPage($this->getMessageAboutLackArgument('ownerName'));
-            // TODO : не хватает проверки существования пользователя
-        }
-
-        $bookListName = $this->getParamFromGetRequest('bookListName');
-        if ($bookListName == null) {
-            $this->createErrorPage($this->getMessageAboutLackArgument('bookListName'));
-        }
-        if (!in_array($bookListName, $bookList)) {
-            $this->createErrorPage(
-                'bookListName должен иметь одно из следующих значений '
-                . implode(",", $bookList)
-            );
-        }
-
-        return $this->createPage($ownerName, $bookListName);
-    }
 
 
 }

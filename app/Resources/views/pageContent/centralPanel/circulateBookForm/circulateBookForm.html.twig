@@ -6,8 +6,10 @@
             <th>Название</th>
             <th>Автор</th>
             <th>Рейтинг</th>
-            {% if bookListName == "takenBooks" or bookListName == "application" %}
+            {% if bookListName == "takenBooks" %}
                 <th>Владелец</th>
+            {% elseif bookListName == "applications" %}
+                <th>Кто возьмёт</th>
             {% elseif bookListName == "givenBooks" %}
                 <th>Кто взял</th>
             {% endif %}
@@ -40,7 +42,22 @@
                 <td>{{ bookData.deadlines[i] }}</td>
                 <td>
                     <div class="circulateBookGrid_options">
-
+                        {% if bookListName == "givenBooks" %}
+                            <a href="{{ serverUrl }}circulationBooks?bookListName=givenBooks&ownerName={{ bookData.users[i] }}&delete={{ bookData.books[i].name }}&otherUser={{ bookData.users[i] }}"
+                               class="pure-menu-link">
+                                Удалить
+                            </a>
+                        {% elseif bookListName == "applications" %}
+                            <a href="{{ serverUrl }}circulationBooks?bookListName=applications&ownerName={{ bookData.users[i] }}&accept={{ bookData.books[i].name }}&otherUser={{ bookData.users[i] }}"
+                               class="pure-menu-link">
+                                Принять
+                            </a>
+                            <div class="circulateBookGrid_options_delimiter"><b>,</b></div>
+                            <a href="{{ serverUrl }}circulationBooks?bookListName=applications&ownerName={{ bookData.users[i] }}&delete={{ bookData.books[i].name }}&otherUser={{ bookData.users[i] }}"
+                               class="pure-menu-link">
+                                Отклонить
+                            </a>
+                        {% endif %}
                     </div>
                 </td>
             </tr>
