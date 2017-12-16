@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\ApplicationForBook;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -17,22 +18,19 @@ class MyController extends Controller
     const SERVER_URL = 'http://localhost:8000/';
     const TEMPLATE_PATH = 'template.html.twig';
 
-    protected function getServerUrl()
-    {
-        return 'http://localhost:8000/';
-    }
 
-    protected function getTemplatePath()
-    {
-        return 'template.html.twig';
-    }
-
+    /**
+     * @return bool
+     */
     protected function userAuthorized()
     {
-        $user = $this->getUser();
-        return ($user != null);
+        return ($this->getUser() != null);
     }
 
+    /**
+     * @param $errorMessage
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     protected function createErrorPage($errorMessage)
     {
         // TODO : create error page
@@ -44,12 +42,20 @@ class MyController extends Controller
         );
     }
 
+    /**
+     * @param $argumentName
+     * @return string
+     */
     protected function getMessageAboutLackArgument($argumentName)
     {
         return 'Не передан аргумент ' . $argumentName;
     }
 
-    // TODO : see might put in a separate file
+    // TODO : возможно её стоит переметить в другой файл
+    /**
+     * @param $arg_name
+     * @return string|null
+     */
     protected function getParamFromGetRequest($arg_name)
     {
         if (isset($_GET[$arg_name])) {
@@ -59,6 +65,11 @@ class MyController extends Controller
         return null;
     }
 
+    /**
+     * @param $userLogin
+     * @return string
+     */
+    // TODO : посмотри точно ли нужна
     protected function getCurrentUserName($userLogin)
     {
         if ($userLogin != false) {
@@ -68,6 +79,9 @@ class MyController extends Controller
         }
     }
 
+    /**
+     * @return mixed|object
+     */
     protected function getCurrentUser()
     {
         if ($this->userAuthorized()) {
@@ -79,6 +93,12 @@ class MyController extends Controller
         }
     }
 
+    /**
+     * @param $searchPlace
+     * @param $criteria
+     * @return mixed
+     */
+    // TODO : надо бы вынести функции поиска и работы с БД из контроллера, проблема - нужены EntityManager и Repository
     protected function findThingByCriteria(
         $searchPlace,
         $criteria
@@ -119,6 +139,70 @@ class MyController extends Controller
             );
     }
 
+    /**
+     * @param $idList
+     * @return array
+     */
+    protected function getThings($idList, $class)
+    {
+        $books = array();
+        foreach ($idList as $id) {
+            $book = $this->getOneThingByCriteria(
+                strval($id),
+                'id',
+                $class
+            );
+            if ($book != null) {
+                array_push($books, $book);
+            }
+        }
+        return $books;
+    }
+
+
+    /**
+     * @param $bookId
+     * @param $applicantId
+     * @param $ownerId
+     * @return bool
+     */
+    protected function giveBook($bookId, $applicantId, $ownerId)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $takenBook = new TakenBook();
+        $takenBook->setBookId($bookId);
+        $takenBook->setApplicantId($applicantId);
+        $takenBook->setOwnerId($ownerId);
+        // TODO : установить deadline
+        $takenBook->setDeadline(new \DateTime());
+
+        $em->persist($takenBook);
+        $em->flush();
+
+        return true;// TODO : пока не предесмотрена неудачная передача книги
+    }
+
+    /**
+     * @param $userId
+     * @param $bookListName
+     * @return mixed
+     */
+    protected function findUserCatalog($userId, $bookListName)
+    {
+        return $this->findThingByCriteria(
+            ' AppBundle\Entity\UserListBook',
+            array(
+                'userId' => $userId,
+                'listName' => $bookListName
+            )
+        );
+    }
+
+    /**
+     * @param $catalog
+     * @return array
+     */
     protected function extractBooks($catalog)
     {
         $repository = $this->getDoctrine()->getRepository(Book::class);
@@ -136,5 +220,24 @@ class MyController extends Controller
         }
 
         return $books;
+    }
+
+    /**
+     * @param User $foundOwner
+     * @param Book $bookData
+     * @param User $currentUser
+     */
+    protected function sendApplication(User $foundOwner, Book $bookData, User $currentUser)
+    {
+        $applicationForBook = new ApplicationForBook();
+        $applicationForBook->setBookId($bookData->getId());
+        $applicationForBook->setApplicantId($currentUser->getId());
+        $applicationForBook->setOwnerId($foundOwner->getId());
+
+        // TODO : проверь добавку повторной заявки
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($applicationForBook);
+        $em->flush();
     }
 }

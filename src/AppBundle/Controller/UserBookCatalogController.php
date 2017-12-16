@@ -16,47 +16,18 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserBookCatalogController extends MyController
 {
-    private function findUserCatalog($userId, $bookListName)
-    {
-        return $this->findThingByCriteria(
-            ' AppBundle\Entity\UserListBook',
-            array(
-                 'userId' => $userId,
-                 'listName' => $bookListName
-            )
-        );
-    }
-
-    private function getOwnerUser($ownerName)
-    {
-        return $this->getOneThingByCriteria(
-            $ownerName,
-            'username',
-            User::class
-        );
-    }
-
     function getUserCatalog($ownerName, $bookListName)
     {
-        $user =  $this->getOwnerUser($ownerName);
-        $catalog = $this->findUserCatalog($user->getId(), $bookListName);
+        $ownerUser =  $this->getOneThingByCriteria($ownerName, 'username',User::class);
+        $catalog = $this->findUserCatalog($ownerUser->getId(), $bookListName);
         $catalogBooks = $this->extractBooks($catalog);
 
         return $catalogBooks;
     }
 
-    function getCurrentUserName($userLogin)
-    {
-        if ($userLogin != false) {
-            return $this->getUser()->getUsername();
-        } else {
-            return '7kia';
-        }
-    }
-
     function createPage($bookListName, $ownerName)
     {
-        if ($this->getOwnerUser($ownerName) == null) {
+        if ($this->getOneThingByCriteria($ownerName, 'username',User::class) == null) {
             $this->createErrorPage(
                 'Пользователя с именем \''
                 . $ownerName
@@ -64,15 +35,13 @@ class UserBookCatalogController extends MyController
             );
         }
 
-
         $bookCards = $this->getUserCatalog($ownerName, $bookListName);
-
         $catalogTitle = $bookListName . ' пользователя ' . $ownerName;
 
         return $this->render(
-            $this->getTemplatePath(),
+            MyController::TEMPLATE_PATH,
             array(
-                'serverUrl' => $this->getServerUrl(),
+                'serverUrl' => MyController::SERVER_URL,
                 'currentUserName' => $this->getCurrentUserName($this->userAuthorized()),
                 'pageName' => 'bookList',
                 'bookListTitle' => $catalogTitle,
@@ -117,8 +86,5 @@ class UserBookCatalogController extends MyController
             );
         }
     }
-
-
-
 
 }

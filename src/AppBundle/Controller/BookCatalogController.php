@@ -59,21 +59,11 @@ class BookCatalogController extends MyController
         return $form;
     }
 
-    private function handleClickedButtons(SearchData $searchData, $clickedBtn)
+    protected function handleFormEvents($form)
     {
-        $runSearch = ($clickedBtn->getName() == 'searchBtn');
-        if ($runSearch) {
-
-            $text = $searchData->getSearchTextField();
-            $category = $searchData->getSearchCategory();
-
-            return $this->redirectToRoute(
-                'bookCatalogs',
-                array(
-                    'searchText' => $text,
-                    'searchCategory' => $category
-                )
-            );
+        $clickedBtn = $form->getClickedButton();
+        if ($clickedBtn != null) {
+            return ($clickedBtn->getName() == 'searchBtn');
         }
     }
 
@@ -97,31 +87,24 @@ class BookCatalogController extends MyController
         $searchForm->handleRequest($request);
 
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
-            $clickedBtn = $searchForm->getClickedButton();
-            if ($clickedBtn != null) {
-                // TODO : вынос это куска кода в отдельную функцию отключает redirectToRoute
-                // Возможно на момент запуска был глюк в Symfony
-                $runSearch = ($clickedBtn->getName() == 'searchBtn');
-                if ($runSearch) {
+            if ($this->handleFormEvents($searchForm)) {
+                $text = $searchData->getSearchTextField();
+                $category = $searchData->getSearchCategory();
 
-                    $text = $searchData->getSearchTextField();
-                    $category = $searchData->getSearchCategory();
-
-                    return $this->redirectToRoute(
-                        'bookCatalogs',
-                        array(
-                            'searchText' => $text,
-                            'searchCategory' => $category
-                        )
-                    );
-                }
+                return $this->redirectToRoute(
+                    'bookCatalogs',
+                    array(
+                        'searchText' => $text,
+                        'searchCategory' => $category
+                    )
+                );
             }
         }
 
         return $this->render(
-            $this->getTemplatePath(),
+            MyController::TEMPLATE_PATH,
             array(
-                'serverUrl' => $this->getServerUrl(),
+                'serverUrl' => MyController::SERVER_URL,
                 'currentUserName' => $this->getCurrentUserName($this->userAuthorized()),
                 'pageName' => 'bookCatalog',
                 'userLogin' => $this->userAuthorized(),
@@ -150,13 +133,10 @@ class BookCatalogController extends MyController
                 'author'
             );
 
-            // TODO : посмотри позже как можно обработать ошибку
             if (!in_array($searchCategory, $categories)) {
-
-                header('HTTP/1.0 500');
-                // TODO : поправить вывод
                 return $this->createErrorPage(
-                    'Ошибка, категория поиска выставлена не корректно.'
+                    'Категория поиска должна иметь одно из следующих значений '
+                    . implode(",", $categories)
                 );
             }
         }

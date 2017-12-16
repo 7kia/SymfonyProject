@@ -1,9 +1,6 @@
 <?php
 
-// src/AppBundle/Controller/SecurityController.php
 namespace AppBundle\Controller;
-
-
 
 use AppBundle\Entity\ApplicationForBook;
 use AppBundle\Entity\Book;
@@ -117,23 +114,7 @@ class BookPageController extends MyController
         return '';
     }
 
-    private function sendApplication(User $foundOwner, Book $bookData, User $currentUser)
-    {
-        $applicationForBook = new ApplicationForBook();
-        $applicationForBook->setBookId($bookData->getId());
-        $applicationForBook->setApplicantId($currentUser->getId());
-        $applicationForBook->setOwnerId($foundOwner->getId());
 
-        // TODO : проверь добавку повторной заявки
-        if (true) {
-
-        }
-        $em = $this->getDoctrine()->getManager();
-
-
-        $em->persist($applicationForBook);
-        $em->flush();
-    }
     /**
      * @param $bookName
      * @param $ownerName
@@ -160,16 +141,14 @@ class BookPageController extends MyController
             );
         }
 
-        $applicationStatusInfo = '';
+        $applicationStatusInfo = null;
         $sendApplicationToOwner = ($ownerName != null);
         if ($sendApplicationToOwner) {
             $foundOwner = $this->getOneThingByCriteria($ownerName, "username", User::class);
             if ($foundOwner == null) {
-                return $this->createErrorPage('Книга с названием \''
-                    . $bookName
-                    . '\' не имеет владельца с никнэймом \''
-                    . $ownerName
-                    . '\''
+                return $this->createErrorPage(
+                    'Книга с названием \'' . $bookName
+                    . '\' не имеет владельца с никнэймом \'' . $ownerName . '\''
                 );
             }
 
@@ -187,9 +166,9 @@ class BookPageController extends MyController
             //$bookOwners
         }
         return $this->render(
-            $this->getTemplatePath(),
+            MyController::TEMPLATE_PATH,
             array(
-                'serverUrl' => $this->getServerUrl(),
+                'serverUrl' => MyController::SERVER_URL,
                 'currentUserName' => $this->getCurrentUserName($this->userAuthorized()),
                 'pageName' => 'bookPage',
                 'userLogin' => $this->userAuthorized(),
