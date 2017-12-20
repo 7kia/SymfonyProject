@@ -3,6 +3,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
+use AppBundle\DatabaseManagement\DatabaseManager;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -14,8 +16,11 @@ class UserTableController extends Controller
     */
     public function newAction(Request $request)
     {
+        $this->databaseManager = new DatabaseManager($this->getDoctrine());
+
         $repository = $this->getDoctrine()->getRepository(User::class);
-        // TODO : replace findAll to get(<range>)
+        // TODO : замени findAll на get(<range>)
+        // TODO : отредактируй когда будешь профиль добавлять
         $users = $repository->findAll();
 
         $form = $this->createFormBuilder()->getForm();

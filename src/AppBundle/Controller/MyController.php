@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\DatabaseManagement\DatabaseManager;
 use AppBundle\Entity\ApplicationForBook;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
@@ -18,6 +19,7 @@ class MyController extends Controller
 {
     const SERVER_URL = 'http://localhost:8000/';
     const TEMPLATE_PATH = 'template.html.twig';
+    protected $databaseManager;
 
     /**
      * @return bool
@@ -87,157 +89,8 @@ class MyController extends Controller
         if ($this->userAuthorized()) {
             return $this->getUser();
         } else {
-            return  $this->getDoctrine()
-                ->getRepository(User::class)
-                ->findOneBy(array('username' => '7kia'));
+            return $this->databaseManager->getOneThingByCriteria('7kia', 'username', User::class);
         }
     }
 
-    /**
-     * @param $searchPlace
-     * @param $criteria
-     * @return mixed
-     */
-    // TODO : надо бы вынести функции поиска и работы с БД из контроллера, проблема - нужены EntityManager и Repository
-    protected function findThingByCriteria(
-        $searchPlace,
-        $criteria
-    )
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $stringCriteria = '';
-        while ($key = current($criteria)) {
-            if (strlen($stringCriteria) > 1) {
-                $stringCriteria = $stringCriteria . ' and ';
-            }
-
-            $stringCriteria = $stringCriteria . ' p.' . key($criteria) . '=\'' . $key . '\'';
-            next($criteria);
-        }
-
-        $query = $em->createQuery(
-            'SELECT p
-                FROM ' . $searchPlace . ' p ' .
-            'WHERE ' . $stringCriteria
-        );
-        return $query->execute();
-    }
-
-    /**
-     * @param $searchText
-     * @param $field
-     * @param $class
-     * @return object
-     */
-    protected function getOneThingByCriteria($searchText, $field, $class)
-    {
-        return $this->getDoctrine()
-            ->getRepository($class)
-            ->findOneBy(
-                [$field => $searchText]
-            );
-    }
-
-    /**
-     * @param $idList
-     * @return array
-     */
-    protected function getThings($idList, $class)
-    {
-        $books = array();
-        foreach ($idList as $id) {
-            $book = $this->getOneThingByCriteria(
-                strval($id),
-                'id',
-                $class
-            );
-            if ($book != null) {
-                array_push($books, $book);
-            }
-        }
-        return $books;
-    }
-
-
-    /**
-     * @param $bookId
-     * @param $applicantId
-     * @param $ownerId
-     * @return bool
-     */
-    protected function giveBook($bookId, $applicantId, $ownerId)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $takenBook = new TakenBook();
-        $takenBook->setBookId($bookId);
-        $takenBook->setApplicantId($applicantId);
-        $takenBook->setOwnerId($ownerId);
-        // TODO : установить deadline
-        $takenBook->setDeadline(new \DateTime());
-
-        $em->persist($takenBook);
-        $em->flush();
-
-        return true;// TODO : пока не предесмотрена неудачная передача книги
-    }
-
-    /**
-     * @param $userId
-     * @param $bookListName
-     * @return mixed
-     */
-    protected function findUserCatalog($userId, $bookListName)
-    {
-        return $this->findThingByCriteria(
-            ' AppBundle\Entity\UserListBook',
-            array(
-                'userId' => $userId,
-                'listName' => $bookListName
-            )
-        );
-    }
-
-    /**
-     * @param $catalog
-     * @return array
-     */
-    protected function extractBooks($catalog)
-    {
-        $repository = $this->getDoctrine()->getRepository(Book::class);
-
-        $books = array();
-
-        foreach ($catalog as &$catalogBook) {
-            $foundBook = $repository->find($catalogBook->getBookId());
-
-            if ($foundBook != null) {
-                array_push($books, $foundBook);
-            } else {
-                throw new Exception('Книга не найдена! Throw to UserBookCatalogController.extractBooks');
-            }
-        }
-
-        return $books;
-    }
-
-    /**
-     * @param User $foundOwner
-     * @param Book $bookData
-     * @param User $currentUser
-     */
-    protected function sendApplication(User $foundOwner, Book $bookData, User $currentUser)
-    {
-        $applicationForBook = new ApplicationForBook();
-        $applicationForBook->setBookId($bookData->getId());
-        $applicationForBook->setApplicantId($currentUser->getId());
-        $applicationForBook->setOwnerId($foundOwner->getId());
-
-        // TODO : проверь добавку повторной заявки
-
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($applicationForBook);
-        $em->flush();
-    }
 }

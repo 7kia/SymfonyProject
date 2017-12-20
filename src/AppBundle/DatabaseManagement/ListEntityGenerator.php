@@ -6,7 +6,7 @@
  * Time: 12:35
  */
 
-namespace AppBundle\SearchBook;
+namespace AppBundle\DatabaseManagement;
 
 
 class ListEntityGenerator

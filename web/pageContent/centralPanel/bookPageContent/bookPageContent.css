@@ -11,14 +11,14 @@
     padding: 0px;
 }
 
-.book-page-content__image-and-characteristics .book-cart__image-container
+.book-page-content__image-and-characteristics .image-container
 {
     width: 150px;
     height: 200px;
     float: left;
 }
 
-.book-page-content__image-and-characteristics .book-cart__image-container img
+.book-page-content__image-and-characteristics .image-container img
 {
     width: 130px;
     height: 180px;
@@ -46,7 +46,7 @@
 
 .book-page-content__amount-and-description .amount-container
 {
-    width: 23%;
+    width: 22.5%;
     height: 100px;
     float: left;
 }

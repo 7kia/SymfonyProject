@@ -31,17 +31,19 @@ body
 
 .button-style
 {
-    background: linear-gradient(to top, #FFCF0C, #FFDE58);
+    background: linear-gradient(to top, #AA8B10, #EDC72E);
     margin-right: 0px;
     cursor: pointer;
 
     font-size: 15px;
     font-family: Arial;
+    font-weight: bold;
 
     border: 1px solid transparent;
     border-color: rgba(0,0,0,.27);
 
     border-radius: 3px 0px 0px 3px;
+
 }
 
 .button-style :active
@@ -60,4 +62,17 @@ body
             0 0 6px 2px rgba(255,204,0,.7),
             0 1px 0 rgba(255,255,255,.2),
             inset 0 1px 1px rgba(0,0,0,.1);
+}
+
+.text-field-style
+{
+    border: 1px solid transparent;
+    border-color: rgba(0,0,0,.27);
+    border-top-color: rgba(0,0,0,.38);
+    border-bottom-color: rgba(0,0,0,.16);
+
+    font-size: 15px;
+    font-family: Arial;
+
+    background-clip: padding-box;
 }

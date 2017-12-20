@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use AppBundle\DatabaseManagement\DatabaseManager;
 
 class LoginController extends Controller
 {
@@ -16,6 +17,8 @@ class LoginController extends Controller
     
     public function loginAction(Request $request, AuthenticationUtils $authUtils)
     {
+        $this->databaseManager = new DatabaseManager($this->getDoctrine());
+
         // get the login error if there is one
         $error = $authUtils->getLastAuthenticationError();
 

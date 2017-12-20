@@ -1,4 +1,4 @@
-.userInfo {
+.user-info {
     box-sizing: border-box;
     height: 70px;
     line-height: 60px;
@@ -6,12 +6,12 @@
     float: right;
 }
 
-.userInfo ul
+.user-info ul
 {
     margin: 0px;
 }
 
-.userInfo li
+.user-info li
 {
     display: inline;  
     float: right;
@@ -19,7 +19,7 @@
     text-align: center;
 }
 
-.userInfo .avatar img{
+.user-info .avatar img{
     width: 60px;
     height: 60px;
 }

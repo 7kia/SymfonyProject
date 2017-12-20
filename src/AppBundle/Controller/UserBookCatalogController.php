@@ -6,7 +6,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\User;
 use AppBundle\Entity\UserListBook;
 use AppBundle\Controller\MyController;
-
+use AppBundle\DatabaseManagement\DatabaseManager;
 
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -16,36 +16,37 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserBookCatalogController extends MyController
 {
-    function getUserCatalog($ownerName, $bookListName)
+    function getUserCatalog($ownerId, $bookListName)
     {
-        $ownerUser =  $this->getOneThingByCriteria($ownerName, 'username',User::class);
-        $catalog = $this->findUserCatalog($ownerUser->getId(), $bookListName);
-        $catalogBooks = $this->extractBooks($catalog);
+        $ownerUser =  $this->databaseManager->getOneThingByCriteria($ownerId, 'id', User::class);
+        $catalog = $this->databaseManager->findUserCatalog($ownerUser->getId(), $bookListName);
+        $catalogBooks = $this->databaseManager->extractBooks($catalog);
 
         return $catalogBooks;
     }
 
-    function createPage($bookListName, $ownerName)
+    function createPage($bookListName, $ownerId)
     {
-        if ($this->getOneThingByCriteria($ownerName, 'username',User::class) == null) {
+        $user = $this->databaseManager->getOneThingByCriteria($ownerId, 'id', User::class);
+        if ($user == null) {
             return $this->createErrorPage(
-                'Пользователя с именем \''
-                . $ownerName
+                'Пользователя с id \''
+                . $ownerId
                 . '\' не существует'
             );
         }
 
-        $bookCards = $this->getUserCatalog($ownerName, $bookListName);
-        $catalogTitle = $bookListName . ' пользователя ' . $ownerName;
+        $bookCards = $this->getUserCatalog($ownerId, $bookListName);
+        $catalogTitle = $bookListName . ' пользователя ' . $user->getUsername();
 
         return $this->render(
             MyController::TEMPLATE_PATH,
             array(
                 'serverUrl' => MyController::SERVER_URL,
                 'currentUserName' => $this->getCurrentUserName($this->userAuthorized()),
-                'pageName' => 'bookList',
+                'pageName' => 'book_list',
                 'bookListTitle' => $catalogTitle,
-                'ownerName' => $ownerName,
+                'ownerName' => $user->getUsername(),
                 'userLogin' => $this->userAuthorized(),
                 'bookCards' => $bookCards
             )
@@ -53,30 +54,32 @@ class UserBookCatalogController extends MyController
     }
 
     /**
-     * @Route("/userBook_catalog", name="user_book_catalogs" )
+     * @Route("/user_book_catalog", name="user_book_catalogs" )
      */
     public function showPage()
     {
+        $this->databaseManager = new DatabaseManager($this->getDoctrine());
+
         $bookList = array(
-            'favoriteBooks',
-            'readLater',
-            'personalBooks'
+            'favorite_books',
+            'read_later',
+            'personal_books'
         );
 
-        $bookListName = $this->getParamFromGetRequest('bookListName');
+        $bookListName = $this->getParamFromGetRequest('book_list_name');
         if ($bookListName == null) {
-            $bookListName = 'personalBooks';
+            $bookListName = 'personal_books';
         }
 
-        $ownerName = $this->getParamFromGetRequest('ownerName');
+        $ownerId = $this->getParamFromGetRequest('owner_name');
         // TODO : на эту страницу можно будет зайти только авторизированному пользователю
         // пока для более быстрой отладки не будет ограничении по доступу
-        if ($ownerName == null) {
-            $ownerName = $this->getCurrentUserName($this->userAuthorized());
+        if ($ownerId == null) {
+            $ownerId = $this->getCurrentUser()->getId();
         }
 
         if (in_array($bookListName, $bookList)) {
-            return $this->createPage($bookListName, $ownerName);
+            return $this->createPage($bookListName, $ownerId);
         } else {
             header('HTTP/1.0 404');
             return $this->createErrorPage(

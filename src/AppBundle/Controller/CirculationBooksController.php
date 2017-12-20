@@ -8,7 +8,8 @@ use AppBundle\Entity\TakenBook;
 use AppBundle\Entity\User;
 use AppBundle\Entity\UserListBook;
 use AppBundle\Controller\MyController;
-use AppBundle\SearchBook\SearchData;
+use AppBundle\DatabaseManagement\SearchData;
+use AppBundle\DatabaseManagement\DatabaseManager;
 
 use AppBundle\Security\ApplicationStatus;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
@@ -70,7 +71,7 @@ class CirculationBooksController extends MyController
      */
     private function getTakenBookTableData($getId)
     {
-        $takenBooks = $this->findThingByCriteria(
+        $takenBooks = $this->databaseManager.findThingByCriteria(
             ' AppBundle\Entity\TakenBook',
             array(
                 'applicantId' => $getId
@@ -92,7 +93,7 @@ class CirculationBooksController extends MyController
      */
     private function getGivenBookTableData($getId)
     {
-        $givenBooks =  $this->findThingByCriteria(
+        $givenBooks =  $this->databaseManager.findThingByCriteria(
             ' AppBundle\Entity\TakenBook',
             array(
                 'ownerId' => $getId
@@ -115,7 +116,7 @@ class CirculationBooksController extends MyController
      */
     private function getApplicationTableData($getId)
     {
-        $applicationForBooks = $this->findThingByCriteria(
+        $applicationForBooks = $this->databaseManager.findThingByCriteria(
             ' AppBundle\Entity\ApplicationForBook',
             array(
                 'ownerId' => $getId
@@ -153,10 +154,10 @@ class CirculationBooksController extends MyController
     private function checkBookListName($bookListName, $bookList)
     {
         if ($bookListName == null) {
-            return $this->getMessageAboutLackArgument('bookListName');
+            return $this->getMessageAboutLackArgument('book_list_name');
         }
         if (!in_array($bookListName, $bookList)) {
-            return 'bookListName должен иметь одно из следующих значений '
+            return 'book_list_name должен иметь одно из следующих значений '
                 . implode(",", $bookList);
         }
         return null;
@@ -170,7 +171,7 @@ class CirculationBooksController extends MyController
     private function checkOtherUser($otherUser, $typeRequest)
     {
         if (($otherUser == null) and ($typeRequest != null)) {
-            return $this->getMessageAboutLackArgument('otherUser');
+            return $this->getMessageAboutLackArgument('other_user');
         }
     }
 
@@ -198,10 +199,10 @@ class CirculationBooksController extends MyController
         return null;
     }
 
-    private function checkExistBook($bookName)
+    private function checkExistBook($bookId)
     {
-        $book = $this->getOneThingByCriteria($bookName, 'name', Book::class);
-        return ($book != null) ;
+        $book = $this->databaseManager->getOneThingByCriteria($bookId, 'id', Book::class);
+        return ($book != null);
     }
 
     private function getRequestType()
@@ -233,14 +234,15 @@ class CirculationBooksController extends MyController
      */
     public function showBookList()
     {
+        $this->databaseManager = new DatabaseManager($this->getDoctrine());
+
         $bookList = array(
-            'takenBooks',
-            'givenBooks',
+            'taken_books',
+            'given_books',
             'applications',
         );
 
-
-        $bookListName = $this->getParamFromGetRequest('bookListName');
+        $bookListName = $this->getParamFromGetRequest('book_list_name');
         $errorMessage = $this->checkBookListName($bookListName, $bookList);
         if ($errorMessage != null) {
             return $this->createErrorPage($errorMessage);
@@ -255,7 +257,7 @@ class CirculationBooksController extends MyController
         $typeRequest = $this->getRequestType();
         $bookName = $this->getCommandArgument($typeRequest);
 
-        $otherUserName = $this->getParamFromGetRequest('otherUser');
+        $otherUserName = $this->getParamFromGetRequest('other_user');
         $errorMessage = $this->checkOtherUser($otherUserName, $typeRequest);
         if ($errorMessage != null) {
             return $this->createErrorPage($errorMessage);
@@ -265,7 +267,7 @@ class CirculationBooksController extends MyController
             'typeRequest' => $typeRequest,
             'bookName' => $bookName,
             'currentUser' => $this->getCurrentUser(),
-            'otherUser' => $this->getOneThingByCriteria($otherUserName, 'username', User::class)
+            'otherUser' => $this->databaseManager->getOneThingByCriteria($otherUserName, 'id', User::class)
         );
 
         return $this->createPage($bookListName, $requestValue);
@@ -282,9 +284,9 @@ class CirculationBooksController extends MyController
     {
         switch ($bookListName)
         {
-            case 'takenBooks':
+            case 'taken_books':
                 return $this->getTakenBookTableData($userId);
-            case 'givenBooks':
+            case 'given_books':
                 return $this->getGivenBookTableData($userId);
             case 'applications':
                 return $this->getApplicationTableData($userId);
@@ -305,12 +307,29 @@ class CirculationBooksController extends MyController
             return false;
         }
 
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($applicationForBook);
-
-        $em->flush();
+        $this->databaseManager.removeApplicationForBook($applicationForBook);
 
         return $this->giveBook($bookId, $applicantId, $ownerId);
+    }
+
+    /**
+     * @param $bookId
+     * @param $applicantId
+     * @param $ownerId
+     * @return bool
+     */
+    public function giveBook($bookId, $applicantId, $ownerId)
+    {
+        $takenBook = new TakenBook();
+        $takenBook->setBookId($bookId);
+        $takenBook->setApplicantId($applicantId);
+        $takenBook->setOwnerId($ownerId);
+        // TODO : установить deadline
+        $takenBook->setDeadline(new \DateTime());
+
+        $this->doctrineManager.add($takenBook);
+
+        return true;// TODO : пока не предесмотрена неудачная передача книги
     }
 
     private function deleteBookFromList($bookId, $applicantId, $ownerId)
@@ -320,17 +339,14 @@ class CirculationBooksController extends MyController
             return false;
         }
 
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($applicationForBook);
-
-        $em->flush();
+        $this->doctrineManager.remove($applicationForBook);
 
         return true;
     }
 
     private function getApplicationForBook($bookId, $applicantId, $ownerId)
     {
-        $queryResult = $this->findThingByCriteria(
+        $queryResult = $this->databaseManager.findThingByCriteria(
             ' AppBundle\Entity\ApplicationForBook',
             array(
                 'applicantId' => $applicantId,
@@ -351,7 +367,7 @@ class CirculationBooksController extends MyController
 
     private function executeRequest($requestValue, $bookListName, $currentUserData)
     {
-        $book = $this->getOneThingByCriteria($requestValue['bookName'], 'name', Book::class);
+        $book = $this->databaseManager->getOneThingByCriteria($requestValue['bookName'], 'name', Book::class);
         $bookId = $book->getId();
 
         if ($requestValue['typeRequest'] == 'delete') {
@@ -368,7 +384,7 @@ class CirculationBooksController extends MyController
 
         if ($requestValue['typeRequest'] != null) {
             if ($this->executeRequest($requestValue, $bookListName, $currentUserData)) {
-                $this->redirectToRoute('circulationBooks', array('bookListName' => $bookListName));
+                $this->redirectToRoute('circulation_books', array('book_list_name' => $bookListName));
             } else {
                 return $this->createErrorPage('Запрос ' . $requestValue['typeRequest'] . ' неудался');
             }
@@ -380,7 +396,7 @@ class CirculationBooksController extends MyController
             array(
                 'serverUrl' => MyController::SERVER_URL,
                 'currentUserName' => $this->getCurrentUserName($this->userAuthorized()),
-                'pageName' => 'circulationBooks',
+                'pageName' => 'circulation_books',
                 'userLogin' => $this->userAuthorized(),
                 'bookData' => $this->getTableData($bookListName, $currentUserData->getId()),
                 'bookListName' => $bookListName

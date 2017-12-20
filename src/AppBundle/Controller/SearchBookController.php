@@ -7,7 +7,8 @@ use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
 use AppBundle\Entity\UserListBook;
 use AppBundle\Controller\MyController;
-use AppBundle\SearchBook\SearchData;
+use AppBundle\DatabaseManagement\SearchData;
+use AppBundle\DatabaseManagement\DatabaseManager;
 
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -62,8 +63,8 @@ class SearchBookController extends MyController
     protected function handleFormEvents($form)
     {
         $clickedBtn = $form->getClickedButton();
-        if ($clickedBtn != null) {
-            return ($clickedBtn->getName() == 'searchBtn');
+        if ($clickedBtn != null) {// TODO : WARNING может не заработать(не то имя)
+            return ($clickedBtn->getName() == 'search-btn');
         }
     }
 
@@ -87,17 +88,18 @@ class SearchBookController extends MyController
 
 
     /**
-     * @Route("/search_book", name="book_catalog" )
+     * @Route("/search_book", name="search_book" )
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showPage(Request $request)
     {
+        $this->databaseManager = new DatabaseManager($this->getDoctrine());
 
-        $searchText = $this->getParamFromGetRequest('searchText');
+        $searchText = $this->getParamFromGetRequest('search_text');
         $searchCategory = null;
         if ($searchText != null) {
-            $searchCategory = $this->getParamFromGetRequest('searchCategory');
+            $searchCategory = $this->getParamFromGetRequest('search_category');
 
             $categories = array(
                 'name',
@@ -120,7 +122,7 @@ class SearchBookController extends MyController
     {
         $bookCards = array();
         if ($searchCategory != null) {
-            $book = $this->getOneThingByCriteria($searchText, $searchCategory, Book::class);
+            $book = $this->databaseManager->getOneThingByCriteria($searchText, $searchCategory, Book::class);
             if ($book != null) {
                 array_push($bookCards, $book);
             }
@@ -136,10 +138,10 @@ class SearchBookController extends MyController
                 $category = $searchData->getSearchCategory();
 
                 $this->redirectToRoute(
-                    'bookCatalogs',
+                    'search_book',
                     array(
-                        'searchText' => $text,
-                        'searchCategory' => $category
+                        'search_text' => $text,
+                        'search-category' => $category
                     )
                 );
             }
@@ -148,7 +150,7 @@ class SearchBookController extends MyController
         return array(
             'serverUrl' => MyController::SERVER_URL,
             'currentUserName' => $this->getCurrentUserName($this->userAuthorized()),
-            'pageName' => 'bookCatalog',
+            'pageName' => 'book-catalog',
             'userLogin' => $this->userAuthorized(),
             'bookCards' => $bookCards,
             'searchForm' => $searchForm->createView()

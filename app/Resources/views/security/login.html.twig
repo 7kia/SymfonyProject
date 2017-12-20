@@ -2,42 +2,36 @@
 {# ... you will probably extend your base template, like base.html.twig #}
 <html>
 <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Каталог книг</title>
-    <link rel="stylesheet" type="text/css" href="login/styles/styles.css">
+    <title>Авторизация</title>
+    <link rel="stylesheet" type="text/css" href="template.css">
+    <link rel="stylesheet" type="text/css" href="login/styles.css">
 </head>
 
 {% if error %}
     <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 {% endif %}
 
-<div class="login_form">
-    <div class="login_area">
-        <form action="{{ path('login') }}" method="post">
-            <div class="text_boxs">
-                <input class="text_box_login" 
-                       placeholder="логин" 
-                       type="text" 
-                       id="username" 
-                       name="_username" value="{{ last_username }}" />
+<form class="login_form bold-brown-border" action="{{ path('login') }}" method="post">
+    <div class="text_boxs">
+        <input class="text_box_login text-field-style"
+               placeholder="логин"
+               type="text"
+               id="username"
+               name="_username" value="{{ last_username }}" />
 
-                <input class="text_box_password" 
-                       placeholder="пароль"
-                       type="password" 
-                       id="password" 
-                       name="_password" />
-            </div>
-            {#
-                If you want to control the URL the user
-                is redirected to on success (more details below)
-                <input type="hidden" name="_target_path" value="/account" />
-            #}
-            <div class="buttons">
-                <input type="hidden" name="bookListName" value="personalBooks" />
-                <button type="submit" class="log_in">Войти</button>
-            </div>
-        </form>
-    </div>   
-</div>
+        <input class="text_box_password text-field-style"
+               placeholder="пароль"
+               type="password"
+               id="password"
+               name="_password" />
+    </div>
+    <div class="buttons">
+        <input type="hidden" name="bookListName" value="personalBooks" />
+        <button type="submit" class="log_in button-style">Войти</button>
+    </div>
+</form>
+
+
  
 </body>
 

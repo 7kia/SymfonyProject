@@ -7,7 +7,8 @@ use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
 use AppBundle\Entity\UserListBook;
 use AppBundle\Controller\MyController;
-use AppBundle\SearchBook\SearchData;
+use AppBundle\DatabaseManagement\SearchData;
+use AppBundle\DatabaseManagement\DatabaseManager;
 
 use AppBundle\Security\ApplicationStatus;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
@@ -23,12 +24,13 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class BookPageController extends MyController
 {
+
     private function extractUserData($personalBooks, $readUsers)
     {
         $ownerData = array();
         foreach ($personalBooks as &$personalBook)
         {
-            $owner = $this->getOneThingByCriteria(
+            $owner = $this->databaseManager->getOneThingByCriteria(
                 $personalBook->getUserId(),
                 'id',
                 User::class
@@ -55,7 +57,7 @@ class BookPageController extends MyController
         $ownerData = array();
         foreach ($takenBooks as &$takenBook)
         {
-            $owner = $this->getOneThingByCriteria(
+            $owner = $this->databaseManager->getOneThingByCriteria(
                 $takenBook->getApplicantId(),
                 'id',
                 User::class
@@ -74,11 +76,11 @@ class BookPageController extends MyController
 
     private function getOwnerData($bookId, $readUsers)
     {
-        $personalBooks = $this->findThingByCriteria(
+        $personalBooks = $this->databaseManager->findThingByCriteria(
             ' AppBundle\Entity\UserListBook',
             array(
                 'bookId' => strval($bookId),
-                 'listName' => 'personalBooks'
+                 'listName' => 'personal_books'
             )
         );
 
@@ -88,7 +90,7 @@ class BookPageController extends MyController
 
     private function getReadUserData($bookId)
     {
-        $takenBooks = $this->findThingByCriteria(
+        $takenBooks = $this->databaseManager->findThingByCriteria(
             ' AppBundle\Entity\TakenBook',
             array(
                 'bookId' => strval($bookId)
@@ -116,7 +118,7 @@ class BookPageController extends MyController
 
     private function generateDataForPage($bookId, $ownerId)
     {
-        $bookData = $this->getOneThingByCriteria($bookId, "id", Book::class);
+        $bookData = $this->databaseManager->getOneThingByCriteria($bookId, "id", Book::class);
         if ($bookData == null) {
             throw new Exception(
                 'Книга с id \''
@@ -154,7 +156,7 @@ class BookPageController extends MyController
         return array(
             'serverUrl' => MyController::SERVER_URL,
             'currentUserName' => $this->getCurrentUserName($this->userAuthorized()),
-            'pageName' => 'bookPage',
+            'pageName' => 'book_page',
             'userLogin' => $this->userAuthorized(),
             'bookData' => $bookData,
             'ownerList' => $bookOwners,
@@ -190,6 +192,8 @@ class BookPageController extends MyController
      */
     public function showBookList()
     {
+        $this->databaseManager = new DatabaseManager($this->getDoctrine());
+
         $bookName = $this->getParamFromGetRequest('book_id');
         $ownerName = $this->getParamFromGetRequest('send_application_to');
 
@@ -197,18 +201,18 @@ class BookPageController extends MyController
     }
 
     /**
-     * @param $ownerName
+     * @param $ownerId
      * @param $bookData
      * @return null|string(ApplicationInfo)
      */
-    private function sendApplicationToOwner($ownerName, $bookData)
+    private function sendApplicationToOwner($ownerId, $bookData)
     {
-        $foundOwner = $this->getOneThingByCriteria($ownerName, "username", User::class);
+        $foundOwner = $this->databaseManager->getOneThingByCriteria($ownerId, "id", User::class);
         if ($foundOwner == null) {
             return null;
         }
 
-        $applicationStatus = $this->sendApplication(
+        $applicationStatus = $this->databaseManager->sendApplication(
             $foundOwner,
             $bookData,
             $this->getCurrentUser()

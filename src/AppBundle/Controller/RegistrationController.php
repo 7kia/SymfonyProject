@@ -4,12 +4,15 @@ namespace AppBundle\Controller;
 
 use AppBundle\Form\UserType;
 use AppBundle\Entity\User;
+use AppBundle\DatabaseManagement\DatabaseManager;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class RegistrationController extends Controller
+
+class RegistrationController extends MyController
 {
     // TODO : когда админ сможет редактировать список пользователей поменяй:
     // return $this->redirectToRoute('catalog');// 40-41 строка
@@ -18,6 +21,8 @@ class RegistrationController extends Controller
      */
     public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
+        $this->databaseManager = new DatabaseManager($this->getDoctrine());
+
         // 1) build the form
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -31,14 +36,12 @@ class RegistrationController extends Controller
             $user->setPassword($password);
 
             // 4) save the User!
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
+            $this->databaseManager.addUser($user);
 
             // ... do any other work - like sending them an email, etc
             // maybe set a "flash" success message for the user
             return $this->redirectToRoute(
-                'userBookCatalogs'
+                'user_book_catalogs'
             );
 
         }

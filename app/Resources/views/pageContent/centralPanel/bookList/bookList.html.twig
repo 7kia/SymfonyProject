@@ -21,15 +21,15 @@
                         <div class="book-grid_grid-cell">
                             <div class="book-grid_grid-cell__book-cart">
                                 <div class="book-cart__image-container">
-                                    <a href="{{ serverUrl }}book_page?book_name={{ bookCards[i].name }}">
-                                        <img class="book-cart__image-container_book-image" src="{{ bookCards[i].bookImage }}"
+                                    <a href="{{ serverUrl }}book_page?book_id={{ bookCards[i].id }}">
+                                        <img class="image-container_book-image bold-brown-border" src="{{ bookCards[i].bookImage }}"
                                              alt="{{ bookCards[i].name }}"/>
                                     </a>
 
                                 </div>
 
                                 <div class="book-cart__name-str">
-                                    <a href="{{ serverUrl }}book_page?book_name={{ bookCards[i].name }}">
+                                    <a href="{{ serverUrl }}book_page?book_id={{ bookCards[i].id }}">
                                         {{ bookCards[i].name }}
                                     </a>
                                 </div>

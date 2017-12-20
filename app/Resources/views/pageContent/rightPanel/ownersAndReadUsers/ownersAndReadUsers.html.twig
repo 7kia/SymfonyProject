@@ -1,6 +1,6 @@
-<div class="owners-and-read-users">
-    <div class="book-page-title border center-align"><b>Есть у пользователей</b></div>
-    <div class="owners-containers border">
+<div class="owners-and-read-users bold-brown-border lateral-element brown-text">
+    <div class="book-page-title center-align"><b>Есть у пользователей</b></div>
+    <div class="owners-containers ">
         <table class="owner-list" >
             <thead >
             <tr>
@@ -12,17 +12,16 @@
                 {% for i in 0..(ownerList|length - 1) %}
                     <tr>
                         <td>
-                            <div class="owner-container border">
-                                <div class="read-user-container__image-container inline-block border">
+                            <div class="owner-container">
+                                <div class="read-user-container__image-container inline-block ">
                                     <img class="image-container_book-image" src="avatars/{{ ownerList[i].avatar }}"
                                          alt="{{ ownerList[i].name }}"/>
                                     <a href="{{ path('book_page') }}?book_name={{ bookData.name }}&send_application_to={{ ownerList[i].name }}">
                                         <img class="send_application_image" src="images/sendApplication.png"
                                              alt="Подать заявку"/>
                                     </a>
-
                                 </div>
-                                <div class="owner-name-container inline-block border center-align">
+                                <div class="owner-name-container inline-block  center-align">
                                     <div class="owner-name">
                                         <a href="{{ serverUrl }}user_book_catalog?book_list_name=personal_books&owner_name={{ ownerList[i].name }}">
                                             <b>{{ ownerList[i].name }}</b>
@@ -38,8 +37,8 @@
         </table>
     </div>
 
-    <div class="book-page-title border center-align"><b>Читают</b></div>
-    <div class="read-users-container border">
+    <div class="book-page-title center-align"><b>Читают</b></div>
+    <div class="read-users-container ">
         <table class="read-user-list" >
             <thead >
             <tr>
@@ -51,12 +50,12 @@
                 {% for i in 0..(readUserList|length - 1) %}
                     <tr>
                         <td>
-                            <div class="read-user-container border">
-                                <div class="read-user-container__image-container inline-block border">
+                            <div class="read-user-container ">
+                                <div class="read-user-container__image-container inline-block ">
                                     <img class="bookImage" src="avatars/{{ readUserList[i].avatar }}"
                                              alt="{{ readUserList[i].name }}"/>
                                 </div>
-                                <div class="read-user-container__read-user-name-container inline-block border center-align">
+                                <div class="read-user-container__read-user-name-container inline-block  center-align">
                                     <div class="read-user-container__read-user-name-container_read-user-name">
                                         <a href="{{ serverUrl }}user_book_catalog?book_list_name=personal_books&read_user_name={{ readUserList[i].name }}">
                                             <b>{{ readUserList[i].name }}</b>
