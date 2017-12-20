@@ -1,8 +1,8 @@
-<div class="userInfo border">
+<div class="user-info">
     <ul>
         {% if userLogin == true %}
             <li>
-                <div class="avatar heightTopPanel">
+                <div class="avatar height-top-panel">
                     <img src="img/NoAvatar.jpg" width="150" height="150"></a>
                 </div>
             </li>
@@ -10,11 +10,11 @@
                 <label for="UserFullName">{{ app.user.username }}</label>
             </li>
             <li>
-                <input type="submit" class="log_out" value="Выйти">
+                <input type="submit" class="log_out button-style" value="Выйти">
             </li>
         {% else %}
             <li>
-                <input type="submit" class="log_in" value="Войти">
+                <input type="submit" class="log_in button-style" value="Войти">
             </li>
         {% endif %}
     </ul>

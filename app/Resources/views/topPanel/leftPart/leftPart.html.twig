@@ -1,10 +1,10 @@
-<div class="leftPart heightTopPanel inlineBlock border">
-    <ul class="leftPart__elementList listStyleType_none">
-        {% if pageName == "circulationBooks" %}
+<div class="left-part height-top-panel inline-block brown-text brown-border">
+    <ul class="left-part__element-list list-style-type_none">
+        {% if pageName == "circulation_books" %}
             {% include "topPanel\\leftPart\\circulationBookEdits\\circulationBookEdits.html.twig" %}
-        {% elseif pageName == "userList" %}
+        {% elseif pageName == "user_list" %}
             {% include "topPanel\\leftPart\\userListEdits\\userListEdits.html.twig" %}
-        {% elseif pageName == "pageBook" %}
+        {% elseif pageName == "page_book" %}
             {% include "topPanel\\leftPart\\bookPageEdits\\bookPageEdits.html.twig" %}
         {% endif %}
     </ul>

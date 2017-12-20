@@ -1,8 +1,8 @@
-<div class="bookList">
-    {% if (pageName == "bookList") %}
-        <div class="bookListTitle">{{ bookListTitle }}</div>
+<div class="book-list">
+    {% if (pageName == "book_list") %}
+        <div class="book-list-title">{{ bookListTitle }}</div>
     {% endif %}
-    <table class="bookGrid" cellspacing="2" border='1'>
+    <table class="book-grid" cellspacing="2" border='1'>
         <thead>
             <tr>
                 <th></th>
@@ -18,31 +18,34 @@
                     <tr>
                 {% endif %}
                     <td>
-                        <div class="bookCart">
-                            <div class="imageContainer">
-                                <a href="{{ serverUrl }}bookPage?bookName={{ bookCards[i].name }}">
-                                    <img class="bookImage" src="{{ bookCards[i].bookImage }}"
-                                         alt="{{ bookCards[i].name }}"/>
-                                </a>
+                        <div class="book-grid_grid-cell">
+                            <div class="book-grid_grid-cell__book-cart">
+                                <div class="book-cart__image-container">
+                                    <a href="{{ serverUrl }}book_page?book_name={{ bookCards[i].name }}">
+                                        <img class="book-cart__image-container_book-image" src="{{ bookCards[i].bookImage }}"
+                                             alt="{{ bookCards[i].name }}"/>
+                                    </a>
 
+                                </div>
+
+                                <div class="book-cart__name-str">
+                                    <a href="{{ serverUrl }}book_page?book_name={{ bookCards[i].name }}">
+                                        {{ bookCards[i].name }}
+                                    </a>
+                                </div>
+
+                                <div class="rating{{ i }} center-align"></div>
+                                <script type="text/javascript">
+                                    var rating = JSON.parse("{{ bookCards[i].rating }}")
+                                    $('.rating{{ i }}' ).raty({
+                                        readOnly:  true,
+                                        start:     0,
+                                        score: Number(rating)
+                                    });
+                                </script>
                             </div>
-
-                            <div class="nameStr">
-                                <a href="{{ serverUrl }}bookPage?bookName={{ bookCards[i].name }}">
-                                    {{ bookCards[i].name }}
-                                </a>
-                            </div>
-
-                            <div class="rating{{ i }} centerAlign"></div>
-                            <script type="text/javascript">
-                                var rating = JSON.parse("{{ bookCards[i].rating }}")
-                                $('.rating{{ i }}' ).raty({
-                                    readOnly:  true,
-                                    start:     0,
-                                    score: Number(rating)
-                                });
-                            </script>
                         </div>
+
                     </td>
                 {% if (i % (columnCount + 1)) == columnCount %}
                     </tr>

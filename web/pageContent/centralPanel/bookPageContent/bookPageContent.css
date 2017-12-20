@@ -1,57 +1,57 @@
-.imageAndCharacteristics
+.book-page-content__image-and-characteristics
 {
     width: 100%;
     height: 205px;
 }
 
-.imageAndCharacteristics ul
+.book-page-content__image-and-characteristics ul
 {
     list-style-type: none;
     margin: 16px;
     padding: 0px;
 }
 
-.imageAndCharacteristics .imageContainer
+.book-page-content__image-and-characteristics .book-cart__image-container
 {
     width: 150px;
     height: 200px;
     float: left;
 }
 
-.imageAndCharacteristics .imageContainer img
+.book-page-content__image-and-characteristics .book-cart__image-container img
 {
     width: 130px;
     height: 180px;
     margin: 10px;
 }
 
-.imageAndCharacteristics .characteristicsContainer
+.book-page-content__image-and-characteristics .book-page-content__characteristics-container
 {
     width: 76%;
     height: 200px;
     float: right;
 }
 
-.amountAndDescription
+.book-page-content__amount-and-description
 {
     height: 300px;
 }
 
-.amountAndDescription ul
+.book-page-content__amount-and-description ul
 {
     list-style-type: none;
     margin: 16px;
     padding: 0px;
 }
 
-.amountAndDescription .amountContainer
+.book-page-content__amount-and-description .amount-container
 {
     width: 23%;
     height: 100px;
     float: left;
 }
 
-.amountAndDescription .descriptionContainer
+.book-page-content__amount-and-description .description-container
 {
     width: 76%;
     height: 300px;

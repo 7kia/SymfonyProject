@@ -1,16 +1,16 @@
-<div class="circulateBookForm">
+<div class="circulate-book-form">
     {% if bookData.books|length > 0 %}
-    <table id="circulateBookGrid" class="display" cellspacing="2" border='1'>
+    <table id="circulate-book-grid" class="display" cellspacing="2" border='1'>
         <thead>
         <tr>
             <th>Название</th>
             <th>Автор</th>
             <th>Рейтинг</th>
-            {% if bookListName == "takenBooks" %}
+            {% if book_list_name == "taken_books" %}
                 <th>Владелец</th>
-            {% elseif bookListName == "applications" %}
+            {% elseif book_list_name == "applications" %}
                 <th>Кто возьмёт</th>
-            {% elseif bookListName == "givenBooks" %}
+            {% elseif book_list_name == "given_books" %}
                 <th>Кто взял</th>
             {% endif %}
             <th>Срок сдачи</th>
@@ -23,7 +23,7 @@
                 <td>{{ bookData.books[i].name }}</td>
                 <td>{{ bookData.books[i].author }}</td>
                 <td>
-                    <div class="rating{{ i }} centerAlign"></div>
+                    <div class="rating{{ i }} center-align"></div>
                     <script type="text/javascript">
                         var rating = JSON.parse("{{ bookData.books[i].rating }}")
                         $('.rating{{ i }}' ).raty({
@@ -34,26 +34,26 @@
                     </script>
                 </td>
                 <td>
-                    <a href="{{ serverUrl }}userBookCatalog?bookListName=personalBooks&ownerName={{ bookData.users[i] }}"
+                    <a href="{{ serverUrl }}user_book_catalog?book_list_name=personal_books&owner_name={{ bookData.users[i] }}"
                                               class="pure-menu-link">
                         {{ bookData.users[i] }}
                     </a>
                 </td>
                 <td>{{ bookData.deadlines[i] }}</td>
                 <td>
-                    <div class="circulateBookGrid_options">
-                        {% if bookListName == "givenBooks" %}
-                            <a href="{{ serverUrl }}circulationBooks?bookListName=givenBooks&ownerName={{ bookData.users[i] }}&delete={{ bookData.books[i].name }}&otherUser={{ bookData.users[i] }}"
+                    <div class="circulate-book-grid-options">
+                        {% if book_list_name == "givenBooks" %}
+                            <a href="{{ serverUrl }}circulation_books?book_list_name=given_books&owner_name={{ bookData.users[i] }}&delete={{ bookData.books[i].name }}&other_user={{ bookData.users[i] }}"
                                class="pure-menu-link">
                                 Удалить
                             </a>
-                        {% elseif bookListName == "applications" %}
-                            <a href="{{ serverUrl }}circulationBooks?bookListName=applications&ownerName={{ bookData.users[i] }}&accept={{ bookData.books[i].name }}&otherUser={{ bookData.users[i] }}"
+                        {% elseif book_list_name == "applications" %}
+                            <a href="{{ serverUrl }}circulation_books?book_list_name=applications&owner_name={{ bookData.users[i] }}&accept={{ bookData.books[i].name }}&other_user={{ bookData.users[i] }}"
                                class="pure-menu-link">
                                 Принять
                             </a>
-                            <div class="circulateBookGrid_options_delimiter"><b>,</b></div>
-                            <a href="{{ serverUrl }}circulationBooks?bookListName=applications&ownerName={{ bookData.users[i] }}&delete={{ bookData.books[i].name }}&otherUser={{ bookData.users[i] }}"
+                            <div class="circulate-book-grid_options__delimiter"><b>,</b></div>
+                            <a href="{{ serverUrl }}circulation_books?book_list_name=applications&owner_name={{ bookData.users[i] }}&delete={{ bookData.books[i].name }}&other_user={{ bookData.users[i] }}"
                                class="pure-menu-link">
                                 Отклонить
                             </a>

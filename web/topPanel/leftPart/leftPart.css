@@ -1,15 +1,15 @@
-.leftPart
+.left-part
 {
     float: left;
 }
 
-.leftPart .leftPart__elementList
+.left-part .leftPart_element-list
 {
     margin: 0px;
     padding-left: 20px;
     line-height: 60px;
 }
-.leftPart .leftPart__elementList li
+.left-part .left-part_element-list li
 {
     display: inline;
     float: left;

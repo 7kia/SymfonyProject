@@ -1,4 +1,4 @@
-.pageContent
+.page-content
 {
     max-width: 980px;
     margin: 0 auto;
@@ -7,27 +7,27 @@
     outline-color: #000000;
 }
 
-.leftPanel
+.left-panel
 {
     width: 143px;
 }
 
-.rightPanel
+.right-panel
 {
     width: 143px;
 }
 
-.centralPanel
+.central-panel
 {
     width: 688px;
 }
 
-.inlineBlock
+.inline-block
 {
     display: inline-block;
 }
 
-.alignToCenter
+.align-to-center
 {
     text-align: center;
 }

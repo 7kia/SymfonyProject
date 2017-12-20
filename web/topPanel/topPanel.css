@@ -1,4 +1,4 @@
-.topPanel
+.top-panel
 {
     box-sizing: border-box;
     width: 100%;
@@ -7,22 +7,22 @@
     height: 74px;
 }
 
-.heightTopPanel
+.height-top-panel
 {
     height: 72px;
 }
 
-.leftPart
+.left-part
 {
     width: 34%;
 }
 
-.rightPart
+.right-part
 {
     width: 34%;
 }
 
-.centralPart
+.central-part
 {
     width: 30.8%;
 }

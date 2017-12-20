@@ -114,82 +114,133 @@ class BookPageController extends MyController
         return '';
     }
 
-
-    /**
-     * @param $bookName
-     * @param $ownerName
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    private function createPage($bookName, $ownerName)
+    private function generateDataForPage($bookId, $ownerId)
     {
-        $bookData = $this->getOneThingByCriteria($bookName, "name", Book::class);
+        $bookData = $this->getOneThingByCriteria($bookId, "id", Book::class);
         if ($bookData == null) {
-            return $this->createErrorPage(
-                'Книга с названием \''
-                . $bookName
+            throw new Exception(
+                'Книга с id \''
+                . $bookId
                 . '\' не найдена '
             );
         }
 
         $readUsers = $this->getReadUserData($bookData->getId());
         $bookOwners = $this->getOwnerData($bookData->getId(), $readUsers);
-        if ($bookOwners == null) {
-            return $this->createErrorPage(
+        $ownerCount = count($bookOwners);
+
+
+        $currentUserInArray = $this->deleteCurrentUser($bookOwners);
+        if (($bookOwners == null) and (!$currentUserInArray)) {
+            throw new Exception(
                 'Книга с названием \''
-                . $bookName
+                . $bookId
                 . '\' не имеет владельцев'
             );
         }
 
         $applicationStatusInfo = null;
-        $sendApplicationToOwner = ($ownerName != null);
+        $sendApplicationToOwner = ($ownerId != null);
         if ($sendApplicationToOwner) {
-            $foundOwner = $this->getOneThingByCriteria($ownerName, "username", User::class);
-            if ($foundOwner == null) {
-                return $this->createErrorPage(
-                    'Книга с названием \'' . $bookName
-                    . '\' не имеет владельца с никнэймом \'' . $ownerName . '\''
+            $applicationStatusInfo = $this->sendApplicationToOwner($ownerId, $bookData);
+            if ($applicationStatusInfo == null) {
+                throw new Exception(
+                    'Книга с названием \'' . $bookId
+                    . '\' не имеет владельца с id \'' . $ownerId . '\''
                 );
             }
-
-            $applicationStatus = $this->sendApplication(
-                $foundOwner,
-                $bookData,
-                $this->getCurrentUser()
-            );
-            $applicationStatusInfo = $this->getApplicationInfo($applicationStatus);
         }
 
-        $currentUserKey = array_search($this->getCurrentUser()->getUsername(), $bookOwners);
-        if ($currentUserKey != null) {
-            // TODO : исключить из списка владельцев текущего пользователя
-            //$bookOwners
-        }
-        return $this->render(
-            MyController::TEMPLATE_PATH,
-            array(
-                'serverUrl' => MyController::SERVER_URL,
-                'currentUserName' => $this->getCurrentUserName($this->userAuthorized()),
-                'pageName' => 'bookPage',
-                'userLogin' => $this->userAuthorized(),
-                'bookData' => $bookData,
-                'ownerList' => $bookOwners,
-                'readUserList' => $readUsers,
-                'applicationStatusInfo' => $applicationStatusInfo
-            )
+        return array(
+            'serverUrl' => MyController::SERVER_URL,
+            'currentUserName' => $this->getCurrentUserName($this->userAuthorized()),
+            'pageName' => 'bookPage',
+            'userLogin' => $this->userAuthorized(),
+            'bookData' => $bookData,
+            'ownerList' => $bookOwners,
+            'readUserList' => $readUsers,
+            'applicationStatusInfo' => $applicationStatusInfo,
+            'ownerCount' => $ownerCount,
+            'readCount' => count($readUsers)
         );
     }
 
 
     /**
-     * @Route("/bookPage", name="bookPage" )
+     * @param $bookId
+     * @param $ownerId
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    private function createPage($bookId, $ownerId)
+    {
+        try {
+            $pageData = $this->generateDataForPage($bookId, $ownerId);
+            return $this->render(
+                MyController::TEMPLATE_PATH,
+                $pageData
+            );
+        } catch (Exception $exception) {
+            return $this->createErrorPage($exception->getMessage());
+        }
+    }
+
+
+    /**
+     * @Route("/book_page", name="book_page" )
      */
     public function showBookList()
     {
-        $bookName = $this->getParamFromGetRequest('bookName');
-        $ownerName = $this->getParamFromGetRequest('sendApplicationTo');
+        $bookName = $this->getParamFromGetRequest('book_id');
+        $ownerName = $this->getParamFromGetRequest('send_application_to');
 
         return $this->createPage($bookName, $ownerName);
+    }
+
+    /**
+     * @param $ownerName
+     * @param $bookData
+     * @return null|string(ApplicationInfo)
+     */
+    private function sendApplicationToOwner($ownerName, $bookData)
+    {
+        $foundOwner = $this->getOneThingByCriteria($ownerName, "username", User::class);
+        if ($foundOwner == null) {
+            return null;
+        }
+
+        $applicationStatus = $this->sendApplication(
+            $foundOwner,
+            $bookData,
+            $this->getCurrentUser()
+        );
+
+        return $this->getApplicationInfo($applicationStatus);
+    }
+
+    /**
+     * @param $bookOwners
+     * @return bool
+     */
+    private function deleteCurrentUser(&$bookOwners)
+    {
+        $currentUser = $this->getCurrentUser();
+        $key = array_search(
+            array(
+                'name' => $currentUser->getUsername(),
+                'avatar' => $currentUser->getAvatar()
+            ),
+            $bookOwners
+        );
+
+        if ($key !== false)
+        {
+            $firstPart = array_slice($bookOwners, 0, $key);
+            $secondPart = array_slice($bookOwners, $key + 1, count($bookOwners) - 1);
+
+            $bookOwners = array_merge($firstPart, $secondPart);
+            return true;
+        }
+        return false;
     }
 
 }

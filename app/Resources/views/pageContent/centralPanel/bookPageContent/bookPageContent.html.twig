@@ -5,13 +5,13 @@
     </div>
 </div>
 
-<div class="bookPageContent border">
-    <div class="imageAndCharacteristics border">
-        <div class="imageContainer centerAlign border">
+<div class="book-page-content border">
+    <div class="book-page-content__image-and-characteristics border">
+        <div class="image-and-characteristics__image-container center-align border">
             <img src="{{ bookData.bookImage }}"
                 alt="{{ bookData.name }}">
         </div>
-        <div class="characteristicsContainer border">
+        <div class="book-page-content__characteristics-container border">
             <ul>
                 <li>
                     <b>Название: </b><a>{{ bookData.name }}</a>
@@ -26,7 +26,7 @@
                     <b>ISBN: </b><a>{{ bookData.isbn }}</a>
                 </li>
                 <li>
-                    <div class="ratingBook">
+                    <div class="rating-book">
                         <b>Рейтинг: </b>
                     </div>
                     <script type="text/javascript">
@@ -41,8 +41,8 @@
             </ul>
         </div>
     </div>
-    <div class="amountAndDescription border">
-        <div class="amountContainer border">
+    <div class="book-page-content__amount-and-description border">
+        <div class="amount-container border">
             <ul>
                 <li>
                     <b>Количество</b>
@@ -51,11 +51,11 @@
                     <b>(взято/всего): </b>
                 </li>
                 <li>
-                    <a>НЕ забудь взять из списка читающих/НЕ забудь взять из списка владеющих</a>
+                    <a>{{ readCount }}/{{ ownerCount }}</a>
                 </li>
             </ul>
         </div>
-        <div class="descriptionContainer border">
+        <div class="description-container border">
             <ul>
                 <li>
                     <b>Описание</b>

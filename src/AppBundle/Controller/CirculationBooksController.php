@@ -229,7 +229,7 @@ class CirculationBooksController extends MyController
     }
 
     /**
-     * @Route("/circulationBooks", name="circulationBooks" )
+     * @Route("/circulation_books", name="circulation_books" )
      */
     public function showBookList()
     {
@@ -313,6 +313,21 @@ class CirculationBooksController extends MyController
         return $this->giveBook($bookId, $applicantId, $ownerId);
     }
 
+    private function deleteBookFromList($bookId, $applicantId, $ownerId)
+    {
+        $applicationForBook = $this->getApplicationForBook($bookId, $applicantId, $ownerId);
+        if ($applicationForBook == null) {
+            return false;
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($applicationForBook);
+
+        $em->flush();
+
+        return true;
+    }
+
     private function getApplicationForBook($bookId, $applicantId, $ownerId)
     {
         $queryResult = $this->findThingByCriteria(
@@ -332,10 +347,7 @@ class CirculationBooksController extends MyController
         return $result;
     }
 
-    private function deleteBookFromList($bookId, $bookListName)
-    {
-        throw new Exception('checkDeleteName Not implemented');
-    }
+
 
     private function executeRequest($requestValue, $bookListName, $currentUserData)
     {
@@ -343,7 +355,7 @@ class CirculationBooksController extends MyController
         $bookId = $book->getId();
 
         if ($requestValue['typeRequest'] == 'delete') {
-            return $this->deleteBookFromList($bookId, $bookListName);
+            return $this->deleteBookFromList($bookId, $requestValue['otherUser']->getId(), $currentUserData->getId());
         } else if ($requestValue['typeRequest'] == 'accept') {
             return $this->acceptBookFromList($bookId, $requestValue['otherUser']->getId(), $currentUserData->getId());
         }
@@ -362,8 +374,6 @@ class CirculationBooksController extends MyController
             }
         }
 
-        $bookData = $this->getTableData($bookListName, $currentUserData->getId());
-
         // TODO : исправь перевод в строковый формат {# { bookData[i].deadline }}#}
         return $this->render(
             MyController::TEMPLATE_PATH,
@@ -372,7 +382,7 @@ class CirculationBooksController extends MyController
                 'currentUserName' => $this->getCurrentUserName($this->userAuthorized()),
                 'pageName' => 'circulationBooks',
                 'userLogin' => $this->userAuthorized(),
-                'bookData' => $bookData,
+                'bookData' => $this->getTableData($bookListName, $currentUserData->getId()),
                 'bookListName' => $bookListName
             )
         );

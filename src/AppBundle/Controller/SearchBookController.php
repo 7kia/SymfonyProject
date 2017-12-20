@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class BookCatalogController extends MyController
+class SearchBookController extends MyController
 {
     private function getSearchForm($searchData)
     {
@@ -29,7 +29,7 @@ class BookCatalogController extends MyController
                 'searchBtn',
                 SubmitType::class,
                 array(
-                    'attr' => array('class' => 'searchBtn'),
+                    'attr' => array('class' => 'search-btn'),
                     'label' => 'Поиск'
                 )
             )
@@ -38,7 +38,7 @@ class BookCatalogController extends MyController
                 null,
                 array(
                     'label' => false,
-                    'attr' => array('class' => 'searchTextField'),
+                    'attr' => array('class' => 'search-text-field'),
                     'data' => 'Здесь текст',
                 )
             )
@@ -51,7 +51,7 @@ class BookCatalogController extends MyController
                         'Автор' => 'author'
                     ),
                     'label' => false,
-                    'attr' => array('class' => 'searchCategory'),
+                    'attr' => array('class' => 'search-category'),
                 )
             )
             ->getForm();
@@ -74,49 +74,20 @@ class BookCatalogController extends MyController
      */
     function createPage(Request $request, $searchText, $searchCategory)
     {
-        $bookCards = array();
-        if ($searchCategory != null) {
-            $book = $this->getOneThingByCriteria($searchText, $searchCategory, Book::class);
-            if ($book != null) {
-                array_push($bookCards, $book);
-            }
+        try {
+            $pageData = $this->generateDataForPage($request, $searchText, $searchCategory);
+            return $this->render(
+                MyController::TEMPLATE_PATH,
+                $pageData
+            );
+        } catch (Exception $exception) {
+            return $this->createErrorPage($exception->getMessage());
         }
-
-        $searchData = new SearchData();
-        $searchForm = $this->getSearchForm($searchData);
-        $searchForm->handleRequest($request);
-
-        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
-            if ($this->handleFormEvents($searchForm)) {
-                $text = $searchData->getSearchTextField();
-                $category = $searchData->getSearchCategory();
-
-                return $this->redirectToRoute(
-                    'bookCatalogs',
-                    array(
-                        'searchText' => $text,
-                        'searchCategory' => $category
-                    )
-                );
-            }
-        }
-
-        return $this->render(
-            MyController::TEMPLATE_PATH,
-            array(
-                'serverUrl' => MyController::SERVER_URL,
-                'currentUserName' => $this->getCurrentUserName($this->userAuthorized()),
-                'pageName' => 'bookCatalog',
-                'userLogin' => $this->userAuthorized(),
-                'bookCards' => $bookCards,
-                'searchForm' => $searchForm->createView()
-            )
-        );
     }
 
 
     /**
-     * @Route("/bookCatalog", name="bookCatalogs" )
+     * @Route("/search_book", name="book_catalog" )
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -143,6 +114,45 @@ class BookCatalogController extends MyController
 
 
         return $this->createPage($request, $searchText, $searchCategory);
+    }
+
+    private function generateDataForPage($request, $searchText, $searchCategory)
+    {
+        $bookCards = array();
+        if ($searchCategory != null) {
+            $book = $this->getOneThingByCriteria($searchText, $searchCategory, Book::class);
+            if ($book != null) {
+                array_push($bookCards, $book);
+            }
+        }
+
+        $searchData = new SearchData();
+        $searchForm = $this->getSearchForm($searchData);
+        $searchForm->handleRequest($request);
+
+        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
+            if ($this->handleFormEvents($searchForm)) {
+                $text = $searchData->getSearchTextField();
+                $category = $searchData->getSearchCategory();
+
+                $this->redirectToRoute(
+                    'bookCatalogs',
+                    array(
+                        'searchText' => $text,
+                        'searchCategory' => $category
+                    )
+                );
+            }
+        }
+
+        return array(
+            'serverUrl' => MyController::SERVER_URL,
+            'currentUserName' => $this->getCurrentUserName($this->userAuthorized()),
+            'pageName' => 'bookCatalog',
+            'userLogin' => $this->userAuthorized(),
+            'bookCards' => $bookCards,
+            'searchForm' => $searchForm->createView()
+        );
     }
 
 

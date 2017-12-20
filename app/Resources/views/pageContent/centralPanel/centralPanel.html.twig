@@ -1,17 +1,15 @@
-<div class="centralPanel inlineBlock border">
-    {% if pageName == "addBookPage" %}
+<div class="central-panel inline-block border">
+    {% if pageName == "add_book-page" %}
         {% include "pageContent\\centralPanel\\addBook\\addBook.html.twig" %}
-    {% elseif (pageName == "bookList") or (pageName == "bookCatalog")  %}
+    {% elseif (pageName == "book_list") or (pageName == "book_catalog")  %}
         {% include "pageContent\\centralPanel\\bookList\\bookList.html.twig" %}
-    {% elseif pageName == "bookPage" %}
+    {% elseif pageName == "book_page" %}
         {% include "pageContent\\centralPanel\\bookPageContent\\bookPageContent.html.twig" %}
-    {% elseif pageName == "circulationBooks" %}
+    {% elseif pageName == "circulation_books" %}
         {% include "pageContent\\centralPanel\\circulateBookForm\\circulateBookForm.html.twig" %}
-    {% elseif pageName == "messgaes" %}
-        {% include "pageContent\\centralPanel\\messages\\messages.html.twig" %}
-    {% elseif pageName == "userList" %}
+    {% elseif pageName == "user_list" %}
         {% include "pageContent\\centralPanel\\userList\\userList.html.twig" %}
-    {% elseif pageName == "userProfile" %}
+    {% elseif pageName == "user_profile" %}
         {% include "pageContent\\centralPanel\\userProfile\\userProfile.html.twig" %}
     {% endif %}
 </div>

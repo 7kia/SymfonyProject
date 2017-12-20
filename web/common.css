@@ -3,17 +3,17 @@
     border: 1px solid #000000;
 }
 
-.centerAlign
+.center-align
 {
     text-align: center;
 }
 
-.hideElement
+.hide-element
 {
     height: 0px;
 }
 
-.listStyleType_none
+.list-style-type_none
 {
     list-style-type: none;
 }

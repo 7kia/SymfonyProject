@@ -3,7 +3,7 @@
     margin: 0px;
 }
 
-.pageContent
+.page-content
 {
     box-sizing: border-box;
     width: 100%;
@@ -17,7 +17,7 @@
     padding: 5px;
 }
 
-.pageContent .sideBarLeft {
+.page-content .sideBarLeft {
     box-sizing: border-box;
     width: 10%;
     height: 100%;
@@ -31,7 +31,7 @@
 
 
 
-.pageContent .content {
+.page-content .content {
     box-sizing: border-box;
 
     display: inline-block;
@@ -44,7 +44,7 @@
     outline: 2px solid black;
 }
 
-.pageContent .sideBarRight {
+.page-content .sideBarRight {
     display: inline-block;
     box-sizing: border-box;
     width: 10%;

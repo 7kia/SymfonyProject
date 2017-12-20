@@ -28,7 +28,7 @@ class UserBookCatalogController extends MyController
     function createPage($bookListName, $ownerName)
     {
         if ($this->getOneThingByCriteria($ownerName, 'username',User::class) == null) {
-            $this->createErrorPage(
+            return $this->createErrorPage(
                 'Пользователя с именем \''
                 . $ownerName
                 . '\' не существует'
@@ -53,7 +53,7 @@ class UserBookCatalogController extends MyController
     }
 
     /**
-     * @Route("/userBookCatalog", name="userBookCatalogs" )
+     * @Route("/userBook_catalog", name="user_book_catalogs" )
      */
     public function showPage()
     {

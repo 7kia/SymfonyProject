@@ -11,13 +11,13 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\ApplicationForBook;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
+use AppBundle\Entity\TakenBook;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class MyController extends Controller
 {
     const SERVER_URL = 'http://localhost:8000/';
     const TEMPLATE_PATH = 'template.html.twig';
-
 
     /**
      * @return bool
