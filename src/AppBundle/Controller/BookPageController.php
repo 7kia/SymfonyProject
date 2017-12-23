@@ -77,7 +77,7 @@ class BookPageController extends MyController
     private function getOwnerData($bookId, $readUsers)
     {
         $personalBooks = $this->databaseManager->findThingByCriteria(
-            ' AppBundle\Entity\UserListBook',
+            'AppBundle\Entity\UserListBook',
             array(
                 'bookId' => strval($bookId),
                  'listName' => 'personal_books'
@@ -155,7 +155,7 @@ class BookPageController extends MyController
 
         return array(
             'serverUrl' => MyController::SERVER_URL,
-            'currentUserName' => $this->getCurrentUserName($this->userAuthorized()),
+            'currentUserId' => $this->getCurrentUser()->getId(),
             'pageName' => 'book_page',
             'userLogin' => $this->userAuthorized(),
             'bookData' => $bookData,

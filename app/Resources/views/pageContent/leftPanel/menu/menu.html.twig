@@ -9,25 +9,25 @@
                 </a>
             </li>
             <li class="pure-menu-item">
-                <a href="{{ serverUrl }}user_book_catalog?book_list_name=personalBooks&owner_name={{ currentUserName }}"
+                <a href="{{ serverUrl }}user_book_catalog?book_list_name=personal_books&owner_id={{ currentUserId }}"
                    class="pure-menu-link">
                     Личные книги
                 </a>
             </li>
             <li class="pure-menu-item">
-                <a href="{{ serverUrl }}circulation_books?book_list_name=taken_books&owner_name={{ currentUserName }}"
+                <a href="{{ serverUrl }}circulation_books?book_list_name=taken_books&owner_id={{ currentUserId }}"
                    class="pure-menu-link">
                     Взятые книги
                 </a>
             </li>
             <li class="pure-menu-item">
-                <a href="{{ serverUrl }}circulation_books?book_list_name=given_books&owner_name={{ currentUserName }}"
+                <a href="{{ serverUrl }}circulation_books?book_list_name=given_books&owner_id={{ currentUserId }}"
                    class="pure-menu-link">
                     Отданные книги
                 </a>
             </li>
             <li class="pure-menu-item">
-                <a href="{{ serverUrl }}circulation_books?book_list_name=applications&owner_name={{ currentUserName }}"
+                <a href="{{ serverUrl }}circulation_books?book_list_name=applications&owner_id={{ currentUserId }}"
                    class="pure-menu-link">
                     Заявки
                 </a>

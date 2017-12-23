@@ -1,37 +1,37 @@
 body
 {
-    background-color: #FFEA7F;
+    background-color: white;
 }
 
 .lateral-element
 {
-    background-color: #FFE03F;
+    background-color: white;
 }
 
 .central-element
 {
-    background-color: #FEE560;
+    background-color: white;
     color: black;
 }
 
-.bold-brown-border
+.bold-blue-border
 {
-    border: 2px solid #7F3300;
+    border: 2px solid #4b507f;
 }
 
-.brown-border
+.blue-border
 {
-    border: 1px solid #7F3300;
+    border: 1px solid #4b507f;
 }
 
-.brown-text
+.blue-text
 {
-    color: #7F3300;
+    color: #4b507f;
 }
 
 .button-style
 {
-    background: linear-gradient(to top, #AA8B10, #EDC72E);
+    background: linear-gradient(to top, #BADEFC, #5FA9FC);
     margin-right: 0px;
     cursor: pointer;
 
@@ -42,24 +42,24 @@ body
     border: 1px solid transparent;
     border-color: rgba(0,0,0,.27);
 
-    border-radius: 3px 0px 0px 3px;
+    border-radius: 3px 3px 3px 3px;
 
 }
 
 .button-style :active
 {
     box-shadow:
-            0 0 6px 2px rgba(255,204,0,.7),
+            0 0 6px 2px rgba(75, 80, 127, 0.7),
             0 1px 0 rgba(255,255,255,.2),
             inset 0 1px 1px rgba(0,0,0,.1);
 }
 .button-style :focus
 {
-    outline-color: rgba(255,204,0,.7);
+    outline-color: rgba(178, 210, 255, 0.7);
     outline-width: 5px;
 
     box-shadow:
-            0 0 6px 2px rgba(255,204,0,.7),
+            0 0 6px 2px rgba(178, 210, 255, 0.7),
             0 1px 0 rgba(255,255,255,.2),
             inset 0 1px 1px rgba(0,0,0,.1);
 }

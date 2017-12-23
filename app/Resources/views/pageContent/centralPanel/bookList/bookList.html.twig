@@ -19,30 +19,32 @@
                 {% endif %}
                     <td>
                         <div class="book-grid_grid-cell">
-                            <div class="book-grid_grid-cell__book-cart">
-                                <div class="book-cart__image-container">
-                                    <a href="{{ serverUrl }}book_page?book_id={{ bookCards[i].id }}">
-                                        <img class="image-container_book-image bold-brown-border" src="{{ bookCards[i].bookImage }}"
-                                             alt="{{ bookCards[i].name }}"/>
-                                    </a>
+                            <div class="book-grid_grid-cell__cart_container">
+                                <div class="cart_container_book-cart bold-blue-border">
+                                    <div class="book-cart__image-container center-align">
+                                        <a href="{{ serverUrl }}book_page?book_id={{ bookCards[i].id }}">
+                                            <img class="image-container_book-image bold-blue-border" src="{{ bookCards[i].bookImage }}"
+                                                 alt="{{ bookCards[i].name }}"/>
+                                        </a>
 
+                                    </div>
+
+                                    <div class="book-cart__name-str">
+                                        <a href="{{ serverUrl }}book_page?book_id={{ bookCards[i].id }}">
+                                            {{ bookCards[i].name }}
+                                        </a>
+                                    </div>
+
+                                    <div class="rating{{ i }} center-align"></div>
+                                    <script type="text/javascript">
+                                        var rating = JSON.parse("{{ bookCards[i].rating }}")
+                                        $('.rating{{ i }}' ).raty({
+                                            readOnly:  true,
+                                            start:     0,
+                                            score: Number(rating)
+                                        });
+                                    </script>
                                 </div>
-
-                                <div class="book-cart__name-str">
-                                    <a href="{{ serverUrl }}book_page?book_id={{ bookCards[i].id }}">
-                                        {{ bookCards[i].name }}
-                                    </a>
-                                </div>
-
-                                <div class="rating{{ i }} center-align"></div>
-                                <script type="text/javascript">
-                                    var rating = JSON.parse("{{ bookCards[i].rating }}")
-                                    $('.rating{{ i }}' ).raty({
-                                        readOnly:  true,
-                                        start:     0,
-                                        score: Number(rating)
-                                    });
-                                </script>
                             </div>
                         </div>
 

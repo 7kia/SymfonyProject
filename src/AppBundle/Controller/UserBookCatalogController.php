@@ -25,7 +25,27 @@ class UserBookCatalogController extends MyController
         return $catalogBooks;
     }
 
-    function createPage($bookListName, $ownerId)
+    private function getCatalogName($bookListName)
+    {
+        switch ($bookListName)
+        {
+            case 'favorite_books':
+                return 'Любимые книги';
+            case 'read_later':
+                return 'Прочитать позже';
+            case 'personal_books':
+                return 'Личные книги';
+        }
+        return '';
+    }
+
+
+    private function getCatalogTitle($bookListName, $userName)
+    {
+        return $this->getCatalogName($bookListName) . ' пользователя ' . $userName;
+    }
+
+    private function createPage($bookListName, $ownerId)
     {
         $user = $this->databaseManager->getOneThingByCriteria($ownerId, 'id', User::class);
         if ($user == null) {
@@ -37,13 +57,13 @@ class UserBookCatalogController extends MyController
         }
 
         $bookCards = $this->getUserCatalog($ownerId, $bookListName);
-        $catalogTitle = $bookListName . ' пользователя ' . $user->getUsername();
+        $catalogTitle = $this->getCatalogTitle($bookListName, $user->getUsername());
 
         return $this->render(
             MyController::TEMPLATE_PATH,
             array(
                 'serverUrl' => MyController::SERVER_URL,
-                'currentUserName' => $this->getCurrentUserName($this->userAuthorized()),
+                'currentUserId' => $this->getCurrentUser()->getId(),
                 'pageName' => 'book_list',
                 'bookListTitle' => $catalogTitle,
                 'ownerName' => $user->getUsername(),

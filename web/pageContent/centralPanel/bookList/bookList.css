@@ -32,13 +32,27 @@
     box-sizing: border-box;
 }
 
-.book-grid_grid-cell__book-cart .image-container
+
+.book-grid_grid-cell
+{
+    margin: 0 auto;
+    text-align: center;
+    width: 150px;
+}
+
+.book-grid_grid-cell__cart_container
+{
+    width: 150px;
+}
+
+
+.cart_container_book-cart .image-container
 {
     width: 100%;
     text-align: center;
 }
 
-.book-grid_grid-cell__book-cart .image-container_book-image
+.cart_container_book-cart .image-container_book-image
 {
     width: 120px;
     height: 170px;
