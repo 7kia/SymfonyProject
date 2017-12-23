@@ -1,17 +1,23 @@
 .left-part
 {
+    box-sizing: border-box;
+    height: 70px;
+    line-height: 60px;
     float: left;
+
+    padding-left: 0px;
 }
 
-.left-part .leftPart_element-list
+.left-part .left-part__element-list
 {
     margin: 0px;
-    padding-left: 20px;
-    line-height: 60px;
+    padding-left: 10px;
 }
-.left-part .left-part_element-list li
+.left-part .left-part__element-list li
 {
     display: inline;
     float: left;
     margin: 5px;
+    text-align: center;
 }
+

@@ -150,6 +150,7 @@ class SearchBookController extends MyController
         return array(
             'serverUrl' => MyController::SERVER_URL,
             'currentUserId' => $this->getCurrentUser()->getId(),
+            'currentUserName' => $this->getCurrentUser()->getUsername(),
             'pageName' => 'book-catalog',
             'userLogin' => $this->userAuthorized(),
             'bookCards' => $bookCards,

@@ -53,9 +53,9 @@
 
 .owner-name-container
 {
-    width: 70px;
+    width: 74px;
     height: 54px;
-
+    float: right;
 }
 
 .owner-name-container .owner-name-container__owner-name
@@ -63,6 +63,7 @@
     width: 68px;
     height: 20px;
     padding-top: 17px;
+
 }
 
 .read-users-container
@@ -108,8 +109,9 @@
 
 .read-user-container__read-user-name-container
 {
-    width: 70px;
+    width: 74px;
     height: 54px;
+    float: right;
 
 }
 

@@ -42,7 +42,7 @@ class CirculationBooksController extends MyController
 
     private function getUsernames($userIds)
     {
-        $users = $this->getThings($userIds, User::class);
+        $users = $this->databaseManager->getThings($userIds, User::class);
         $userNames = array();
         foreach ($users as $user) {
             if ($user != null) {
@@ -55,13 +55,14 @@ class CirculationBooksController extends MyController
 
     private function generateTableData($bookIds, $userIds)
     {
-        $bookData = $this->getThings($bookIds, Book::class);
+        $bookData = $this->databaseManager->getThings($bookIds, Book::class);
         $userNames = $this->getUsernames($userIds);
 
         return array(
             'books' => $bookData,
             'deadlines' => $this->getStringDeadline($bookData),
-            'users' => $userNames
+            'users' => $userNames,
+            'userId' => $userIds
         );
     }
 
@@ -71,8 +72,8 @@ class CirculationBooksController extends MyController
      */
     private function getTakenBookTableData($getId)
     {
-        $takenBooks = $this->databaseManager.findThingByCriteria(
-            ' AppBundle\Entity\TakenBook',
+        $takenBooks = $this->databaseManager->findThingByCriteria(
+            'AppBundle\Entity\TakenBook',
             array(
                 'applicantId' => $getId
             )
@@ -93,8 +94,8 @@ class CirculationBooksController extends MyController
      */
     private function getGivenBookTableData($getId)
     {
-        $givenBooks =  $this->databaseManager.findThingByCriteria(
-            ' AppBundle\Entity\TakenBook',
+        $givenBooks =  $this->databaseManager->findThingByCriteria(
+            'AppBundle\Entity\TakenBook',
             array(
                 'ownerId' => $getId
             )
@@ -116,8 +117,8 @@ class CirculationBooksController extends MyController
      */
     private function getApplicationTableData($getId)
     {
-        $applicationForBooks = $this->databaseManager.findThingByCriteria(
-            ' AppBundle\Entity\ApplicationForBook',
+        $applicationForBooks = $this->databaseManager->findThingByCriteria(
+            'AppBundle\Entity\ApplicationForBook',
             array(
                 'ownerId' => $getId
             )
@@ -307,7 +308,7 @@ class CirculationBooksController extends MyController
             return false;
         }
 
-        $this->databaseManager.removeApplicationForBook($applicationForBook);
+        $this->databaseManager->removeApplicationForBook($applicationForBook);
 
         return $this->giveBook($bookId, $applicantId, $ownerId);
     }
@@ -346,8 +347,8 @@ class CirculationBooksController extends MyController
 
     private function getApplicationForBook($bookId, $applicantId, $ownerId)
     {
-        $queryResult = $this->databaseManager.findThingByCriteria(
-            ' AppBundle\Entity\ApplicationForBook',
+        $queryResult = $this->databaseManager->findThingByCriteria(
+            'AppBundle\Entity\ApplicationForBook',
             array(
                 'applicantId' => $applicantId,
                 'ownerId' => $ownerId,
@@ -396,10 +397,11 @@ class CirculationBooksController extends MyController
             array(
                 'serverUrl' => MyController::SERVER_URL,
                 'currentUserId' => $this->getCurrentUser()->getId(),
+                'currentUserName' => $this->getCurrentUser()->getUsername(),
                 'pageName' => 'circulation_books',
                 'userLogin' => $this->userAuthorized(),
                 'bookData' => $this->getTableData($bookListName, $currentUserData->getId()),
-                'bookListName' => $bookListName
+                'book_list_name' => $bookListName
             )
         );
     }

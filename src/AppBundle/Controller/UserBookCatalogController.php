@@ -64,9 +64,11 @@ class UserBookCatalogController extends MyController
             array(
                 'serverUrl' => MyController::SERVER_URL,
                 'currentUserId' => $this->getCurrentUser()->getId(),
+                'currentUserName' => $this->getCurrentUser()->getUsername(),
                 'pageName' => 'book_list',
                 'bookListTitle' => $catalogTitle,
                 'ownerName' => $user->getUsername(),
+                'ownerId' => $user->getId(),
                 'userLogin' => $this->userAuthorized(),
                 'bookCards' => $bookCards
             )

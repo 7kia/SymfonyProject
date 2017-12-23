@@ -1,38 +1,36 @@
-<div class="menu">
-    <div class="pure-menu custom-restricted-width">
-        <span class="pure-menu-heading">Меню</span>
-        <ul class="pure-menu-list">
-            <li class="pure-menu-item">
-                <a href="#"
-                   class="pure-menu-link">
+<div class="menu lateral-element  blue-text">
+    <div class="menu__options-container custom-restricted-width">
+        <ul class="options-container_option-list list-style-type_none">
+            <li >
+                <a>
                     Профиль
                 </a>
             </li>
-            <li class="pure-menu-item">
+            <li >
                 <a href="{{ serverUrl }}user_book_catalog?book_list_name=personal_books&owner_id={{ currentUserId }}"
                    class="pure-menu-link">
                     Личные книги
                 </a>
             </li>
-            <li class="pure-menu-item">
+            <li >
                 <a href="{{ serverUrl }}circulation_books?book_list_name=taken_books&owner_id={{ currentUserId }}"
                    class="pure-menu-link">
                     Взятые книги
                 </a>
             </li>
-            <li class="pure-menu-item">
+            <li >
                 <a href="{{ serverUrl }}circulation_books?book_list_name=given_books&owner_id={{ currentUserId }}"
                    class="pure-menu-link">
                     Отданные книги
                 </a>
             </li>
-            <li class="pure-menu-item">
+            <li >
                 <a href="{{ serverUrl }}circulation_books?book_list_name=applications&owner_id={{ currentUserId }}"
                    class="pure-menu-link">
                     Заявки
                 </a>
             </li>
-            <li class="pure-menu-item">
+            <li >
                 <a href="{{ serverUrl }}bookCatalog"
                    class="pure-menu-link">
                     Поиск книг

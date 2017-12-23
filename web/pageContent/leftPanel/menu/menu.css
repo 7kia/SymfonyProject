@@ -1,6 +1,6 @@
-.menu
+.options-container_option-list
 {
-    list-style-type: none;
+    padding-left: 20px;
 }
 
 .custom-restricted-width {
