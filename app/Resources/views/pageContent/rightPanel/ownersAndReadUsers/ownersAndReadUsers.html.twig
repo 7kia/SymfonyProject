@@ -16,14 +16,14 @@
                                 <div class="read-user-container__image-container inline-block ">
                                     <img class="image-container_book-image blue-border" src="avatars/{{ ownerList[i].avatar }}"
                                          alt="{{ ownerList[i].name }}"/>
-                                    <a href="{{ path('book_page') }}?book_name={{ bookData.name }}&send_application_to={{ ownerList[i].name }}">
+                                    <a href="{{ path('book_page') }}?book_id={{ bookData.id }}&send_application_to={{ ownerList[i].userId }}">
                                         <img class="send_application_image" src="images/sendApplication.png"
                                              alt="Подать заявку"/>
                                     </a>
                                 </div>
                                 <div class="owner-name-container inline-block blue-border center-align">
-                                    <div class="owner-name ">
-                                        <a href="{{ serverUrl }}user_book_catalog?book_list_name=personal_books&owner_name={{ ownerList[i].name }}">
+                                    <div class="owner-name-container__owner-name">
+                                        <a href="{{ serverUrl }}user_book_catalog?book_list_name=personal_books&owner_name={{ ownerList[i].userId }}">
                                             <b>{{ ownerList[i].name }}</b>
                                         </a>
                                     </div>
@@ -56,8 +56,8 @@
                                              alt="{{ readUserList[i].name }}"/>
                                 </div>
                                 <div class="read-user-container__read-user-name-container blue-border inline-block center-align">
-                                    <div class="read-user-container__read-user-name-container_read-user-name">
-                                        <a href="{{ serverUrl }}user_book_catalog?book_list_name=personal_books&read_user_name={{ readUserList[i].name }}">
+                                    <div class="read-user-container__read-user-name">
+                                        <a href="{{ serverUrl }}user_book_catalog?book_list_name=personal_books&read_user_name={{ readUserList[i].userId }}">
                                             <b>{{ readUserList[i].name }}</b>
                                         </a>
                                     </div>

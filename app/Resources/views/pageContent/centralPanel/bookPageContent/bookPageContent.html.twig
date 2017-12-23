@@ -10,8 +10,16 @@
     {% endif %}
 {% endif %}
 <div id="send-application-notification" class="modal" onclick="document.getElementById('send-application-notification').style.display='none';">
-    <p class="send-application-notification__message-title center-align">Вы подали заявку</p>
-    <input type="submit" class="send-application-notification__ok-btn button-style" value="Ок" onclick="document.getElementById('send-application-notification').style.display='none';">
+    <div class="send-application-notification-layer center-align">
+        <div class="send-application-notification__notification-container">
+            <p class="send-application-notification__message-title center-align">Вы подали заявку</p>
+            <div class="send-application-notification__button-layer center-align">
+                <a href="{{ serverUrl }}book_page?book_id={{ bookData.id }}">
+                    <input type="submit" class="send-application-notification__ok-btn button-style  " value="Ок" onclick="document.getElementById('send-application-notification').style.display='none';">
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="book-page-content bold-blue-border">

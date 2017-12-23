@@ -42,7 +42,8 @@ class BookPageController extends MyController
                     $ownerData,
                     array(
                         'name' => $owner->getUsername(),
-                        'avatar' => $owner->getAvatar()
+                        'avatar' => $owner->getAvatar(),
+                        'userId' => $owner->getId()
                     )
                 );
             }
@@ -66,7 +67,8 @@ class BookPageController extends MyController
                 $ownerData,
                 array(
                     'name' => $owner->getUsername(),
-                    'avatar' => $owner->getAvatar()
+                    'avatar' => $owner->getAvatar(),
+                    'userId' => $owner->getId()
                 )
             );
         }
@@ -128,12 +130,12 @@ class BookPageController extends MyController
         }
 
         $readUsers = $this->getReadUserData($bookData->getId());
-        $bookOwners = $this->getOwnerData($bookData->getId(), $readUsers);
-        $ownerCount = count($bookOwners);
+        $ownerData = $this->getOwnerData($bookData->getId(), $readUsers);
+        $ownerCount = count($ownerData);
 
 
-        $currentUserInArray = $this->deleteCurrentUser($bookOwners);
-        if (($bookOwners == null) and (!$currentUserInArray)) {
+        $currentUserInArray = $this->deleteCurrentUser($ownerData);
+        if (($ownerData == null) and (!$currentUserInArray)) {
             throw new Exception(
                 'Книга с названием \''
                 . $bookId
@@ -159,7 +161,7 @@ class BookPageController extends MyController
             'pageName' => 'book_page',
             'userLogin' => $this->userAuthorized(),
             'bookData' => $bookData,
-            'ownerList' => $bookOwners,
+            'ownerList' => $ownerData,
             'readUserList' => $readUsers,
             'applicationStatusInfo' => $applicationStatusInfo,
             'ownerCount' => $ownerCount,
