@@ -155,8 +155,7 @@ class BookPageController extends MyController
 
         return array(
             'serverUrl' => MyController::SERVER_URL,
-            'currentUserId' => $this->getCurrentUser()->getId(),
-            'currentUserName' => $this->getCurrentUser()->getUsername(),
+            'currentUser' => $this->getCurrentUser(),
             'pageName' => 'book_page',
             'userLogin' => $this->userAuthorized(),
             'bookData' => $bookData,

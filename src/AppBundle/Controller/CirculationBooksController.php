@@ -396,8 +396,7 @@ class CirculationBooksController extends MyController
             MyController::TEMPLATE_PATH,
             array(
                 'serverUrl' => MyController::SERVER_URL,
-                'currentUserId' => $this->getCurrentUser()->getId(),
-                'currentUserName' => $this->getCurrentUser()->getUsername(),
+                'currentUser' => $this->getCurrentUser(),
                 'pageName' => 'circulation_books',
                 'userLogin' => $this->userAuthorized(),
                 'bookData' => $this->getTableData($bookListName, $currentUserData->getId()),

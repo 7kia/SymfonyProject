@@ -1,5 +1,5 @@
 .html, body {
-    background: #f6f5f4;
+    background: white;
     margin: 0px;
 }
 
@@ -14,7 +14,7 @@
     text-align: center;
     padding: auto;
 
-    background-color: #FFEA7F;
+    background-color: #c1cbff;
 }
 
 .login_form .text_boxs

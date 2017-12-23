@@ -63,8 +63,7 @@ class UserBookCatalogController extends MyController
             MyController::TEMPLATE_PATH,
             array(
                 'serverUrl' => MyController::SERVER_URL,
-                'currentUserId' => $this->getCurrentUser()->getId(),
-                'currentUserName' => $this->getCurrentUser()->getUsername(),
+                'currentUser' => $this->getCurrentUser(),
                 'pageName' => 'book_list',
                 'bookListTitle' => $catalogTitle,
                 'ownerName' => $user->getUsername(),
@@ -93,7 +92,7 @@ class UserBookCatalogController extends MyController
             $bookListName = 'personal_books';
         }
 
-        $ownerId = $this->getParamFromGetRequest('owner_name');
+        $ownerId = $this->getParamFromGetRequest('owner_id');
         // TODO : на эту страницу можно будет зайти только авторизированному пользователю
         // пока для более быстрой отладки не будет ограничении по доступу
         if ($ownerId == null) {

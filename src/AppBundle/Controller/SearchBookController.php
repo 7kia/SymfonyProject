@@ -30,7 +30,7 @@ class SearchBookController extends MyController
                 'searchBtn',
                 SubmitType::class,
                 array(
-                    'attr' => array('class' => 'search-btn'),
+                    'attr' => array('class' => 'searchBtn'),
                     'label' => 'Поиск'
                 )
             )
@@ -40,7 +40,7 @@ class SearchBookController extends MyController
                 array(
                     'label' => false,
                     'attr' => array('class' => 'search-text-field'),
-                    'data' => 'Здесь текст',
+
                 )
             )
             ->add(
@@ -64,7 +64,7 @@ class SearchBookController extends MyController
     {
         $clickedBtn = $form->getClickedButton();
         if ($clickedBtn != null) {// TODO : WARNING может не заработать(не то имя)
-            return ($clickedBtn->getName() == 'search-btn');
+            return ($clickedBtn->getName() == 'searchBtn');
         }
     }
 
@@ -113,7 +113,8 @@ class SearchBookController extends MyController
                 );
             }
         }
-
+        print_r($searchText);
+        print_r($searchCategory);
 
         return $this->createPage($request, $searchText, $searchCategory);
     }
@@ -137,11 +138,13 @@ class SearchBookController extends MyController
                 $text = $searchData->getSearchTextField();
                 $category = $searchData->getSearchCategory();
 
+
+
                 $this->redirectToRoute(
                     'search_book',
                     array(
                         'search_text' => $text,
-                        'search-category' => $category
+                        'search_category' => $category
                     )
                 );
             }
@@ -149,9 +152,8 @@ class SearchBookController extends MyController
 
         return array(
             'serverUrl' => MyController::SERVER_URL,
-            'currentUserId' => $this->getCurrentUser()->getId(),
-            'currentUserName' => $this->getCurrentUser()->getUsername(),
-            'pageName' => 'book-catalog',
+            'currentUser' => $this->getCurrentUser(),
+            'pageName' => 'search_book',
             'userLogin' => $this->userAuthorized(),
             'bookCards' => $bookCards,
             'searchForm' => $searchForm->createView()

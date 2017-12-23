@@ -7,31 +7,31 @@
                 </a>
             </li>
             <li >
-                <a href="{{ serverUrl }}user_book_catalog?book_list_name=personal_books&owner_id={{ currentUserId }}"
+                <a href="{{ serverUrl }}user_book_catalog?book_list_name=personal_books&owner_id={{ currentUser.id }}"
                    class="pure-menu-link">
                     Личные книги
                 </a>
             </li>
             <li >
-                <a href="{{ serverUrl }}circulation_books?book_list_name=taken_books&owner_id={{ currentUserId }}"
+                <a href="{{ serverUrl }}circulation_books?book_list_name=taken_books&owner_id={{ currentUser.id }}"
                    class="pure-menu-link">
                     Взятые книги
                 </a>
             </li>
             <li >
-                <a href="{{ serverUrl }}circulation_books?book_list_name=given_books&owner_id={{ currentUserId }}"
+                <a href="{{ serverUrl }}circulation_books?book_list_name=given_books&owner_id={{ currentUser.id }}"
                    class="pure-menu-link">
                     Отданные книги
                 </a>
             </li>
             <li >
-                <a href="{{ serverUrl }}circulation_books?book_list_name=applications&owner_id={{ currentUserId }}"
+                <a href="{{ serverUrl }}circulation_books?book_list_name=applications&owner_id={{ currentUser.id }}"
                    class="pure-menu-link">
                     Заявки
                 </a>
             </li>
             <li >
-                <a href="{{ serverUrl }}bookCatalog"
+                <a href="{{ serverUrl }}search_book"
                    class="pure-menu-link">
                     Поиск книг
                 </a>

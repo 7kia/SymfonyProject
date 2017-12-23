@@ -33,7 +33,7 @@ security:
             form_login:
                 login_path: login
                 check_path: login
-                default_target_path: userBookCatalogs
+                default_target_path: user_book_catalogs
                 use_referer: true
 ##           https://symfony.com/doc/current/security/guard_authentication.html 
 #            logout: ~

@@ -1,7 +1,7 @@
 <div class="book-lists blue-border lateral-element blue-text">
     <div class="pure-menu custom-restricted-width">
-        {% set bookListOwnerName = currentUserName %}
-        {% set bookListOwnerId = currentUserId %}
+        {% set bookListOwnerName = currentUser.username %}
+        {% set bookListOwnerId = currentUser.id %}
         {% if (pageName == "book_list") %}
             {% set bookListOwnerName = ownerName %}
             {% set bookListOwnerId = ownerId %}

@@ -19,15 +19,3 @@
         $('#readUserList').DataTable();
     });
 </script>
-
-{% if (pageName == "bookPage") %}
-    {% if (applicationStatusInfo != null) %}
-        <script type="text/javascript">
-            $(function(){
-                var delay_popup = 0;
-                setTimeout("document.getElementById('parent_popup_click1').style.display='block'", delay_popup);
-                //document.cookie = '_visited=1; path=/';
-            });
-        </script>
-    {% endif %}
-{% endif %}

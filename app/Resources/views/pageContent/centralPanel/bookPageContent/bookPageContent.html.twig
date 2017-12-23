@@ -1,8 +1,17 @@
-<div id="parent_popup_click1" class="modal" onclick="document.getElementById('parent_popup_click1').style.display='none';">
-    <div class="modal-content">
-        <a class="closess" title="Закрыть" onclick="document.getElementById('parent_popup_click1').style.display='none';">×</a>
-        <p>Some text in the Modal..</p>
-    </div>
+{% if (pageName == "book_page") %}
+    {% if (applicationStatusInfo != null) %}
+        <script type="text/javascript">
+            $(function(){
+                var delay_popup = 0;
+                setTimeout("document.getElementById('send-application-notification').style.display='block'", delay_popup);
+                //document.cookie = '_visited=1; path=/';
+            });
+        </script>
+    {% endif %}
+{% endif %}
+<div id="send-application-notification" class="modal" onclick="document.getElementById('send-application-notification').style.display='none';">
+    <p class="send-application-notification__message-title center-align">Вы подали заявку</p>
+    <input type="submit" class="send-application-notification__ok-btn button-style" value="Ок" onclick="document.getElementById('send-application-notification').style.display='none';">
 </div>
 
 <div class="book-page-content bold-blue-border">
