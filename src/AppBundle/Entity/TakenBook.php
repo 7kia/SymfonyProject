@@ -71,7 +71,7 @@ class TakenBook implements \Serializable
         return $this->deadline;
     }
 
-    public function setDeadline(Assert\DateTime $deadline)
+    public function setDeadline(\DateTime $deadline)
     {
         $this->deadline = $deadline;
     }

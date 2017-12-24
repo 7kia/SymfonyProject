@@ -23,6 +23,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SearchBookController extends MyController
 {
     private $searchForm;
+
     /**
      * @Route("/search_book", name="search_book" )
      * @param Request $request
@@ -68,26 +69,6 @@ class SearchBookController extends MyController
         }
     }
 
-    /**
-     * @param $form
-     * @param $text
-     * @param $category
-     */
-    protected function handleFormElement($form, $text, $category)
-    {
-        if ($form->isSubmitted() && $form->isValid()) {
-            if ($this->handleFormEvents($form)) {
-
-                $this->redirectData = array(
-                    'route' =>'search_book',
-                    'arguments' => array(
-                        'search_text' => $text,
-                        'search_category' => $category
-                    )
-                );
-            }
-        }
-    }
 
     /**
      * @param $form
@@ -143,6 +124,26 @@ class SearchBookController extends MyController
         );
     }
 
+    /**
+     * @param $form
+     * @param $text
+     * @param $category
+     */
+    protected function handleFormElement($form, $text, $category)
+    {
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->handleFormEvents($form)) {
+
+                $this->redirectData = array(
+                    'route' =>'search_book',
+                    'arguments' => array(
+                        'search_text' => $text,
+                        'search_category' => $category
+                    )
+                );
+            }
+        }
+    }
 
     /**
      * @param $searchData

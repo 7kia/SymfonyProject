@@ -99,6 +99,7 @@ abstract class MyController extends Controller
     ////////////////////////////////////////
 
     protected $redirectData = null;
+    protected $notificationMessage = null;
 
     protected function getGenerationDataFromUrl()
     {

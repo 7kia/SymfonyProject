@@ -46,17 +46,17 @@
                     <td>
                         <div class="circulate-book-grid-options">
                             {% if book_list_name == "givenBooks" %}
-                                <a href="{{ serverUrl }}circulation_books?book_list_name=given_books&owner_id={{ bookData.userId[i] }}&delete={{ bookData.books[i].name }}&other_user={{ bookData.userId[i] }}"
+                                <a href="{{ serverUrl }}circulation_books?book_list_name=given_books&owner_id={{ bookData.userId[i] }}&delete={{ bookData.books[i].id }}&other_user={{ bookData.userId[i] }}"
                                    class="pure-menu-link">
                                     Удалить
                                 </a>
                             {% elseif book_list_name == "applications" %}
-                                <a href="{{ serverUrl }}circulation_books?book_list_name=applications&owner_id={{ bookData.userId[i] }}&accept={{ bookData.books[i].name }}&other_user={{ bookData.userId[i] }}"
+                                <a href="{{ serverUrl }}circulation_books?book_list_name=applications&owner_id={{ bookData.userId[i] }}&accept={{ bookData.books[i].id }}&other_user={{ bookData.userId[i] }}"
                                    class="pure-menu-link">
                                     Принять
                                 </a>
                                 <div class="circulate-book-grid_options__delimiter"><b>,</b></div>
-                                <a href="{{ serverUrl }}circulation_books?book_list_name=applications&owner_id={{ bookData.userId[i] }}&delete={{ bookData.books[i].name }}&other_user={{ bookData.userId[i] }}"
+                                <a href="{{ serverUrl }}circulation_books?book_list_name=applications&owner_id={{ bookData.userId[i] }}&delete={{ bookData.books[i].id }}&other_user={{ bookData.userId[i] }}"
                                    class="pure-menu-link">
                                     Отклонить
                                 </a>
