@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 /**
  * @ORM\Entity
@@ -35,7 +36,7 @@ class TakenBook implements \Serializable
     private $ownerId;
 
 	/**
-     * @ORM\Column(name="deadline",type="date")
+     * @ORM\Column(name="deadline", type="datetime")
      */
     private $deadline;
 	
@@ -70,7 +71,7 @@ class TakenBook implements \Serializable
         return $this->deadline;
     }
 
-    public function setDeadline($deadline)
+    public function setDeadline(Assert\DateTime $deadline)
     {
         $this->deadline = $deadline;
     }

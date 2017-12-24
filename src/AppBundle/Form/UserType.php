@@ -28,14 +28,6 @@ class UserType extends AbstractType
                     'second_options' => array('label' => 'Repeat Password'),
                 )
             )
-            ->add(
-                'isAdmin',
-                CheckboxType::class,
-                array(
-                    'label'    => 'Is admin?',
-                    'required' => false,
-                )
-            )
 
         ;
     }

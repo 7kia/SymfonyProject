@@ -10,11 +10,15 @@
                 <label for="UserFullName">{{ app.user.username }}</label>
             </li>
             <li>
-                <input type="submit" class="log_out button-style" value="Выйти">
+                <a href="{{ serverUrl }}login">
+                    <input type="submit" class="log_out button-style" value="Выйти">
+                </a>
             </li>
         {% else %}
             <li>
-                <input type="submit" class="log_in button-style" value="Войти">
+                <a href="{{ serverUrl }}login">
+                    <input type="submit" class="log_in button-style" value="Войти">
+                </a>
             </li>
         {% endif %}
     </ul>

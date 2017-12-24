@@ -1,7 +1,7 @@
 <div class="central-panel inline-block bold-blue-border central-element">
     {% if pageName == "add_book_page" %}
         {% include "pageContent\\centralPanel\\addBook\\addBook.html.twig" %}
-    {% elseif (pageName == "book_list") or (pageName == "book_catalog")  %}
+    {% elseif (pageName == "book_list") or (pageName == "search_book")  %}
         {% include "pageContent\\centralPanel\\bookList\\bookList.html.twig" %}
     {% elseif pageName == "book_page" %}
         {% include "pageContent\\centralPanel\\bookPageContent\\bookPageContent.html.twig" %}

@@ -35,6 +35,10 @@ security:
                 check_path: login
                 default_target_path: user_book_catalogs
                 use_referer: true
+
+            logout:
+                path:   /
+                target: /login
 ##           https://symfony.com/doc/current/security/guard_authentication.html 
 #            logout: ~
 #            guard:

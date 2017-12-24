@@ -1,0 +1,62 @@
+.html, body {
+    background: white;
+    margin: 0px;
+}
+
+.registration-form
+{
+    width: 300px;
+    height: 285px;
+
+    margin-top: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding: auto;
+
+    background-color: #c1cbff;
+}
+
+.registration-form .registration-form__text_boxes
+{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.registration-form__text-boxes_text-field-properties
+{
+    width: 258px;
+    height: 32px;
+    
+    margin-top: 15px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.registration-form__text-boxes_text-field-properties label
+{
+    float: left;
+}
+
+.registration-form__text-boxes_text-field-properties input
+{
+    float: right;
+}
+
+.registration-form__buttons
+{
+    margin-top: 10px;
+    padding : 2px 4px 2px;
+    height: 32px;
+    
+    text-align: center;
+}
+
+.registration-form__buttons .registration-form__register-btn
+{
+    width: 108px;
+    height: 32px;
+
+    cursor: pointer;
+}

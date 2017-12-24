@@ -1,10 +1,8 @@
 <div class="left-part height-top-panel inline-block blue-text">
     <ul class="left-part__element-list list-style-type_none">
-        {% if (pageName == "book_list") and (ownerId == currentUser.id) %}
-            {% include "topPanel\\leftPart\\circulationBookEdits\\circulationBookEdits.html.twig" %}
-        {% elseif pageName == "user_list" %}
+        {% if pageName == "user_list" and (ownerId == currentUser.id) %}
             {% include "topPanel\\leftPart\\userListEdits\\userListEdits.html.twig" %}
-        {% elseif pageName == "page_book" %}
+        {% elseif pageName == "book_page" %}
             {% include "topPanel\\leftPart\\bookPageEdits\\bookPageEdits.html.twig" %}
         {% endif %}
     </ul>

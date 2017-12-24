@@ -26,15 +26,12 @@
                                             <img class="image-container_book-image bold-blue-border" src="{{ bookCards[i].bookImage }}"
                                                  alt="{{ bookCards[i].name }}"/>
                                         </a>
-
                                     </div>
-
                                     <div class="book-cart__name-str">
                                         <a href="{{ serverUrl }}book_page?book_id={{ bookCards[i].id }}">
                                             {{ bookCards[i].name }}
                                         </a>
                                     </div>
-
                                     <div class="rating{{ i }} center-align"></div>
                                     <script type="text/javascript">
                                         var rating = JSON.parse("{{ bookCards[i].rating }}")
@@ -52,12 +49,9 @@
                 {% if (i % (columnCount + 1)) == columnCount %}
                     </tr>
                 {% endif %}
-
             {% endfor %}
         {% endif %}
         </tbody>
     </table>
 
 </div>
-{# links for "top\leftButtons.html.twig"
-#}

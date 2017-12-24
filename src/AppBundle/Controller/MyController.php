@@ -14,8 +14,10 @@ use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
 use AppBundle\Entity\TakenBook;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\BrowserKit\Response;
+use Symfony\Component\HttpFoundation\Request;
 
-class MyController extends Controller
+abstract class MyController extends Controller
 {
     const SERVER_URL = 'http://localhost:8000/';
     const TEMPLATE_PATH = 'template.html.twig';
@@ -93,4 +95,86 @@ class MyController extends Controller
         }
     }
 
+
+    ////////////////////////////////////////
+
+    protected $redirectData = null;
+
+    protected function getGenerationDataFromUrl()
+    {
+
+    }
+
+    protected function checkGenerationDataForPage($generationDataForPage)
+    {
+
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function generatePage(Request $request)
+    {
+        try {
+            $this->databaseManager = new DatabaseManager($this->getDoctrine());
+
+            $generationDataForPage = $this->getGenerationDataFromUrl();
+            $commandData = $this->getCommandDataFromUrl();
+
+            $this->checkCommandData($commandData);
+            $this->commandProcessing($commandData);
+
+            $this->handleFormElements($request);
+            if ($this->redirectData != null) {
+                return $this->redirectToUrl($this->redirectData);
+            }
+
+            $this->checkGenerationDataForPage($generationDataForPage);
+            $pageData = $this->generatePageData($request, $generationDataForPage);
+
+            return $this->render(
+                MyController::TEMPLATE_PATH,
+                $pageData
+            );
+        } catch (Exception $exception) {
+            return $this->createErrorPage($exception->getMessage());
+        }
+    }
+
+    protected function handleFormElements($request)
+    {
+    }
+
+    protected function redirectToUrl($redirectData)
+    {
+        return $this->redirectToRoute(
+            $redirectData['route'],
+            $redirectData['arguments']
+        );
+    }
+
+    protected function generatePageData($request, $generationDataForPage)
+    {
+        return array(
+            'serverUrl' => MyController::SERVER_URL,
+            'currentUser' => $this->getCurrentUser(),
+            'userLogin' => $this->userAuthorized()
+        );
+    }
+
+    protected function getCommandDataFromUrl()
+    {
+        return null;
+    }
+
+    protected function checkCommandData($commandData)
+    {
+
+    }
+
+    protected function commandProcessing($commandData)
+    {
+
+    }
 }

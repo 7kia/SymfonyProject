@@ -21,7 +21,7 @@ use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 
 class CirculationBooksController extends MyController
@@ -34,6 +34,7 @@ class CirculationBooksController extends MyController
         // TODO : неправильный перевод даты в строковый формат
         $deadlines = array();
         foreach ($bookData as $data) {
+            print_r($data->getDeadline());
             array_push($deadlines, $data->getDeadline()->format('Y-m-d H:i:s'));
         }
 

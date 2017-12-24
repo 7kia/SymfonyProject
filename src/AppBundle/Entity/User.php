@@ -50,7 +50,6 @@ class User implements UserInterface, \Serializable
     
 	/**
      * @ORM\Column(name="avatar", type="string", length=255)
-     * @Assert\NotBlank()
      */
     private $avatar;
 	
@@ -58,11 +57,7 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(name="isAdmin", type="boolean")
      */
     private $isAdmin;
-    
-    /**
-     * @ORM\Column(name="is_active", type="boolean")
-     */
-    private $isActive;
+
 
     public function __construct()
     {
@@ -133,7 +128,7 @@ class User implements UserInterface, \Serializable
     {
         $this->password = $password;
     }
-   
+
     public function getIsAdmin()
     {
         return $this->isAdmin;
@@ -171,8 +166,11 @@ class User implements UserInterface, \Serializable
     {
         return serialize(array(
             $this->id,
+            $this->email,
             $this->username,
+            $this->plainPassword,
             $this->password,
+            $this->avatar,
             $this->isAdmin,
             // see section on salt below
             // $this->salt,
@@ -184,8 +182,11 @@ class User implements UserInterface, \Serializable
     {
         list (
             $this->id,
+            $this->email,
             $this->username,
+            $this->plainPassword,
             $this->password,
+            $this->avatar,
             $this->isAdmin,
             // see section on salt below
             // $this->salt

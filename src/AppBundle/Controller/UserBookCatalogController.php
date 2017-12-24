@@ -79,6 +79,7 @@ class UserBookCatalogController extends MyController
      */
     public function showPage()
     {
+
         $this->databaseManager = new DatabaseManager($this->getDoctrine());
 
         $bookList = array(

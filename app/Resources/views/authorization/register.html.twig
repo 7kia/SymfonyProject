@@ -1,0 +1,31 @@
+<html>
+    <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Регистрация</title>
+        <link rel="stylesheet" type="text/css" href="colorStyles.css">
+        <link rel="stylesheet" type="text/css" href="styles/register.css">
+    </head>
+    <body>
+        <div class="registration-form bold-blue-border">
+            {{ form_start(form) }}
+            <div class="registration-form__text_boxes">
+                <div class="text_boxes__username-field registration-form__text-boxes_text-field-properties">
+                    {{ form_row(form.username) }}
+                </div>
+                <div class="text_boxes__email-field registration-form__text-boxes_text-field-properties">
+                    {{ form_row(form.email) }}
+                </div>
+                <div class="text_boxes__plainPassword-field-1 registration-form__text-boxes_text-field-properties">
+                    {{ form_row(form.plainPassword.first) }}
+                </div>
+                <div class="text_boxes__plainPassword-field-2 registration-form__text-boxes_text-field-properties">
+                    {{ form_row(form.plainPassword.second) }}
+                </div>
+
+            </div>
+            <div class="registration-form__buttons">
+                <button class="registration-form__register-btn button-style" type="submit">Регистрация</button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </body>
+</html>

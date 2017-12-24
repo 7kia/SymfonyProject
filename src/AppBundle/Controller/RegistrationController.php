@@ -29,25 +29,32 @@ class RegistrationController extends MyController
 
         // 2) handle the submit (will only happen on POST)
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
 
+        //print_r($form->isSubmitted());
+        print_r($form->isSubmitted());
+        if ($form->isSubmitted() && $form->isValid()) {
+            print_r($form->isSubmitted());
             // 3) Encode the password (you could also do this via Doctrine listener)
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
+            $user->setAvatar('');
+            $user->setIsAdmin(false);
 
             // 4) save the User!
-            $this->databaseManager.addUser($user);
-
+            //$this->databaseManager->add($user);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
             // ... do any other work - like sending them an email, etc
             // maybe set a "flash" success message for the user
             return $this->redirectToRoute(
-                'user_book_catalogs'
+                'login'
             );
 
         }
 
         return $this->render(
-            'registration/register.html.twig',
+            'authorization/register.html.twig',
             array('form' => $form->createView())
         );
 

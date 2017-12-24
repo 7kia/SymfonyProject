@@ -31,7 +31,8 @@ body
 
 .button-style
 {
-    background: linear-gradient(to top, #BADEFC, #5FA9FC);
+    background: linear-gradient(to top, #004680, #5FA9FC);
+    color: white;
     margin-right: 0px;
     cursor: pointer;
 

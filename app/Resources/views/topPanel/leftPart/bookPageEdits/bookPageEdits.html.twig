@@ -1,0 +1,13 @@
+<li>
+    <b>Добавить в: </b>
+</li>
+<li>
+    <a href="{{ serverUrl }}book_page?book_id={{ bookData.id }}&add_to_catalog=read_later">
+        <input type="submit" class="add-to-read-later-btn button-style" value="'Прочитать позже'">
+    </a>
+</li>
+<li>
+    <a href="{{ serverUrl }}book_page?book_id={{ bookData.id }}&add_to_catalog=favorite_books">
+        <input type="submit" class="add-to-favorite-later-btn button-style" value="'Любимые'">
+    </a>
+</li>

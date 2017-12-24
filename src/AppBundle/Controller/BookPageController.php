@@ -118,7 +118,13 @@ class BookPageController extends MyController
         return '';
     }
 
-    private function generateDataForPage($bookId, $ownerId)
+    /**
+     * @param $bookId
+     * @param $ownerId
+     * @param $catalog
+     * @return array
+     */
+    private function generateDataForPage($bookId, $ownerId, $catalog)
     {
         $bookData = $this->databaseManager->getOneThingByCriteria($bookId, "id", Book::class);
         if ($bookData == null) {
@@ -127,6 +133,16 @@ class BookPageController extends MyController
                 . $bookId
                 . '\' не найдена '
             );
+        }
+
+        $notificationMessage = '';
+        if ($catalog != null) {
+            if ($this->addBookToUserCatalog($bookData, $catalog)) {
+                $notificationMessage = 'Вы добавили эту книгу в свой каталог';
+            } else {
+                $notificationMessage = 'Эта книга там уже есть';
+            }
+
         }
 
         $readUsers = $this->getReadUserData($bookData->getId());
@@ -153,6 +169,7 @@ class BookPageController extends MyController
                     . '\' не имеет владельца с id \'' . $ownerId . '\''
                 );
             }
+            $notificationMessage = 'Вы подали заявку';
         }
 
         return array(
@@ -165,20 +182,44 @@ class BookPageController extends MyController
             'readUserList' => $readUsers,
             'applicationStatusInfo' => $applicationStatusInfo,
             'ownerCount' => $ownerCount,
-            'readCount' => count($readUsers)
+            'readCount' => count($readUsers),
+            'notificationMessage' => $notificationMessage
         );
     }
 
+    private function addBookToUserCatalog(Book $addBook, $catalog)
+    {
+        $sameBook = $this->databaseManager->findThingByCriteria(
+            'AppBundle\Entity\UserListBook',
+            array(
+                'bookId' => $addBook->getId(),
+                'listName' => $catalog
+            )
+        );
+        if ($sameBook != null) {
+            return false;
+        }
+
+        $bookToCatalog = new UserListBook();
+        $bookToCatalog->setBookId($addBook->getId());
+        $bookToCatalog->setListName($catalog);
+        $bookToCatalog->setUserId($this->getCurrentUser()->getId());
+
+        $this->databaseManager->add($bookToCatalog);
+        return true;
+    }
 
     /**
      * @param $bookId
      * @param $ownerId
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    private function createPage($bookId, $ownerId)
+    private function createPage($bookId, $ownerId, $catalog)
     {
         try {
-            $pageData = $this->generateDataForPage($bookId, $ownerId);
+            $this->checkCatalog($catalog);
+
+            $pageData = $this->generateDataForPage($bookId, $ownerId, $catalog);
             return $this->render(
                 MyController::TEMPLATE_PATH,
                 $pageData
@@ -198,8 +239,9 @@ class BookPageController extends MyController
 
         $bookName = $this->getParamFromGetRequest('book_id');
         $ownerName = $this->getParamFromGetRequest('send_application_to');
+        $catalog = $this->getParamFromGetRequest('add_to_catalog');
 
-        return $this->createPage($bookName, $ownerName);
+        return $this->createPage($bookName, $ownerName, $catalog);
     }
 
     /**
@@ -248,5 +290,19 @@ class BookPageController extends MyController
         }
         return false;
     }
+
+    private function checkCatalog($catalog)
+    {
+        $catalogs =  array(
+            'read_later',
+            'favorite_books'
+        );
+        if ($catalog != null) {
+            if (!in_array($catalog, $catalogs)) {
+                throw new Exception('Можно добавить только в ' . implode(',', $catalogs));
+            }
+        }
+    }
+
 
 }

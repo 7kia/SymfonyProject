@@ -1,0 +1,30 @@
+<html>
+    <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Авторизация</title>
+        <link rel="stylesheet" type="text/css" href="colorStyles.css">
+        <link rel="stylesheet" type="text/css" href="styles/login.css">
+    </head>
+    <body>
+        <form class="login_form bold-blue-border" action="{{ path('login') }}" method="post">
+            {% if error %}
+                <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+            <div class="text_boxs">
+                <input class="text_box_login text-field-style"
+                       placeholder="логин"
+                       type="text"
+                       id="username"
+                       name="_username" value="{{ last_username }}" />
+
+                <input class="text_box_password text-field-style"
+                       placeholder="пароль"
+                       type="password"
+                       id="password"
+                       name="_password" />
+            </div>
+            <div class="buttons">
+                <button type="submit" class="log_in button-style">Войти</button>
+            </div>
+        </form>
+    </body>
+</html>
