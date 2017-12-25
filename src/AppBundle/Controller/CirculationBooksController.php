@@ -132,18 +132,13 @@ class CirculationBooksController extends MyController
             )
         );
     }
-    /////////////////////
-
-
-
-
 
     private function getStringDeadline($bookData)
     {
         // TODO : неправильный перевод даты в строковый формат
         $deadlines = array();
         foreach ($bookData as $data) {
-            print_r($data->getDeadline());
+            //print_r($data);
             array_push($deadlines, $data->getDeadline()->format('Y-m-d H:i:s'));
         }
 

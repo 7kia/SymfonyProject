@@ -36,7 +36,7 @@ class TakenBook implements \Serializable
     private $ownerId;
 
 	/**
-     * @ORM\Column(name="deadline", type="datetime")
+     * @ORM\Column(name="deadline", type="date")
      */
     private $deadline;
 	
@@ -65,21 +65,23 @@ class TakenBook implements \Serializable
     {
         return $this->ownerId;
     }
+
+    public function setOwnerId($ownerId)
+    {
+        $this->ownerId = $ownerId;
+    }
 	// get/set deadline
     public function getDeadline()
     {
         return $this->deadline;
     }
 
-    public function setDeadline(\DateTime $deadline)
+    public function setDeadline($deadline)
     {
         $this->deadline = $deadline;
     }
 	
-    public function setOwnerId($ownerId)
-    {
-        $this->ownerId = $ownerId;
-    }
+
 	
     
     public function getSalt()
