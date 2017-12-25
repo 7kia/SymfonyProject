@@ -25,7 +25,7 @@ abstract class MyController extends Controller
     protected $databaseManager;
     protected $redirectData = null;// TODO нужен = null
     protected $notificationMessage = null;
-
+    protected $renderTemplate = MyController::TEMPLATE_PATH;
 
     /**
      * @return null
@@ -67,7 +67,7 @@ abstract class MyController extends Controller
             $pageData = $this->generatePageData($request, $generationDataForPage);
 
             return $this->render(
-                MyController::TEMPLATE_PATH,
+                $this->renderTemplate,
                 $pageData
             );
         } catch (Exception $exception) {

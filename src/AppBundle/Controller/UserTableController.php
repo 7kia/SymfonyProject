@@ -4,34 +4,40 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\DatabaseManagement\DatabaseManager;
+use AppBundle\Controller\MyController;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
-class UserTableController extends Controller
+
+class UserTableController extends MyController
 {
     /**
     * @Route("/Tables/users")
     */
-    public function newAction(Request $request)
+    public function showPage(Request $request)
     {
-        $this->databaseManager = new DatabaseManager($this->getDoctrine());
+        return $this->generatePage($request);
+    }
 
+    protected function generatePageData($request, $generationDataForPage)
+    {
         $repository = $this->getDoctrine()->getRepository(User::class);
         // TODO : замени findAll на get(<range>)
-        // TODO : отредактируй когда будешь профиль добавлять
+
         $users = $repository->findAll();
 
         $form = $this->createFormBuilder()->getForm();
-        
-        return $this->render(
-            'Tables/UserTable.html.twig',
+
+        $this->renderTemplate = 'Tables/UserTable.html.twig';
+
+        return array_merge(
+            MyController::generatePageData($request, $generationDataForPage),
             array(
                 'form' => $form->createView(),
                 'users' => $users
             )
         );
-
     }
 }

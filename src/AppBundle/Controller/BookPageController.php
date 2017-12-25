@@ -300,7 +300,8 @@ class BookPageController extends MyController
             'AppBundle\Entity\UserListBook',
             array(
                 'bookId' => $addBook->getId(),
-                'listName' => $catalog
+                'listName' => $catalog,
+                'userId' =>$this->getCurrentUser()->getId()
             )
         );
         if ($sameBook != null) {

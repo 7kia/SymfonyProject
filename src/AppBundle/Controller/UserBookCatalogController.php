@@ -28,6 +28,16 @@ class UserBookCatalogController extends MyController
     {
         $bookListName = $this->getParamFromGetRequest('book_list_name');
         $ownerId = $this->getParamFromGetRequest('owner_id');
+
+        // Такое добавление данных нужно чтобы можно было перейти после авторизации
+        // на эту страницу(с аргументами в Url не работает)
+        if ($ownerId == null) {
+            $ownerId = $this->getCurrentUser()->getId();
+        }
+        if ($bookListName == null) {
+            $bookListName = 'personal_books';
+        }
+
         return array(
             'book_list_name' => $bookListName,
             'owner_id' => $ownerId
@@ -48,9 +58,7 @@ class UserBookCatalogController extends MyController
             'personal_books'
         );
 
-        if ($bookListName == null) {
-            $bookListName = 'personal_books';
-        }
+
         if (!in_array($bookListName, $bookList)) {
             throw new Exception(
                 'Каталога с именем \''
@@ -62,12 +70,6 @@ class UserBookCatalogController extends MyController
 
     private function checkOwnerId(&$ownerId)
     {
-        // TODO : на эту страницу можно будет зайти только авторизированному пользователю
-        // пока для более быстрой отладки не будет ограничении по доступу
-        if ($ownerId == null) {
-            $ownerId = $this->getCurrentUser()->getId();
-        }
-
         $owner = $this->databaseManager->getOneThingByCriteria($ownerId, 'id', User::class);
         if ($owner == null) {
             throw new Exception(
