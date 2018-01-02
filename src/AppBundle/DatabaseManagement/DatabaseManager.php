@@ -74,11 +74,24 @@ class DatabaseManager
      * @param $class
      * @return object
      */
-    public function getOneThingByCriteria($searchText, $field, $class)
+    public function getOneThingByCriterion($searchText, $field, $class)
     {
         return $this->doctrine->getRepository($class)
             ->findOneBy(
                 [$field => $searchText]
+            );
+    }
+
+    /**
+     * @param $criteria
+     * @param $class
+     * @return mixed
+     */
+    public function getOneThingByCriteria($criteria, $class)
+    {
+        return $this->doctrine->getRepository($class)
+            ->findOneBy(
+                $criteria
             );
     }
 
@@ -91,7 +104,7 @@ class DatabaseManager
     {
         $books = array();
         foreach ($idList as $id) {
-            $book = $this->getOneThingByCriteria(
+            $book = $this->getOneThingByCriterion(
                 strval($id),
                 'id',
                 $class

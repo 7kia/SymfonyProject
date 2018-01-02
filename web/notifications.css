@@ -38,7 +38,22 @@
 .send-application-notification__notification-container
 {
     background-color: white;
-    width: 250px;
-    height: 65px;;
+    width: 270px;
+    height: 85px;;
     margin: 0px auto;
+
 }
+
+.send-application-notification__button-layer
+{
+    height: 60%;
+    position: relative;
+}
+
+.send-application-notification__ok-btn
+{
+    position: absolute;
+    bottom: 5px;
+    left: 115px;
+}
+

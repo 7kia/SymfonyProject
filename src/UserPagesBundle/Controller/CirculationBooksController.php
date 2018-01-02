@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace UserPagesBundle\Controller;
 
 use AppBundle\Entity\ApplicationForBook;
 use AppBundle\Entity\Book;
@@ -40,6 +40,7 @@ class CirculationBooksController extends MyController
     protected function getGenerationDataFromUrl()
     {
         $this->bookListName = $this->getParamFromGetRequest('book_list_name');
+        // TODO $this->bookListName = $this->getParamFromGetRequest('book_list_name');
 
         return array(
             'book_list_name' => $this->bookListName
@@ -88,7 +89,7 @@ class CirculationBooksController extends MyController
             'typeRequest' => $typeRequest,
             'bookId' => $this->getCommandArgument($typeRequest),
             'currentUser' => $this->getCurrentUser(),
-            'otherUserObject' => $this->databaseManager->getOneThingByCriteria($otherUserName, 'id', User::class)
+            'otherUserObject' => $this->databaseManager->getOneThingByCriterion($otherUserName, 'id', User::class)
         );
     }
 
@@ -289,7 +290,7 @@ class CirculationBooksController extends MyController
 
     private function checkExistBook($bookId)
     {
-        $book = $this->databaseManager->getOneThingByCriteria($bookId, 'id', Book::class);
+        $book = $this->databaseManager->getOneThingByCriterion($bookId, 'id', Book::class);
         return ($book != null);
     }
 
@@ -372,7 +373,7 @@ class CirculationBooksController extends MyController
         // TODO : установить deadline
         $takenBook->setDeadline(new \DateTime());
 
-        $this->doctrineManager->add($takenBook);
+        $this->databaseManager->add($takenBook);
 
         return true;// TODO : пока не предесмотрена неудачная передача книги
     }
@@ -391,28 +392,21 @@ class CirculationBooksController extends MyController
 
     private function getApplicationForBook($bookId, $applicantId, $ownerId)
     {
-        $queryResult = $this->databaseManager->findThingByCriteria(
-            'AppBundle\Entity\ApplicationForBook',
+        return $this->databaseManager->getOneThingByCriteria(
             array(
                 'applicantId' => $applicantId,
                 'ownerId' => $ownerId,
                 'bookId' => $bookId
-            )
+            ),
+            ApplicationForBook::class
         );
-		// TODO : не придумал как извлечь 1 элемент([] не получается)
-        $result = null;
-        foreach ($queryResult as $item) {
-            $result = $item;
-        }
-
-        return $result;
     }
 
 
 
     private function executeRequest($requestValue)
     {
-        $book = $this->databaseManager->getOneThingByCriteria($requestValue['bookId'], 'id', Book::class);
+        $book = $this->databaseManager->getOneThingByCriterion($requestValue['bookId'], 'id', Book::class);
         $bookId = $book->getId();
 
         if ($requestValue['typeRequest'] == 'delete') {

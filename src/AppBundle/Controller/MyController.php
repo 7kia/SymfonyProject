@@ -55,6 +55,7 @@ abstract class MyController extends Controller
             $generationDataForPage = $this->getGenerationDataFromUrl();
             $commandData = $this->getCommandDataFromUrl();
 
+            $this->checkGenerationDataForPage($generationDataForPage);
             $this->checkCommandData($commandData);
             $this->commandProcessing($commandData);
 
@@ -63,7 +64,6 @@ abstract class MyController extends Controller
                 return $this->redirectToUrl($this->redirectData);
             }
 
-            $this->checkGenerationDataForPage($generationDataForPage);
             $pageData = $this->generatePageData($request, $generationDataForPage);
 
             return $this->render(
@@ -104,7 +104,7 @@ abstract class MyController extends Controller
         return array(
             'serverUrl' => MyController::SERVER_URL,
             'currentUser' => $this->getCurrentUser(),
-            'userLogin' => $this->userAuthorized()
+            'userLogin' => $this->userAuthorized(),
         );
     }
 
@@ -200,7 +200,7 @@ abstract class MyController extends Controller
         if ($this->userAuthorized()) {
             return $this->getUser();
         } else {
-            return $this->databaseManager->getOneThingByCriteria('7kia', 'username', User::class);
+            return $this->databaseManager->getOneThingByCriterion('7kia', 'username', User::class);
         }
     }
 

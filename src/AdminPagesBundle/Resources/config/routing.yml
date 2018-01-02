@@ -1,0 +1,6 @@
+admin_pages:
+    resource: '@AdminPagesBundle/Controller/'
+    type: annotation
+admin_pages_homepage:
+    path:     /
+    defaults: { _controller: AdminPagesBundle:Default:index }

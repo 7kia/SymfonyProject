@@ -4,6 +4,8 @@
             {% include "topPanel\\leftPart\\userListEdits\\userListEdits.html.twig" %}
         {% elseif pageName == "book_page" %}
             {% include "topPanel\\leftPart\\bookPageEdits\\bookPageEdits.html.twig" %}
+        {% elseif pageName == "user_book_catalog" %}
+            {% include "topPanel\\leftPart\\bookPageEdits\\userBookCatalogEdits.html.twig" %}
         {% endif %}
     </ul>
 </div>

@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace UserPagesBundle\Controller;
 
 use AppBundle\Entity\ApplicationForBook;
 use AppBundle\Entity\Book;
@@ -59,7 +59,7 @@ class BookPageController extends MyController
 
     protected function checkGenerationDataForPage($generationDataForPage)
     {
-        $bookData = $this->databaseManager->getOneThingByCriteria($generationDataForPage['book_id'], "id", Book::class);
+        $bookData = $this->databaseManager->getOneThingByCriterion($generationDataForPage['book_id'], "id", Book::class);
         if ($bookData == null) {
             throw new Exception(
                 'Книга с id \''
@@ -82,7 +82,7 @@ class BookPageController extends MyController
 
     private function checkOwner($ownerId)
     {
-        $owner = $this->databaseManager->getOneThingByCriteria(
+        $owner = $this->databaseManager->getOneThingByCriterion(
             $ownerId,
             'id',
             User::class
@@ -113,7 +113,7 @@ class BookPageController extends MyController
 
     protected function commandProcessing($commandData)
     {
-        $this->bookData = $this->databaseManager->getOneThingByCriteria(
+        $this->bookData = $this->databaseManager->getOneThingByCriterion(
             $this->bookId,
             "id",
             Book::class
@@ -185,7 +185,7 @@ class BookPageController extends MyController
         $ownerData = array();
         foreach ($personalBooks as &$personalBook)
         {
-            $owner = $this->databaseManager->getOneThingByCriteria(
+            $owner = $this->databaseManager->getOneThingByCriterion(
                 $personalBook->getUserId(),
                 'id',
                 User::class
@@ -217,7 +217,7 @@ class BookPageController extends MyController
         $ownerData = array();
         foreach ($takenBooks as &$takenBook)
         {
-            $owner = $this->databaseManager->getOneThingByCriteria(
+            $owner = $this->databaseManager->getOneThingByCriterion(
                 $takenBook->getApplicantId(),
                 'id',
                 User::class
@@ -323,7 +323,7 @@ class BookPageController extends MyController
      */
     private function sendApplicationToOwner($ownerId)
     {
-        $foundOwner = $this->databaseManager->getOneThingByCriteria($ownerId, "id", User::class);
+        $foundOwner = $this->databaseManager->getOneThingByCriterion($ownerId, "id", User::class);
         if ($foundOwner == null) {
             return null;
         }

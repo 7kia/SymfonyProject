@@ -1,7 +1,6 @@
 <?php
 
-// src/AppBundle/Controller/SecurityController.php
-namespace AppBundle\Controller;
+namespace UserPagesBundle\Controller;
 
 use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
@@ -91,7 +90,11 @@ class SearchBookController extends MyController
     {
         $bookCards = array();
         if ($generationDataForPage['search_category'] != null) {
-            $book = $this->databaseManager->getOneThingByCriteria($generationDataForPage['search_text'], $generationDataForPage['search_category'], Book::class);
+            $book = $this->databaseManager->getOneThingByCriterion(
+                $generationDataForPage['search_text'],
+                $generationDataForPage['search_category'],
+                Book::class
+            );
             if ($book != null) {
                 array_push($bookCards, $book);
             }

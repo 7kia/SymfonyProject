@@ -21,11 +21,20 @@
                         <div class="book-grid_grid-cell">
                             <div class="book-grid_grid-cell__cart_container">
                                 <div class="cart_container_book-cart bold-blue-border">
+                                    {# % if pageName == "user_list" and (ownerId == currentUser.id) %}#}
                                     <div class="book-cart__image-container center-align">
+                                        {% if currentUser.id == ownerId%}
+                                            <a href="{{ serverUrl }}user_book_catalog?delete={{ bookCards[i].id }}&book_list_name={{ bookListName }}&owner_id={{ ownerId }}">
+                                                <img class="image-container_delete-btn" src="images/delete.png"
+                                                     alt="Удалить {{ bookCards[i].name }} из каталога"/>
+                                            </a>
+                                        {%  endif %}
+
                                         <a href="{{ serverUrl }}book_page?book_id={{ bookCards[i].id }}">
-                                            <img class="image-container_book-image bold-blue-border" src="{{ bookCards[i].bookImage }}"
+                                            <img class="image-container_book-image bold-blue-border" src="bookCardImages/{{ bookCards[i].bookImage }}"
                                                  alt="{{ bookCards[i].name }}"/>
                                         </a>
+
                                     </div>
                                     <div class="book-cart__name-str">
                                         <a href="{{ serverUrl }}book_page?book_id={{ bookCards[i].id }}">

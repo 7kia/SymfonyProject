@@ -1,3 +1,11 @@
+admin_pages:
+    resource: "@AdminPagesBundle/Resources/config/routing.yml"
+    prefix:   /
+
+user_pages:
+    resource: "@UserPagesBundle/Resources/config/routing.yml"
+    prefix:   /
+
 app:
     resource: '@AppBundle/Controller/'
     type: annotation

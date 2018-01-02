@@ -33,7 +33,7 @@ security:
             form_login:
                 login_path: login
                 check_path: login
-                default_target_path: user_book_catalogs
+                default_target_path: user_book_catalog
                 use_referer: true
 
             logout:

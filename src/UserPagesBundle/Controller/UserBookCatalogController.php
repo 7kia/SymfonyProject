@@ -1,7 +1,6 @@
 <?php
 
-// src/AppBundle/Controller/SecurityController.php
-namespace AppBundle\Controller;
+namespace UserPagesBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Entity\UserListBook;
@@ -17,7 +16,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class UserBookCatalogController extends MyController
 {
     /**
-     * @Route("/user_book_catalog", name="user_book_catalogs" )
+     * @Route("/user_book_catalog", name="user_book_catalog" )
      */
     public function showPage(Request $request)
     {
@@ -42,12 +41,27 @@ class UserBookCatalogController extends MyController
             'book_list_name' => $bookListName,
             'owner_id' => $ownerId
         );
+
+    }
+
+    protected function getCommandDataFromUrl()
+    {
+        $dataFromUrl = $this->getGenerationDataFromUrl();
+
+        $bookId = $this->getParamFromGetRequest('delete');
+
+        return array_merge(
+            $dataFromUrl,
+            array(
+                'delete' => $bookId
+            )
+        );
     }
 
     protected function checkGenerationDataForPage($generationDataForPage)
     {
         $this->checkBookListName($generationDataForPage['book_list_name']);
-        $this->checkOwnerId($generationDataForPage['owner_id']);
+        $this->checkUserId($generationDataForPage['owner_id']);
     }
 
     private function checkBookListName(&$bookListName)
@@ -68,9 +82,14 @@ class UserBookCatalogController extends MyController
         }
     }
 
-    private function checkOwnerId(&$ownerId)
+    private function checkUserId(&$ownerId)
     {
-        $owner = $this->databaseManager->getOneThingByCriteria($ownerId, 'id', User::class);
+        if ($ownerId == null) {
+            throw new Exception(
+                $this->getMessageAboutLackArgument('owner_id')
+            );
+        }
+        $owner = $this->databaseManager->getOneThingByCriterion($ownerId, 'id', User::class);
         if ($owner == null) {
             throw new Exception(
                 'Пользователя с id \''
@@ -80,9 +99,92 @@ class UserBookCatalogController extends MyController
         }
     }
 
+    protected function checkCommandData($commandData)
+    {
+        $this->checkCurrentUserId($commandData['delete'], $this->getCurrentUser()->getId(), $commandData['owner_id']);
+        $this->checkDeleteBookToCatalog(
+            $commandData['delete'],
+            $commandData['owner_id'],
+            $commandData['book_list_name']
+        );
+    }
+
+
+    private function checkCurrentUserId($deleteBook, $currentUserId, $ownerId)
+    {
+        if ($deleteBook) {
+            $this->checkUserId($currentUserId);
+            $this->checkUserId($ownerId);
+
+            if ($currentUserId != $ownerId) {
+                throw new Exception('Команда удаления книги из каталога доступна только владельцу книги');
+            }
+        }
+    }
+
+    private function checkDeleteBookToCatalog($deleteBook, $ownerId, $bookListName)
+    {
+        if ($deleteBook) {
+            $book = $this->databaseManager->getOneThingByCriteria(
+                array(
+                    'bookId' => $deleteBook,
+                    'userId' => $ownerId,
+                    'listName' => $bookListName
+                ),
+                UserListBook::class
+            );
+            if ($book == null) {
+                throw new Exception(
+                    'Книги с id \''
+                    . $deleteBook
+                    . '\' не существует в каталоге '
+                    . $bookListName
+                    . ' у пользователя с id= '
+                    . $ownerId
+                );
+            }
+        }
+
+
+    }
+
+    protected function commandProcessing($commandData)
+    {
+        if ($commandData['delete']) {
+            if ($this->executeDeleteRequest($commandData)) {
+                $this->redirectData = array(
+                    'route' =>'user_book_catalog',
+                    'arguments' => array(
+                        'book_list_name' => $commandData['book_list_name'],
+                        'owner_id' => $commandData['owner_id']
+                    )
+                );
+
+            } else {
+                throw new Exception('Запрос ' . $commandData['typeRequest'] . ' неудался');
+            }
+        }
+    }
+
+
+    private function executeDeleteRequest($commandData)
+    {
+        $bookToCatalog = $this->databaseManager->getOneThingByCriteria(
+            array(
+                'bookId' => $commandData['delete'],
+                'listName' => $commandData['book_list_name'],
+                'userId' => $commandData['owner_id']
+            ),
+            UserListBook::class
+        );
+
+        $this->databaseManager->remove($bookToCatalog);
+        return true;
+    }
+
     protected function generatePageData($request, $generationDataForPage)
     {
-        $user = $this->databaseManager->getOneThingByCriteria(
+        $user = $this->databaseManager->getOneThingByCriterion(
             $generationDataForPage['owner_id'],
             'id',
             User::class
@@ -102,6 +204,7 @@ class UserBookCatalogController extends MyController
             array(
                 'pageName' => 'book_list',
                 'bookListTitle' => $catalogTitle,
+                'bookListName' => $generationDataForPage['book_list_name'],
                 'ownerName' => $user->getUsername(),
                 'ownerId' => $user->getId(),
                 'bookCards' => $bookCards
@@ -114,7 +217,7 @@ class UserBookCatalogController extends MyController
 
     private function getUserCatalog($ownerId, $bookListName)
     {
-        $ownerUser =  $this->databaseManager->getOneThingByCriteria($ownerId, 'id', User::class);
+        $ownerUser =  $this->databaseManager->getOneThingByCriterion($ownerId, 'id', User::class);
         $catalog = $this->databaseManager->findUserCatalog($ownerUser->getId(), $bookListName);
         $catalogBooks = $this->databaseManager->extractBooks($catalog);
 
@@ -140,4 +243,5 @@ class UserBookCatalogController extends MyController
     {
         return $this->getCatalogName($bookListName) . ' пользователя ' . $userName;
     }
+
 }

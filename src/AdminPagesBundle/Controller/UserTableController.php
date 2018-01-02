@@ -1,6 +1,5 @@
 <?php
-// src/AppBundle/Controller/UserTableController.php
-namespace AppBundle\Controller;
+namespace AdminPagesBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\DatabaseManagement\DatabaseManager;

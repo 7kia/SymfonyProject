@@ -1,0 +1,6 @@
+user_pages:
+    resource: '@UserPagesBundle/Controller/'
+    type: annotation
+user_pages_homepage:
+    path:     /
+    defaults: { _controller: UserPagesBundle:Default:index }
