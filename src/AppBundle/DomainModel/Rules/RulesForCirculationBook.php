@@ -55,5 +55,17 @@ class RulesForCirculationBook extends MyRule
 
     }
 
+    public function canDeleteBookFromList($bookId, $applicantId, $ownerId)
+    {
+        $applicationForBook = $this->databaseManager->getApplicationForBook($bookId, $applicantId, $ownerId);
+        return ($applicationForBook != null);
+    }
+
+    public function canAcceptBookFromList($bookId, $applicantId, $ownerId)
+    {
+        $applicationForBook = $this->databaseManager->getApplicationForBook($bookId, $applicantId, $ownerId);
+        return ($applicationForBook != null);
+    }
+
 
 }

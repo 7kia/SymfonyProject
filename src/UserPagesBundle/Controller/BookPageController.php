@@ -38,9 +38,6 @@ class BookPageController extends MyController
 
     private $bookId;
 
-    /**
-     * BookPageController constructor.
-     */
     private function initComponents()
     {
         $this->actionsForUserBookCatalog = new ActionsForUserBookCatalog($this->getDoctrine());

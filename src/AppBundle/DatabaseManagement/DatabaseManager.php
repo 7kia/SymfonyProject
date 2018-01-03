@@ -197,4 +197,16 @@ class DatabaseManager
 
         return ApplicationStatus::SEND_SUCCESSFUL;
     }
+
+    public function getApplicationForBook($bookId, $applicantId, $ownerId)
+    {
+        return $this->getOneThingByCriteria(
+            array(
+                'applicantId' => $applicantId,
+                'ownerId' => $ownerId,
+                'bookId' => $bookId
+            ),
+            ApplicationForBook::class
+        );
+    }
 }

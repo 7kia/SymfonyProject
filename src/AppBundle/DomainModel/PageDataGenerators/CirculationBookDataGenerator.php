@@ -3,6 +3,7 @@
 namespace AppBundle\DomainModel\PageDataGenerators;
 
 use AppBundle\Controller\MyController;
+use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\DatabaseManagement\DatabaseManager;
@@ -158,4 +159,146 @@ class CirculationBookDataGenerator
         }
         return false;
     }
+
+
+
+    /**
+     * @param $bookListName
+     * @param $userId
+     * @return mixed|null
+     */
+    public function getTableData($bookListName, $userId)
+    {
+        switch ($bookListName)
+        {
+            case 'taken_books':
+                return $this->getTakenBookTableData($userId);
+            case 'given_books':
+                return $this->getGivenBookTableData($userId);
+            case 'applications':
+                return $this->getApplicationTableData($userId);
+        }
+        return null;
+    }
+
+    /**
+     * @param $getId
+     * @return mixed
+     */
+    private function getTakenBookTableData($getId)
+    {
+        $takenBooks = $this->databaseManager->findThingByCriteria(
+            'AppBundle\Entity\TakenBook',
+            array(
+                'applicantId' => $getId
+            )
+        );
+
+        $bookIds = array();
+        $userIds = array();
+        foreach ($takenBooks as $takenBook) {
+            array_push($bookIds, $takenBook->getBookId());
+            array_push($userIds, $takenBook->getOwnerId());
+        }
+        return $this->generateTableData($bookIds, $userIds);
+    }
+
+    /**
+     * @param $getId
+     * @return mixed
+     */
+    private function getGivenBookTableData($getId)
+    {
+        $givenBooks =  $this->databaseManager->findThingByCriteria(
+            'AppBundle\Entity\TakenBook',
+            array(
+                'ownerId' => $getId
+            )
+        );
+
+        // TODO : убери дублирование
+        $bookIds = array();
+        $users = array();
+        foreach ($givenBooks as $givenBook) {
+            array_push($bookIds, $givenBook->getBookId());
+            array_push($users, $givenBook->getApplicantId());
+        }
+        return $this->generateTableData($bookIds, $users);
+    }
+
+    /**
+     * @param $getId
+     * @return mixed
+     */
+    private function getApplicationTableData($getId)
+    {
+        $applicationForBooks = $this->databaseManager->findThingByCriteria(
+            'AppBundle\Entity\ApplicationForBook',
+            array(
+                'ownerId' => $getId
+            )
+        );
+
+        $bookIds = array();
+        $users = array();
+        foreach ($applicationForBooks as $applicationForBook) {
+            array_push($bookIds, $applicationForBook->getBookId());
+            array_push($users, $applicationForBook->getApplicantId());
+        }
+
+        return $this->generateTableData($bookIds, $users);
+    }
+
+
+    /**
+     * @param $bookIds
+     * @param $userIds
+     * @return array
+     */
+    private function generateTableData($bookIds, $userIds)
+    {
+        $bookData = $this->databaseManager->getThings($bookIds, Book::class);
+        $userNames = $this->getUsernames($userIds);
+
+        return array(
+            'books' => $bookData,
+            'deadlines' => $this->getStringDeadline($bookData),
+            'users' => $userNames,
+            'userId' => $userIds
+        );
+    }
+
+    /**
+     * @param $bookData
+     * @return array
+     */
+    private function getStringDeadline($bookData)
+    {
+        // TODO : неправильный перевод даты в строковый формат
+        $deadlines = array();
+        foreach ($bookData as $data) {
+            //print_r($data);
+            array_push($deadlines, $data->getDeadline()->format('Y-m-d H:i:s'));
+        }
+
+        return $deadlines;
+    }
+
+    /**
+     * @param $userIds
+     * @return array
+     */
+    private function getUsernames($userIds)
+    {
+        $users = $this->databaseManager->getThings($userIds, User::class);
+        $userNames = array();
+        foreach ($users as $user) {
+            if ($user != null) {
+                array_push($userNames, $user->getUsername());
+            }
+        }
+
+        return $userNames;
+    }
+
 }

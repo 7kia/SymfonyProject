@@ -46,4 +46,42 @@ class ActionsForCirculationBook
     }
 
 
+    public function deleteBookFromList($bookId, $applicantId, $ownerId)
+    {
+        if ($this->rulesForCirculationBook
+            ->canDeleteBookFromList(
+                $bookId,
+                $applicantId,
+                $ownerId
+            )
+        ) {
+            return $this->strategiesForCirculationBook
+                ->deleteBookFromList(
+                    $bookId,
+                    $applicantId,
+                    $ownerId
+                );
+        }
+        return false;
+    }
+
+    public function acceptBookFromList($bookId, $applicantId, $ownerId)
+    {
+        if ($this->rulesForCirculationBook
+            ->canAcceptBookFromList(
+                $bookId,
+                $applicantId,
+                $ownerId
+            )
+        ) {
+            return $this->strategiesForCirculationBook
+                ->acceptBookFromList(
+                    $bookId,
+                    $applicantId,
+                    $ownerId
+                );
+        }
+        return false;
+    }
+
 }
