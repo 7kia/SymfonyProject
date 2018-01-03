@@ -12,6 +12,7 @@ use AppBundle\Entity\ApplicationForBook;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
 use AppBundle\Entity\TakenBook;
+use AppBundle\Security\ApplicationStatus;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -156,20 +157,44 @@ class DatabaseManager
     }
 
     /**
-     * @param User $foundOwner
-     * @param Book $bookData
-     * @param User $currentUser
+     * @param $bookId
+     * @param $applicantId
+     * @param $ownerId
+     * @return int
      */
-    public function sendApplication(User $foundOwner, Book $bookData, User $currentUser)
+    public function sendApplication(
+        $bookId,
+        $applicantId,
+        $ownerId
+    )
     {
+        $application = $this->getOneThingByCriteria(
+            array(
+                'bookId' => $bookId,
+                'applicantId' => $applicantId,
+                'ownerId' => $ownerId
+            ),
+            ApplicationForBook::class
+        );
+
+        if ($application)
+        {
+            return ApplicationStatus::REPEAT_SEND;
+        }
+
+        $book = $this->getOneThingByCriterion($bookId, 'id', Book::class);
+        $applicant = $this->getOneThingByCriterion($applicantId,'id', User::class);
+        $owner = $this->getOneThingByCriterion($ownerId,'id', User::class);
+
         $applicationForBook = new ApplicationForBook();
-        $applicationForBook->setBookId($bookData->getId());
-        $applicationForBook->setApplicantId($currentUser->getId());
-        $applicationForBook->setOwnerId($foundOwner->getId());
+        $applicationForBook->setBookId($book->getId());
+        $applicationForBook->setApplicantId($applicant->getId());
+        $applicationForBook->setOwnerId($owner->getId());
 
         // TODO : проверь добавку повторной заявки
-
         $this->doctrineManager->persist($applicationForBook);
         $this->doctrineManager->flush();
+
+        return ApplicationStatus::SEND_SUCCESSFUL;
     }
 }

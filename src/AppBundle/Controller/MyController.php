@@ -9,12 +9,14 @@
 namespace AppBundle\Controller;
 
 use AppBundle\DatabaseManagement\DatabaseManager;
+use AppBundle\DomainModel\PageDataGenerators\UserDataGenerator;
 use AppBundle\Entity\ApplicationForBook;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
 use AppBundle\Entity\TakenBook;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\BrowserKit\Response;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 
 abstract class MyController extends Controller
@@ -27,6 +29,8 @@ abstract class MyController extends Controller
     protected $notificationMessage = null;
     protected $renderTemplate = MyController::TEMPLATE_PATH;
 
+    protected $userDataGenerator;
+
     /**
      * @return null
      */
@@ -35,12 +39,14 @@ abstract class MyController extends Controller
         return null;
     }
 
-    /**
-     * @param $generationDataForPage
-     */
-    protected function checkGenerationDataForPage($generationDataForPage)
+    public function getDoctrine()
     {
+        return parent::getDoctrine();
+    }
 
+    public function getUser()
+    {
+        return parent::getUser();
     }
 
     /**
@@ -55,8 +61,10 @@ abstract class MyController extends Controller
             $generationDataForPage = $this->getGenerationDataFromUrl();
             $commandData = $this->getCommandDataFromUrl();
 
+
             $this->checkGenerationDataForPage($generationDataForPage);
             $this->checkCommandData($commandData);
+
             $this->commandProcessing($commandData);
 
             $this->handleFormElements($request);
@@ -73,6 +81,22 @@ abstract class MyController extends Controller
         } catch (Exception $exception) {
             return $this->createErrorPage($exception->getMessage());
         }
+    }
+
+    /**
+     * @param $generationDataForPage
+     */
+    protected function checkGenerationDataForPage($generationDataForPage)
+    {
+
+    }
+
+    /**
+     * @param $commandData
+     */
+    protected function checkCommandData($commandData)
+    {
+
     }
 
     /**
@@ -103,8 +127,8 @@ abstract class MyController extends Controller
     {
         return array(
             'serverUrl' => MyController::SERVER_URL,
-            'currentUser' => $this->getCurrentUser(),
-            'userLogin' => $this->userAuthorized(),
+            'currentUser' => $this->userDataGenerator->getCurrentUser(),
+            'userLogin' => $this->userDataGenerator->userAuthorized(),
         );
     }
 
@@ -116,13 +140,6 @@ abstract class MyController extends Controller
         return null;
     }
 
-    /**
-     * @param $commandData
-     */
-    protected function checkCommandData($commandData)
-    {
-
-    }
 
     /**
      * @param $commandData
@@ -132,13 +149,6 @@ abstract class MyController extends Controller
 
     }
 
-    /**
-     * @return bool
-     */
-    protected function userAuthorized()
-    {
-        return ($this->getUser() != null);
-    }
 
     /**
      * @param $errorMessage
@@ -178,30 +188,7 @@ abstract class MyController extends Controller
         return null;
     }
 
-    /**
-     * @param $userLogin
-     * @return string
-     */
-    // TODO : посмотри точно ли нужна
-    protected function getCurrentUserName($userLogin)
-    {
-        if ($userLogin != false) {
-            return $this->getUser()->getUsername();
-        } else {
-            return '7kia';
-        }
-    }
 
-    /**
-     * @return mixed|object
-     */
-    protected function getCurrentUser()
-    {
-        if ($this->userAuthorized()) {
-            return $this->getUser();
-        } else {
-            return $this->databaseManager->getOneThingByCriterion('7kia', 'username', User::class);
-        }
-    }
+
 
 }
