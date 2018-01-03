@@ -2,6 +2,9 @@
 
 namespace UserPagesBundle\Controller;
 
+use AppBundle\DomainModel\Actions\ActionsForBook;
+use AppBundle\DomainModel\PageDataGenerators\BookDataGenerator;
+use AppBundle\DomainModel\PageDataGenerators\UserDataGenerator;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
 use AppBundle\Entity\UserListBook;
@@ -23,6 +26,17 @@ class SearchBookController extends MyController
 {
     private $searchForm;
 
+    private $actionsForBook;
+    private $bookDataGenerator;
+
+    private function initComponents()
+    {
+        $this->actionsForBook = new ActionsForBook($this->getDoctrine());
+        $this->bookDataGenerator = new BookDataGenerator($this);
+
+        $this->userDataGenerator = new UserDataGenerator($this);
+    }
+
     /**
      * @Route("/search_book", name="search_book" )
      * @param Request $request
@@ -30,6 +44,7 @@ class SearchBookController extends MyController
      */
     public function showPage(Request $request)
     {
+        $this->initComponents();
         return $this->generatePage($request);
     }
 
@@ -52,19 +67,13 @@ class SearchBookController extends MyController
      */
     protected function checkGenerationDataForPage($generationDataForPage)
     {
-        if ($generationDataForPage['search_text'] != null) {
+        $searchTextDefined = ($generationDataForPage['search_text'] != null);
+        $searchCategoryDefined = ($generationDataForPage['search_category'] != null);
 
-            $categories = array(
-                'name',
-                'author'
-            );
-
-            if (!in_array($generationDataForPage['search_category'], $categories)) {
-                throw new Exception(
-                    'Категория поиска должна иметь одно из следующих значений '
-                    . implode(",", $categories)
-                );
-            }
+        if (!$searchTextDefined and $searchCategoryDefined) {
+            throw new Exception($this->getMessageAboutLackArgument('search_text'));
+        } elseif ($searchTextDefined and !$searchCategoryDefined) {
+            throw new Exception($this->getMessageAboutLackArgument('search_category'));
         }
     }
 
@@ -90,14 +99,11 @@ class SearchBookController extends MyController
     {
         $bookCards = array();
         if ($generationDataForPage['search_category'] != null) {
-            $book = $this->databaseManager->getOneThingByCriterion(
+
+            $bookCards = $this->actionsForBook->findBooksByCategory(
                 $generationDataForPage['search_text'],
-                $generationDataForPage['search_category'],
-                Book::class
+                $generationDataForPage['search_category']
             );
-            if ($book != null) {
-                array_push($bookCards, $book);
-            }
         }
 
         return array_merge(
@@ -120,7 +126,7 @@ class SearchBookController extends MyController
         $text = $searchData->getSearchTextField();
         $category = $searchData->getSearchCategory();
 
-        $this->handleFormElement(
+        $this->handleSearchFormElements(
             $this->searchForm,
             $text,
             $category
@@ -132,7 +138,7 @@ class SearchBookController extends MyController
      * @param $text
      * @param $category
      */
-    protected function handleFormElement($form, $text, $category)
+    protected function handleSearchFormElements($form, $text, $category)
     {
         if ($form->isSubmitted() && $form->isValid()) {
             if ($this->handleFormEvents($form)) {

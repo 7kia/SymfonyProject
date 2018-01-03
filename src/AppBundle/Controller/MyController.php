@@ -69,6 +69,7 @@ abstract class MyController extends Controller
 
             $this->handleFormElements($request);
             if ($this->redirectData != null) {
+
                 return $this->redirectToUrl($this->redirectData);
             }
 

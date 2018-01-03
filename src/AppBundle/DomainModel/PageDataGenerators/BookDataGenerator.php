@@ -23,4 +23,15 @@ class BookDataGenerator
     {
         return $this->databaseManager->getOneThingByCriterion($bookId, 'id', Book::class);
     }
+
+    public function findBooksByCategory($searchText, $category)
+    {
+        return $this->databaseManager->findThingByCriteria(
+            'AppBundle\Entity\Book',
+            array(
+                $category => $searchText
+            )
+        );
+    }
+
 }
