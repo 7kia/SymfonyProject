@@ -19,6 +19,15 @@ class UserDataGenerator
         $this->databaseManager = new DatabaseManager($this->controller->getDoctrine());
     }
 
+    public function getUser($userId)
+    {
+        return $this->databaseManager->getOneThingByCriterion(
+            $userId,
+            'id',
+            User::class
+        );
+    }
+
     /**
      * @return mixed|object
      */

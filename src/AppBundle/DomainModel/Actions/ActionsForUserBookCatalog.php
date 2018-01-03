@@ -36,4 +36,18 @@ class ActionsForUserBookCatalog
         }
         return false;
     }
+
+    public function deleteBookFormCatalog($deleteBookId, $catalog, $ownerId, $currentUserId)
+    {
+        if ($this->rulesForBookToUserCatalog->canDeleteBookFormCatalog(
+            $deleteBookId,
+            $catalog,
+            $ownerId,
+            $currentUserId
+        )) {
+            return $this->strategiesForUserBookCatalog->deleteBookFormCatalog($deleteBookId, $catalog, $ownerId);
+        }
+        return false;
+    }
+
 }

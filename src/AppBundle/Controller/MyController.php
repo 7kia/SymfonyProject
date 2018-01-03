@@ -49,6 +49,15 @@ abstract class MyController extends Controller
         return parent::getUser();
     }
 
+    protected function checkMandatoryArgument($argumentName, $value)
+    {
+        if ($value == null) {
+            throw new Exception(
+                $this->getMessageAboutLackArgument($argumentName)
+            );
+        }
+    }
+
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response

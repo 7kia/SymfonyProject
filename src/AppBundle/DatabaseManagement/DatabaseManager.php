@@ -149,7 +149,7 @@ class DatabaseManager
             if ($foundBook != null) {
                 array_push($books, $foundBook);
             } else {
-                throw new Exception('Книга не найдена! Throw to UserBookCatalogController.extractBooks');
+                throw new Exception('Книга не найдена!');
             }
         }
 

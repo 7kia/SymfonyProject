@@ -2,6 +2,15 @@
 
 namespace AppBundle\DomainModel\Rules;
 
-class RulesForUser
+use AppBundle\DatabaseManagement\DatabaseManager;
+
+class RulesForUser extends MyRule
 {
+    /**
+     * RulesForUserBookCatalog constructor.
+     */
+    public function __construct($doctrine)
+    {
+        $this->databaseManager = new DatabaseManager($doctrine);
+    }
 }

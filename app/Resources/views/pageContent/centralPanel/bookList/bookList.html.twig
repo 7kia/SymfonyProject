@@ -23,7 +23,7 @@
                                 <div class="cart_container_book-cart bold-blue-border">
                                     {# % if pageName == "user_list" and (ownerId == currentUser.id) %}#}
                                     <div class="book-cart__image-container center-align">
-                                        {% if pageName == "book_page" %}
+                                        {% if pageName == "book_list" %}
                                             {% if currentUser.id == ownerId%}
                                                 <a href="{{ serverUrl }}user_book_catalog?delete={{ bookCards[i].id }}&book_list_name={{ bookListName }}&owner_id={{ ownerId }}">
                                                     <img class="image-container_delete-btn" src="images/delete.png"

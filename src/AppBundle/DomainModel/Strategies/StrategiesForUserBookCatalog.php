@@ -38,4 +38,19 @@ class StrategiesForUserBookCatalog
         $this->databaseManager->add($bookToCatalog);
         return true;
     }
+
+    public function deleteBookFormCatalog($deleteBookId, $catalog, $ownerId)
+    {
+        $bookToCatalog = $this->databaseManager->getOneThingByCriteria(
+            array(
+                'bookId' => $deleteBookId,
+                'listName' => $catalog,
+                'userId' => $ownerId
+            ),
+            UserListBook::class
+        );
+
+        $this->databaseManager->remove($bookToCatalog);
+        return true;
+    }
 }

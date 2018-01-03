@@ -40,12 +40,15 @@ class MyRule
         if ($addBook == null) {
             throw new Exception($this->getMessageNotExist($bookId, 'Книги'));
         }
+
+        return true;
     }
 
     /**
      * @param $userId
+     * @return bool
      */
-    protected function checkExistUser($userId)
+    public function checkExistUser($userId)
     {
         $user = $this->databaseManager->getOneThingByCriterion(
             $userId,
@@ -56,5 +59,7 @@ class MyRule
         if ($user == null) {
             throw new Exception($this->getMessageNotExist($user, 'Пользователя'));
         }
+
+        return true;
     }
 }

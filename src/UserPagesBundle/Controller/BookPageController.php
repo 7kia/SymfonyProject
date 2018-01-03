@@ -84,11 +84,7 @@ class BookPageController extends MyController
 
     protected function checkGenerationDataForPage($generationDataForPage)
     {
-        if ($generationDataForPage['book_id'] == null) {
-            throw new Exception(
-                $this->getMessageAboutLackArgument('book_id')
-            );
-        }
+        $this->checkMandatoryArgument('book_id', $generationDataForPage['book_id']);
     }
 
     protected function checkCommandData($commandData)

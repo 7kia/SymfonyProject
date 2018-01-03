@@ -5,6 +5,7 @@ namespace AppBundle\DomainModel\Rules;
 use AppBundle\DatabaseManagement\DatabaseManager;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
+use AppBundle\Entity\UserListBook;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 class RulesForUserBookCatalog extends MyRule
@@ -32,13 +33,13 @@ class RulesForUserBookCatalog extends MyRule
     )
     {
         $this->checkExistBook($bookId);
-        $this->checkUserCatalog($catalog);
+        $this->checkUserCatalogName($catalog);
         $this->checkExistUser($userId);
 
         return true;
     }
 
-    private function checkUserCatalog($catalog)
+    public function checkUserCatalogName($catalog)
     {
         $catalogs = array(
             'favorite_books',
@@ -53,8 +54,31 @@ class RulesForUserBookCatalog extends MyRule
                 . '\' не существует'
             );
         }
+
+        return true;
     }
 
+    public function canDeleteBookFormCatalog($deleteBookId, $catalog, $ownerId, $currentUserId)
+    {
+        $this->checkExistBook($deleteBookId);
+        $this->checkUserCatalogName($catalog);
+        $this->checkExistUser($ownerId);
+        $this->checkExistUser($currentUserId);
+
+        if ($currentUserId != $ownerId) {
+            throw new Exception('Команда удаления книги из каталога доступна только владельцу книги');
+        }
+
+        return true;
+    }
+
+    public function checkUserCatalog($ownerId, $bookListName)
+    {
+        $this->checkUserCatalogName($bookListName);
+        $this->checkExistUser($ownerId);
+
+        return true;
+    }
 
 
 }
