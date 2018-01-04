@@ -49,7 +49,7 @@ class UserBookCatalogController extends MyController
         // Такое добавление данных нужно чтобы можно было перейти после авторизации
         // на эту страницу(с аргументами в Url не работает)
         if ($ownerId == null) {
-            $ownerId = $this->getCurrentUser()->getId();
+            $ownerId = $this->userDataGenerator->getCurrentUser()->getId();
         }
         if ($bookListName == null) {
             $bookListName = 'personal_books';

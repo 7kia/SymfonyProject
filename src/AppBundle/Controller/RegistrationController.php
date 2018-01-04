@@ -2,6 +2,8 @@
 // src/AppBundle/Controller/RegistrationController.php
 namespace AppBundle\Controller;
 
+use AppBundle\DomainModel\Actions\ActionsForRegistration;
+use AppBundle\DomainModel\PageDataGenerators\UserDataGenerator;
 use AppBundle\Form\UserType;
 use AppBundle\Entity\User;
 use AppBundle\DatabaseManagement\DatabaseManager;
@@ -14,50 +16,56 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class RegistrationController extends MyController
 {
-    // TODO : когда админ сможет редактировать список пользователей поменяй:
-    // return $this->redirectToRoute('catalog');// 40-41 строка
+    private $passwordEncoder;
+    private $registerForm;
+    private $actionsForRegistration;
+
+    private function initComponents()
+    {
+        $this->actionsForRegistration = new ActionsForRegistration($this->getDoctrine());
+        $this->userDataGenerator = new UserDataGenerator($this);
+    }
+
     /**
      * @Route("/register", name="user_registration")
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-        $this->databaseManager = new DatabaseManager($this->getDoctrine());
+        $this->initComponents();
+        $this->passwordEncoder = $passwordEncoder;
 
-        // 1) build the form
+        return $this->generatePage($request);
+    }
+
+    protected function handleFormElements($request)
+    {
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        $this->registerForm = $this->createForm(UserType::class, $user);
+        $this->registerForm->handleRequest($request);
 
-        // 2) handle the submit (will only happen on POST)
-        $form->handleRequest($request);
+        if ($this->registerForm->isSubmitted() && $this->registerForm->isValid()) {
+            $this->actionsForRegistration->registerUser($user, $this->passwordEncoder);
 
-        //print_r($form->isSubmitted());
-        print_r($form->isSubmitted());
-        if ($form->isSubmitted() && $form->isValid()) {
-            print_r($form->isSubmitted());
-            // 3) Encode the password (you could also do this via Doctrine listener)
-            $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
-            $user->setPassword($password);
-            $user->setAvatar('');
-            $user->setIsAdmin(false);
-
-            // 4) save the User!
-            //$this->databaseManager->add($user);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-            // ... do any other work - like sending them an email, etc
-            // maybe set a "flash" success message for the user
-            return $this->redirectToRoute(
-                'login'
+            $this->redirectData = array(
+                'route' =>'login',
+                'arguments' => array(
+                )
             );
-
         }
+    }
 
-        return $this->render(
-            'authorization/register.html.twig',
-            array('form' => $form->createView())
+    protected function generatePageData($request, $generationDataForPage)
+    {
+        $this->renderTemplate = 'authorization\\register.html.twig';
+
+        return array_merge(
+            MyController::generatePageData($request, $generationDataForPage),
+            array(
+                'form' => $this->registerForm->createView()
+            )
         );
-
-
     }
 }

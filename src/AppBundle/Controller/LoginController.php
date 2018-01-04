@@ -3,6 +3,7 @@
 // src/AppBundle/Controller/SecurityController.php
 namespace AppBundle\Controller;
 
+use AppBundle\DomainModel\PageDataGenerators\UserDataGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Controller\MyController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +15,10 @@ class LoginController extends MyController
 {
     private $authUtils;
 
+    private function initComponents()
+    {
+        $this->userDataGenerator = new UserDataGenerator($this);
+    }
     /**
      * @Route("/login", name="login")
      * @param Request $request
@@ -22,6 +27,8 @@ class LoginController extends MyController
      */
     public function showPage(Request $request, AuthenticationUtils $authUtils)
     {
+        $this->initComponents();
+
         $this->authUtils = $authUtils;
         return $this->generatePage($request);
     }
