@@ -18,8 +18,7 @@ class Comment implements \Serializable
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-	
-	
+
 	/**
      * @ORM\Column(name="bookId",type="integer")
      */
@@ -40,49 +39,73 @@ class Comment implements \Serializable
      */
     private $date;
 	
-	// get/set bookId
+    /**
+     * @return mixed
+     */
     public function getBookId()
     {
         return $this->bookId;
     }
 
+    /**
+     * @param $bookId
+     */
     public function setBookId($bookId)
     {
         $this->bookId = $bookId;
     }
 	
-    // get/set message
+    /**
+     * @return mixed
+     */
     public function getMessage()
     {
         return $this->message;
     }
 
+    /**
+     * @param $message
+     */
     public function setMessage($message)
     {
         $this->message = $message;
     }
-	// get/set userId
+
+    /**
+     * @return mixed
+     */
     public function getUserId()
     {
         return $this->userId;
     }
 
+    /**
+     * @param $userId
+     */
     public function setUserId($userId)
     {
         $this->userId = $userId;
     }
-	
-    // get/set date
+
+    /**
+     * @return mixed
+     */
     public function getDate()
     {
         return $this->date;
     }
 
+    /**
+     * @param $date
+     */
     public function setDate($date)
     {
         $this->date = $date;
     }
-	
+
+    /**
+     * @return null
+     */
     public function getSalt()
     {
         // The bcrypt algorithm doesn't require a separate salt.

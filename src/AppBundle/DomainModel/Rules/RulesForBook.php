@@ -7,11 +7,19 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 
 class RulesForBook extends MyRule
 {
+    /**
+     * RulesForBook constructor.
+     * @param $doctrine
+     */
     public function __construct($doctrine)
     {
         $this->databaseManager = new DatabaseManager($doctrine);
     }
 
+    /**
+     * @param string $category
+     * @return bool
+     */
     public function canSearchBookByCategory($category)
     {
         $categories = array(

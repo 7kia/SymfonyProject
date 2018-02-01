@@ -8,9 +8,15 @@ use AppBundle\DomainModel\Strategies\StrategiesForCirculationBook;
 
 class ActionsForCirculationBook
 {
+    /** @var  RulesForCirculationBook */
     private $rulesForCirculationBook;
+    /** @var  StrategiesForCirculationBook */
     private $strategiesForCirculationBook;
 
+    /**
+     * ActionsForCirculationBook constructor.
+     * @param $doctrine
+     */
     public function __construct($doctrine)
     {
         $this->rulesForCirculationBook = new RulesForCirculationBook($doctrine);
@@ -45,7 +51,12 @@ class ActionsForCirculationBook
 
     }
 
-
+    /**
+     * @param $bookId
+     * @param $applicantId
+     * @param $ownerId
+     * @return bool
+     */
     public function deleteBookFromList($bookId, $applicantId, $ownerId)
     {
         if ($this->rulesForCirculationBook
@@ -65,6 +76,12 @@ class ActionsForCirculationBook
         return false;
     }
 
+    /**
+     * @param $bookId
+     * @param $applicantId
+     * @param $ownerId
+     * @return bool
+     */
     public function acceptBookFromList($bookId, $applicantId, $ownerId)
     {
         if ($this->rulesForCirculationBook

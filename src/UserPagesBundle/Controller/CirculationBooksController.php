@@ -3,6 +3,7 @@
 namespace UserPagesBundle\Controller;
 
 use AppBundle\DomainModel\Actions\ActionsForCirculationBook;
+use AppBundle\DomainModel\Actions\ActionsForUserBookCatalog;
 use AppBundle\DomainModel\PageDataGenerators\CirculationBookDataGenerator;
 use AppBundle\DomainModel\PageDataGenerators\UserDataGenerator;
 use AppBundle\Entity\ApplicationForBook;
@@ -29,10 +30,13 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class CirculationBooksController extends MyController
 {
+    /** @var string */
     private $deleteCommandValue = null;
+    /** @var string */
     private $acceptCommandValue = null;
-
+    /** @var  CirculationBookDataGenerator */
     private $circulationBookDataGenerator;
+    /** @var  ActionsForCirculationBook */
     private $actionsForCirculationBook;
 
     private function initComponents()
@@ -45,6 +49,8 @@ class CirculationBooksController extends MyController
 
     /**
      * @Route("/circulation_books", name="circulation_books" )
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showPage(Request $request)
     {
@@ -65,9 +71,9 @@ class CirculationBooksController extends MyController
     }
 
     /**
-     * @param $generationDataForPage
+     * @param array $generationDataForPage
      */
-    protected function checkGenerationDataForPage($generationDataForPage)
+    protected function checkGenerationDataForPage(array $generationDataForPage)
     {
         $this->checkBookListName($generationDataForPage['book_list_name']);
     }
@@ -131,7 +137,7 @@ class CirculationBooksController extends MyController
     }
 
     /**
-     * @param $typeRequest
+     * @param string $typeRequest
      * @return null
      */
     private function getCommandArgument($typeRequest)
@@ -149,17 +155,16 @@ class CirculationBooksController extends MyController
     }
 
     /**
-     * @param $commandData
+     * @param array $commandData
      */
-    protected function checkCommandData($commandData)
+    protected function checkCommandData(array $commandData)
     {
         $this->checkCommands($commandData['book_list_name']);
         $this->checkOtherUser($commandData['otherUserId'], $commandData['typeRequest']);
     }
 
     /**
-     * @param $bookListName
-     * @return null|string
+     * @param string $bookListName
      */
     private function checkCommands($bookListName)
     {
@@ -172,17 +177,20 @@ class CirculationBooksController extends MyController
     }
 
     /**
-     * @param $otherUser
-     * @param $typeRequest
+     * @param int $otherUserId
+     * @param string $typeRequest
      */
-    private function checkOtherUser($otherUser, $typeRequest)
+    private function checkOtherUser($otherUserId, $typeRequest)
     {
-        if (($otherUser == null) and ($typeRequest != null)) {
+        if (($otherUserId == null) and ($typeRequest != null)) {
             throw new Exception($this->getMessageAboutLackArgument('other_user'));
         }
     }
 
-    protected function commandProcessing($commandData)
+    /**
+     * @param array $commandData
+     */
+    protected function commandProcessing(array $commandData)
     {
         if ($commandData['typeRequest'] != null) {
             if ($this->executeRequest($commandData, $commandData['book_list_name'])) {
@@ -199,6 +207,10 @@ class CirculationBooksController extends MyController
         }
     }
 
+    /**
+     * @param \appDevDebugProjectContainer $requestValue
+     * @return bool
+     */
     private function executeRequest($requestValue)
     {
         $currentUser = $this->userDataGenerator->getCurrentUser();
@@ -219,7 +231,12 @@ class CirculationBooksController extends MyController
         return false;
     }
 
-    protected function generatePageData($request, $generationDataForPage)
+    /**
+     * @param Request $request
+     * @param array $generationDataForPage
+     * @return array
+     */
+    protected function generatePageData(Request $request, array $generationDataForPage)
     {
         $currentUserData = $this->userDataGenerator->getCurrentUser();
 

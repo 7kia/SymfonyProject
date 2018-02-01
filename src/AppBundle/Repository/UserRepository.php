@@ -7,6 +7,10 @@ use Doctrine\ORM\EntityRepository;
 
 class UserRepository extends EntityRepository implements UserLoaderInterface
 {
+    /**
+     * @param string $username
+     * @return mixed
+     */
     public function loadUserByUsername($username)
     {
         return $this->createQueryBuilder('u')
@@ -16,24 +20,5 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
             ->getQuery()
             ->getOneOrNullResult();
     }
-    
-    // TODO : check work the function
-    public function findAllOrderedByName()
-    {
-        return $this->getEntityManager()
-            ->createQuery(
-                'SELECT p FROM AppBundle:User p ORDER BY p.name ASC'
-            )
-            ->getResult();
-    }
-    
-    // TODO : check work the function
-//    public function listAction()
-//    {
-//        $products = $this->getDoctrine()
-//            ->getRepository(User::class)
-//            ->findAllOrderedByName();
-//    }
-    
-    
+
 }

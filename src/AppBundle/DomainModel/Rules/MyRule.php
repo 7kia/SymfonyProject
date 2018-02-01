@@ -9,17 +9,20 @@
 namespace AppBundle\DomainModel\Rules;
 
 
+use AppBundle\DatabaseManagement\DatabaseManager;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 class MyRule
 {
+    /** @var  DatabaseManager */
     protected $databaseManager;
 
     /**
-     * @param $bookId
+     * @param int $bookId
+     * @param string $entityName
      * @return string
-     * @internal param $argumentName
      */
     protected function getMessageNotExist($bookId, $entityName)
     {
@@ -27,7 +30,8 @@ class MyRule
     }
 
     /**
-     * @param $bookId
+     * @param int $bookId
+     * @return bool
      */
     protected function checkExistBook($bookId)
     {
@@ -45,11 +49,12 @@ class MyRule
     }
 
     /**
-     * @param $userId
+     * @param int $userId
      * @return bool
      */
     public function checkExistUser($userId)
     {
+        /** @var User $user */
         $user = $this->databaseManager->getOneThingByCriterion(
             $userId,
             "id",

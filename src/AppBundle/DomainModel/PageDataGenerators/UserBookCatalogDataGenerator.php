@@ -10,11 +10,19 @@ use AppBundle\Entity\User;
 
 class UserBookCatalogDataGenerator
 {
+    /** @var MyController */
     private $controller;
+    /** @var DatabaseManager  */
     private $databaseManager;
+    /** @var RulesForUserBookCatalog  */
     private $rulesForUserBookCatalog;
+    /** @var RulesForUser  */
     private $rulesForUser;
 
+    /**
+     * UserBookCatalogDataGenerator constructor.
+     * @param MyController $controller
+     */
     public function __construct(MyController $controller)
     {
         $this->controller = $controller;
@@ -23,6 +31,11 @@ class UserBookCatalogDataGenerator
         $this->rulesForUser = new RulesForUser($this->controller->getDoctrine());
     }
 
+    /**
+     * @param int $ownerId
+     * @param string $bookListName
+     * @return array|null
+     */
     public function getUserCatalog($ownerId, $bookListName)
     {
         $existCatalog = $this->rulesForUserBookCatalog->checkUserCatalog($ownerId, $bookListName);
@@ -38,8 +51,8 @@ class UserBookCatalogDataGenerator
     }
 
     /**
-     * @param $bookListName
-     * @param $userName
+     * @param string $bookListName
+     * @param string $userName
      * @return string|null
      */
     public function getCatalogTitle($bookListName, $userName)
@@ -51,7 +64,7 @@ class UserBookCatalogDataGenerator
     }
 
     /**
-     * @param $bookListName
+     * @param string $bookListName
      * @return string
      */
     private function getCatalogName($bookListName)
@@ -67,7 +80,4 @@ class UserBookCatalogDataGenerator
         }
         return '';
     }
-
-
-
 }

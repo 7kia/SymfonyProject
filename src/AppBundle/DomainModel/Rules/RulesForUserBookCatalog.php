@@ -10,10 +10,9 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 
 class RulesForUserBookCatalog extends MyRule
 {
-
-
     /**
      * RulesForUserBookCatalog constructor.
+     * @param $doctrine
      */
     public function __construct($doctrine)
     {
@@ -21,9 +20,9 @@ class RulesForUserBookCatalog extends MyRule
     }
 
     /**
-     * @param $bookId
-     * @param $catalog
-     * @param $userId
+     * @param int $bookId
+     * @param int $catalog
+     * @param int $userId
      * @return bool
      */
     public function canAddBookToUserCatalog(
@@ -39,6 +38,10 @@ class RulesForUserBookCatalog extends MyRule
         return true;
     }
 
+    /**
+     * @param string $catalog
+     * @return bool
+     */
     public function checkUserCatalogName($catalog)
     {
         $catalogs = array(
@@ -58,6 +61,14 @@ class RulesForUserBookCatalog extends MyRule
         return true;
     }
 
+
+    /**
+     * @param int $deleteBookId
+     * @param string $catalog
+     * @param int $ownerId
+     * @param int $currentUserId
+     * @return bool
+     */
     public function canDeleteBookFormCatalog($deleteBookId, $catalog, $ownerId, $currentUserId)
     {
         $this->checkExistBook($deleteBookId);
@@ -72,6 +83,11 @@ class RulesForUserBookCatalog extends MyRule
         return true;
     }
 
+    /**
+     * @param int $ownerId
+     * @param int $bookListName
+     * @return bool
+     */
     public function checkUserCatalog($ownerId, $bookListName)
     {
         $this->checkUserCatalogName($bookListName);
@@ -79,6 +95,4 @@ class RulesForUserBookCatalog extends MyRule
 
         return true;
     }
-
-
 }

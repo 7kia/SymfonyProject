@@ -8,6 +8,10 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 
 class RulesForCirculationBook extends MyRule
 {
+    /**
+     * RulesForCirculationBook constructor.
+     * @param $doctrine
+     */
     public function __construct($doctrine)
     {
         $this->databaseManager = new DatabaseManager($doctrine);
@@ -25,8 +29,6 @@ class RulesForCirculationBook extends MyRule
         $this->checkExistUser($applicantId);
         $this->checkExistUser($ownerId);
 
-        $this->checkApplicationForBook($bookId, $applicantId, $ownerId);
-
         if ($applicantId == $ownerId) {
             throw new Exception('Нельзя послать заявку самому себе');
         }
@@ -34,38 +36,27 @@ class RulesForCirculationBook extends MyRule
         return true;
     }
 
-    private function checkApplicationForBook($bookId, $applicantId, $ownerId)
-    {
-        $application = $this->databaseManager->getOneThingByCriteria(
-            array(
-                'bookId' => $bookId,
-                'applicantId' => $applicantId,
-                'ownerId' => $ownerId,
-            ),
-            ApplicationForBook::class
-        );
-
-        if ($application == null) {
-            throw new Exception(
-                'Нет заявки с id книги ='. $bookId .
-                ' id заявителя =' . $applicantId .
-                ' id владельца =' . $ownerId
-            );
-        }
-
-    }
-
+    /**
+     * @param int $bookId
+     * @param int $applicantId
+     * @param int $ownerId
+     * @return bool
+     */
     public function canDeleteBookFromList($bookId, $applicantId, $ownerId)
     {
         $applicationForBook = $this->databaseManager->getApplicationForBook($bookId, $applicantId, $ownerId);
         return ($applicationForBook != null);
     }
 
+    /**
+     * @param int $bookId
+     * @param int $applicantId
+     * @param int $ownerId
+     * @return bool
+     */
     public function canAcceptBookFromList($bookId, $applicantId, $ownerId)
     {
         $applicationForBook = $this->databaseManager->getApplicationForBook($bookId, $applicantId, $ownerId);
         return ($applicationForBook != null);
     }
-
-
 }

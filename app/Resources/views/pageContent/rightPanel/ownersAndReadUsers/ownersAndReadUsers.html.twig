@@ -14,7 +14,7 @@
                         <td>
                             <div class="owner-container bold-blue-border">
                                 <div class="read-user-container__image-container inline-block ">
-                                    <img class="image-container_book-image blue-border" src="avatars/{{ ownerList[i].avatar }}"
+                                    <img class="image-container_book-image blue-border" src="images/avatars/{{ ownerList[i].avatar }}"
                                          alt="{{ ownerList[i].name }}"/>
                                     <a href="{{ path('book_page') }}?book_id={{ bookData.id }}&send_application_to={{ ownerList[i].userId }}">
                                         <img class="send_application_image" src="images/sendApplication.png"
@@ -52,7 +52,7 @@
                         <td>
                             <div class="read-user-container bold-blue-border">
                                 <div class="read-user-container__image-container blue-border inline-block ">
-                                    <img class="bookImage" src="avatars/{{ readUserList[i].avatar }}"
+                                    <img class="bookImage" src="images/avatars/{{ readUserList[i].avatar }}"
                                              alt="{{ readUserList[i].name }}"/>
                                 </div>
                                 <div class="read-user-container__read-user-name-container blue-border inline-block center-align">
@@ -72,5 +72,3 @@
     </div>
 
 </div>
-{# links for "top\leftButtons.html.twig"
-#}

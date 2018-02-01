@@ -59,105 +59,154 @@ class Book implements \Serializable
      */
     private $bookImage;
 
-    // get/set id
+    /**
+     * @return mixed
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @param $id
+     */
     public function setId($id)
     {
         $this->id = $id;
     }
 
-	// get/set name
+    /**
+     * @return mixed
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * @param $name
+     */
     public function setName($name)
     {
         $this->name = $name;
     }
 
-    // get/set name
+    /**
+     * @return mixed
+     */
     public function getAuthor()
     {
         return $this->author;
     }
 
+    /**
+     * @param $author
+     */
     public function setAuthor($author)
     {
         $this->author = $author;
     }
 
-	// get/set pageCount
+    /**
+     * @return mixed
+     */
     public function getPageCount()
     {
         return $this->pageCount;
     }
 
+    /**
+     * @param $pageCount
+     */
     public function setPageCount($pageCount)
     {
         $this->pageCount = $pageCount;
     }
-	
-	// get/set description
+
+    /**
+     * @return mixed
+     */
     public function getDescription()
     {
         return $this->description;
     }
 
+    /**
+     * @param $description
+     */
     public function setDescription($description)
     {
         $this->description = $description;
     }
-	
-	// get/set isbn
+
+    /**
+     * @return mixed
+     */
     public function getIsbn()
     {
         return $this->isbn;
     }
 
+    /**
+     * @param $isbn
+     */
     public function setIsbn($isbn)
     {
         $this->isbn = $isbn;
     }
 
-	// get/set rating
+
+    /**
+     * @return mixed
+     */
     public function getRating()
     {
         return $this->rating;
     }
 
+    /**
+     * @param $rating
+     */
     public function setRating($rating)
     {
         $this->rating = $rating;
     }
 
-    // get/set deadline
+    /**
+     * @return mixed
+     */
     public function getDeadline()
     {
         return $this->deadline;
     }
 
+    /**
+     * @param $deadline
+     */
     public function setDeadline($deadline)
     {
         $this->deadline = $deadline;
     }
 
-    // get/set bookImage
+    /**
+     * @return mixed
+     */
     public function getBookImage()
     {
         return $this->bookImage;
     }
 
+    /**
+     * @param $bookImage
+     */
     public function setBookImage($bookImage)
     {
         $this->bookImage = $bookImage;
     }
 
+    /**
+     * @return null
+     */
     public function getSalt()
     {
         // The bcrypt algorithm doesn't require a separate salt.
@@ -165,11 +214,16 @@ class Book implements \Serializable
         return null;
     }
 
-	
-	function __construct() {
-	}
-	
-	public static function generateWithData(
+    // TODO : некорректное считывание
+    /**
+     * @param $name
+     * @param $publishingYear
+     * @param $pageAmount
+     * @param $rating
+     * @param $bookImage
+     * @return Book
+     */
+    public static function generateWithData(
 		$name, 
 		$publishingYear,
 		$pageAmount,
@@ -186,8 +240,15 @@ class Book implements \Serializable
 		);
         return $instance;
     }
-	
-	public function fill( 
+
+    /**
+     * @param $name
+     * @param $publishingYear
+     * @param $pageAmount
+     * @param $rating
+     * @param $bookImage
+     */
+    public function fill(
 		$name, 
 		$publishingYear,
 		$pageAmount,
@@ -233,6 +294,4 @@ class Book implements \Serializable
             // $this->salt
         ) = unserialize($serialized);
     }
-
-
 }

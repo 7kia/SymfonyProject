@@ -16,6 +16,7 @@ use AppBundle\DatabaseManagement\SearchData;
 use AppBundle\DatabaseManagement\DatabaseManager;
 
 
+use AppBundle\Security\ApplicationStatus;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -29,13 +30,17 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class BookPageController extends MyController
 {
+    /** @var  ActionsForUserBookCatalog */
     private $actionsForUserBookCatalog;
+    /** @var  ActionsForUserBookCatalog */
     private $actionsForCirculationBook;
+    /** @var  CirculationBookDataGenerator */
     private $circulationBookDataGenerator;
+    /** @var  BookDataGenerator */
     private $bookDataGenerator;
-
+    /** @var ApplicationStatus */
     private $applicationStatusInfo = null;
-
+    /** @var  int */
     private $bookId;
 
     private function initComponents()
@@ -59,6 +64,9 @@ class BookPageController extends MyController
         return $this->generatePage($request);
     }
 
+    /**
+     * @return array
+     */
     protected function getGenerationDataFromUrl()
     {
         $this->bookId = $this->getParamFromGetRequest('book_id');
@@ -68,6 +76,9 @@ class BookPageController extends MyController
         );
     }
 
+    /**
+     * @return array
+     */
     protected function getCommandDataFromUrl()
     {
         $bookId = $this->getParamFromGetRequest('book_id');
@@ -82,25 +93,34 @@ class BookPageController extends MyController
         );
     }
 
-    protected function checkGenerationDataForPage($generationDataForPage)
+    /**
+     * @param array $generationDataForPage
+     */
+    protected function checkGenerationDataForPage(array $generationDataForPage)
     {
         $this->checkMandatoryArgument('book_id', $generationDataForPage['book_id']);
     }
 
-    protected function checkCommandData($commandData)
+    /**
+     * @param array $commandData
+     */
+    protected function checkCommandData(array $commandData)
     {
         $existSendArgument = ($commandData['send_application_to'] != null);
         $existCatalogArgument = ($commandData['add_to_catalog'] != null);
 
-        if (!$existSendArgument and $existCatalogArgument) {
-            throw new Exception($this->getMessageAboutLackArgument('send_application_to'));
-        }
-        if ($existSendArgument and !$existCatalogArgument) {
-            throw new Exception($this->getMessageAboutLackArgument('add_to_catalog'));
+        if ($existSendArgument and $existCatalogArgument) {
+            throw new Exception(
+                'Можно использовать только 1 из аргументов
+                 \'send_application_to\' или \'add_to_catalog\''
+            );
         }
     }
 
-    protected function commandProcessing($commandData)
+    /**
+     * @param array $commandData
+     */
+    protected function commandProcessing(array $commandData)
     {
         $currentUserId = $this->userDataGenerator->getCurrentUser()->getId();
 
@@ -122,8 +142,8 @@ class BookPageController extends MyController
         if ($sendApplicationToOwner) {
             $this->applicationStatusInfo = $this->actionsForCirculationBook->sendApplicationToOwner(
                 $commandData['book_id'],
-                $commandData['current_user_id'],
-                $currentUserId
+                $currentUserId,
+                $commandData['send_application_to']
             );
 
             $this->notificationMessage = 'Вы подали заявку';
@@ -131,7 +151,12 @@ class BookPageController extends MyController
     }
 
 
-    protected function generatePageData($request, $generationDataForPage)
+    /**
+     * @param Request $request
+     * @param array $generationDataForPage
+     * @return array
+     */
+    protected function generatePageData(Request $request, array $generationDataForPage)
     {
         $readUsers = $this->circulationBookDataGenerator->getReadUserData($this->bookId);
         $ownerData = $this->circulationBookDataGenerator->getOwnerData($this->bookId);
@@ -150,6 +175,4 @@ class BookPageController extends MyController
             )
         );
     }
-
-
 }

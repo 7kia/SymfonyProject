@@ -2,29 +2,33 @@
 namespace AdminPagesBundle\Controller;
 
 use AppBundle\Entity\User;
-use AppBundle\DatabaseManagement\DatabaseManager;
 use AppBundle\Controller\MyController;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;// PhpStorm считает ненужным. Нужен для @Route
 
 
 class UserTableController extends MyController
 {
     /**
-    * @Route("/Tables/users")
-    */
+     * @Route("/Tables/users")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function showPage(Request $request)
     {
         return $this->generatePage($request);
     }
 
-    protected function generatePageData($request, $generationDataForPage)
+    /**
+     * @param Request $request
+     * @param array $generationDataForPage
+     * @return array
+     */
+    protected function generatePageData(Request $request, array $generationDataForPage)
     {
         $repository = $this->getDoctrine()->getRepository(User::class);
-        // TODO : замени findAll на get(<range>)
-
         $users = $repository->findAll();
 
         $form = $this->createFormBuilder()->getForm();

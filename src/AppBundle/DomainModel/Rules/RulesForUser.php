@@ -8,6 +8,7 @@ class RulesForUser extends MyRule
 {
     /**
      * RulesForUserBookCatalog constructor.
+     * @param $doctrine
      */
     public function __construct($doctrine)
     {

@@ -1,39 +1,42 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Илья
- * Date: 20.12.2017
- * Time: 14:41
- */
 
 namespace AppBundle\DatabaseManagement;
 
 use AppBundle\Entity\ApplicationForBook;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
-use AppBundle\Entity\TakenBook;
+use AppBundle\Entity\UserListBook;
 use AppBundle\Security\ApplicationStatus;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 class DatabaseManager
 {
-    private $doctrineManager = null;//$em
+    /** @var DoctrineManager */
+    private $doctrineManager = null;
 
+    /**
+     * DatabaseManager constructor.
+     * @param $doctrine
+     */
     function __construct($doctrine)
     {
         $this->doctrine = $doctrine;
         $this->doctrineManager = $doctrine->getManager();
     }
 
-
-
+    /**
+     * @param $object
+     */
     public function add($object)
     {
         $this->doctrineManager->persist($object);
         $this->doctrineManager->flush();
     }
 
+    /**
+     * @param $object
+     */
     public function remove($object)
     {
         $this->doctrineManager->remove($object);
@@ -50,7 +53,21 @@ class DatabaseManager
         $criteria
     )
     {
+        $stringCriteria = $this->generateCriteriaString($criteria);
 
+        $query = $this->doctrineManager->createQuery(
+            'SELECT p FROM ' . $searchPlace . ' p ' .
+            'WHERE ' . $stringCriteria
+        );
+        return $query->execute();
+    }
+
+    /**
+     * @param $criteria
+     * @return string
+     */
+    private function generateCriteriaString($criteria)
+    {
         $stringCriteria = '';
         while ($key = current($criteria)) {
             if (strlen($stringCriteria) > 1) {
@@ -61,12 +78,7 @@ class DatabaseManager
             next($criteria);
         }
 
-        $query = $this->doctrineManager->createQuery(
-            'SELECT p
-                FROM ' . $searchPlace . ' p ' .
-            'WHERE ' . $stringCriteria
-        );
-        return $query->execute();
+        return $stringCriteria;
     }
 
     /**
@@ -97,11 +109,11 @@ class DatabaseManager
     }
 
     /**
-     * @param $idList
+     * @param array $idList
      * @param $class
      * @return array
      */
-    public function getThings($idList, $class)
+    public function getThings(array $idList, $class)
     {
         $books = array();
         foreach ($idList as $id) {
@@ -118,8 +130,8 @@ class DatabaseManager
     }
 
     /**
-     * @param $userId
-     * @param $bookListName
+     * @param int $userId
+     * @param string $bookListName
      * @return mixed
      */
     public function findUserCatalog($userId, $bookListName)
@@ -134,7 +146,7 @@ class DatabaseManager
     }
 
     /**
-     * @param $catalog
+     * @param array $catalog
      * @return array
      */
     public function extractBooks($catalog)
@@ -143,6 +155,7 @@ class DatabaseManager
 
         $books = array();
 
+        /** @var UserListBook $catalogBook */
         foreach ($catalog as &$catalogBook) {
             $foundBook = $repository->find($catalogBook->getBookId());
 
@@ -157,9 +170,9 @@ class DatabaseManager
     }
 
     /**
-     * @param $bookId
-     * @param $applicantId
-     * @param $ownerId
+     * @param int $bookId
+     * @param int $applicantId
+     * @param int $ownerId
      * @return int
      */
     public function sendApplication(
@@ -191,13 +204,18 @@ class DatabaseManager
         $applicationForBook->setApplicantId($applicant->getId());
         $applicationForBook->setOwnerId($owner->getId());
 
-        // TODO : проверь добавку повторной заявки
         $this->doctrineManager->persist($applicationForBook);
         $this->doctrineManager->flush();
 
         return ApplicationStatus::SEND_SUCCESSFUL;
     }
 
+    /**
+     * @param int $bookId
+     * @param int $applicantId
+     * @param int $ownerId
+     * @return mixed
+     */
     public function getApplicationForBook($bookId, $applicantId, $ownerId)
     {
         return $this->getOneThingByCriteria(

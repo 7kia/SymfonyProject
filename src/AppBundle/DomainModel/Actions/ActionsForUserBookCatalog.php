@@ -9,9 +9,15 @@ use AppBundle\Entity\UserListBook;
 
 class ActionsForUserBookCatalog
 {
+    /** @var  StrategiesForRegistration */
     private $rulesForBookToUserCatalog;
+    /** @var  StrategiesForRegistration */
     private $strategiesForUserBookCatalog;
 
+    /**
+     * ActionsForUserBookCatalog constructor.
+     * @param $doctrine
+     */
     public function __construct($doctrine)
     {
         $this->rulesForBookToUserCatalog = new RulesForUserBookCatalog($doctrine);
@@ -19,9 +25,9 @@ class ActionsForUserBookCatalog
     }
 
     /**
-     * @param $bookId
-     * @param $catalog
-     * @param $userId
+     * @param int $bookId
+     * @param string $catalog
+     * @param int $userId
      * @return bool
      * @internal param Book $addBook
      */
@@ -37,6 +43,13 @@ class ActionsForUserBookCatalog
         return false;
     }
 
+    /**
+     * @param int $deleteBookId
+     * @param string $catalog
+     * @param int $ownerId
+     * @param int $currentUserId
+     * @return bool
+     */
     public function deleteBookFormCatalog($deleteBookId, $catalog, $ownerId, $currentUserId)
     {
         if ($this->rulesForBookToUserCatalog->canDeleteBookFormCatalog(

@@ -33,41 +33,59 @@ class UserListBook implements \Serializable
      * @ORM\Column(name="userId",type="integer")
      */
     private $userId;
-	
-	
-	// get/set bookId
+
+    /**
+     * @return mixed
+     */
     public function getBookId()
     {
         return $this->bookId;
     }
 
+    /**
+     * @param $bookId
+     */
     public function setBookId($bookId)
     {
         $this->bookId = $bookId;
     }
-	
-    // get/set listName
+
+    /**
+     * @return mixed
+     */
     public function getListName()
     {
         return $this->listName;
     }
 
+    /**
+     * @param $listName
+     */
     public function setListName($listName)
     {
         $this->listName = $listName;
     }
-	// get/set userId
+
+    /**
+     * @return mixed
+     */
     public function getUserId()
     {
         return $this->userId;
     }
 
+    /**
+     * @param $userId
+     */
     public function setUserId($userId)
     {
         $this->userId = $userId;
     }
-	
-    
+
+
+    /**
+     * @return null
+     */
     public function getSalt()
     {
         // The bcrypt algorithm doesn't require a separate salt.
@@ -101,6 +119,4 @@ class UserListBook implements \Serializable
             // $this->salt
         ) = unserialize($serialized);
     }
-
-
 }

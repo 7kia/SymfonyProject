@@ -39,58 +39,80 @@ class TakenBook implements \Serializable
      * @ORM\Column(name="deadline", type="datetime")
      */
     private $deadline;
-	
-    // get/set bookId
+
+    /**
+     * @return mixed
+     */
     public function getBookId()
     {
         return $this->bookId;
     }
 
+    /**
+     * @param $bookId
+     */
     public function setBookId($bookId)
     {
         $this->bookId = $bookId;
     }
-	// get/set applicantId
+
+    /**
+     * @return mixed
+     */
     public function getApplicantId()
     {
         return $this->applicantId;
     }
 
+    /**
+     * @param $applicantId
+     */
     public function setApplicantId($applicantId)
     {
         $this->applicantId = $applicantId;
     }
-	// get/set ownerId
+
+    /**
+     * @return mixed
+     */
     public function getOwnerId()
     {
         return $this->ownerId;
     }
 
+    /**
+     * @param $ownerId
+     */
     public function setOwnerId($ownerId)
     {
         $this->ownerId = $ownerId;
     }
-	// get/set deadline
+
+    /**
+     * @return mixed
+     */
     public function getDeadline()
     {
         return $this->deadline;
     }
 
+    /**
+     * @param $deadline
+     */
     public function setDeadline($deadline)
     {
         $this->deadline = $deadline;
     }
-	
 
-	
-    
+    /**
+     * @return null
+     */
     public function getSalt()
     {
         // The bcrypt algorithm doesn't require a separate salt.
         // You *may* need a real salt if you choose a different encoder.
         return null;
     }
-
 
     /** @see \Serializable::serialize() */
     public function serialize()
@@ -119,6 +141,4 @@ class TakenBook implements \Serializable
             // $this->salt
         ) = unserialize($serialized);
     }
-
-
 }

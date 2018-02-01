@@ -26,15 +26,13 @@ class SomeAuthenticationListener implements ListenerInterface
      */
     private $providerKey;
 
-    // ...
-
+    /**
+     * @param GetResponseEvent $event
+     */
     public function handle(GetResponseEvent $event)
     {
-        $request = $event->getRequest();
-
-        
-//        $username = ...;
-//        $password = ...;
+        $username = null;
+        $password = null;
 
         $unauthenticatedToken = new UsernamePasswordToken(
             $username,

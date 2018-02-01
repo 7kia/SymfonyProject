@@ -3,6 +3,7 @@
 // src/AppBundle/Security/User/WebserviceUserProvider.php
 namespace AppBundle\Security\User;
 
+use AppBundle\DatabaseManagement\DatabaseManager;
 use AppBundle\Security\User\WebserviceUser;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -11,16 +12,21 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
 class WebserviceUserProvider implements UserProviderInterface
 {
+    /**
+     * @param string $username
+     * @return \AppBundle\Security\User\WebserviceUser
+     */
     public function loadUserByUsername($username)
     {
         // make a call to your webservice here
-        //$userData = ...
+        $userData = new WebserviceUser($username, null, null, null);
         // pretend it returns an array on success, false if there is no user
+        // TODO : возможно не работает
 
         if ($userData) {
-            $password = '...';
-
-            // ...
+            $password = null;
+            $salt = null;
+            $roles = null;
 
             return new WebserviceUser($username, $password, $salt, $roles);
         }
@@ -30,6 +36,10 @@ class WebserviceUserProvider implements UserProviderInterface
         );
     }
 
+    /**
+     * @param UserInterface $user
+     * @return \AppBundle\Security\User\WebserviceUser
+     */
     public function refreshUser(UserInterface $user)
     {
         if (!$user instanceof WebserviceUser) {
@@ -37,10 +47,13 @@ class WebserviceUserProvider implements UserProviderInterface
                 sprintf('Instances of "%s" are not supported.', get_class($user))
             );
         }
-
         return $this->loadUserByUsername($user->getUsername());
     }
 
+    /**
+     * @param string $class
+     * @return bool
+     */
     public function supportsClass($class)
     {
         return WebserviceUser::class === $class;

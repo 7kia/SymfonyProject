@@ -1,19 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Илья
- * Date: 06.12.2017
- * Time: 17:26
- */
 
 namespace AppBundle\Controller;
 
 use AppBundle\DatabaseManagement\DatabaseManager;
 use AppBundle\DomainModel\PageDataGenerators\UserDataGenerator;
-use AppBundle\Entity\ApplicationForBook;
-use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
-use AppBundle\Entity\TakenBook;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -21,34 +13,45 @@ use Symfony\Component\HttpFoundation\Request;
 
 abstract class MyController extends Controller
 {
-    const SERVER_URL = 'http://localhost:8000/';
-    const TEMPLATE_PATH = 'template.html.twig';
-
+    /** @var  DatabaseManager */
     protected $databaseManager;
-    protected $redirectData = null;// TODO нужен = null
+    /** @var  array */
+    protected $redirectData = null;
+    /** @var string */
     protected $notificationMessage = null;
-    protected $renderTemplate = MyController::TEMPLATE_PATH;
-
+    /** @var string */
+    protected $renderTemplate = 'template.html.twig';
+    /** @var UserDataGenerator */
     protected $userDataGenerator;
 
     /**
-     * @return null
+     * @return array
      */
     protected function getGenerationDataFromUrl()
     {
-        return null;
+        return array();
     }
 
+    /**
+     * @return \Doctrine\Bundle\DoctrineBundle\Registry
+     */
     public function getDoctrine()
     {
         return parent::getDoctrine();
     }
 
+    /**
+     * @return User
+     */
     public function getUser()
     {
         return parent::getUser();
     }
 
+    /**
+     * @param $argumentName
+     * @param $value
+     */
     protected function checkMandatoryArgument($argumentName, $value)
     {
         if ($value == null) {
@@ -94,25 +97,25 @@ abstract class MyController extends Controller
     }
 
     /**
-     * @param $generationDataForPage
+     * @param array|null $generationDataForPage
      */
-    protected function checkGenerationDataForPage($generationDataForPage)
+    protected function checkGenerationDataForPage(array $generationDataForPage)
     {
 
     }
 
     /**
-     * @param $commandData
+     * @param array $commandData
      */
-    protected function checkCommandData($commandData)
+    protected function checkCommandData(array $commandData)
     {
 
     }
 
     /**
-     * @param $request
+     * @param Request $request
      */
-    protected function handleFormElements($request)
+    protected function handleFormElements(Request $request)
     {
     }
 
@@ -129,39 +132,37 @@ abstract class MyController extends Controller
     }
 
     /**
-     * @param $request
-     * @param $generationDataForPage
+     * @param Request $request
+     * @param array $generationDataForPage
      * @return array
      */
-    protected function generatePageData($request, $generationDataForPage)
+    protected function generatePageData(Request $request, array $generationDataForPage)
     {
         return array(
-            'serverUrl' => MyController::SERVER_URL,
+            'serverUrl' => 'http://localhost:8000/',
             'currentUser' => $this->userDataGenerator->getCurrentUser(),
             'userLogin' => $this->userDataGenerator->userAuthorized(),
         );
     }
 
     /**
-     * @return null
+     * @return array
      */
     protected function getCommandDataFromUrl()
     {
-        return null;
+        return array();
     }
 
 
     /**
-     * @param $commandData
+     * @param array $commandData
      */
-    protected function commandProcessing($commandData)
+    protected function commandProcessing(array  $commandData)
     {
-
     }
 
-
     /**
-     * @param $errorMessage
+     * @param string $errorMessage
      * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function createErrorPage($errorMessage)
@@ -176,7 +177,7 @@ abstract class MyController extends Controller
     }
 
     /**
-     * @param $argumentName
+     * @param string $argumentName
      * @return string
      */
     protected function getMessageAboutLackArgument($argumentName)
@@ -184,21 +185,16 @@ abstract class MyController extends Controller
         return 'Не передан аргумент ' . $argumentName;
     }
 
-    // TODO : возможно её стоит переметить в другой файл
     /**
-     * @param $arg_name
+     * @param string $argName
      * @return string|null
      */
-    protected function getParamFromGetRequest($arg_name)
+    protected function getParamFromGetRequest($argName)
     {
-        if (isset($_GET[$arg_name])) {
-            return $_GET[$arg_name];
+        if (isset($_GET[$argName])) {
+            return $_GET[$argName];
         }
-
         return null;
     }
-
-
-
 
 }

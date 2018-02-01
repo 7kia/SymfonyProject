@@ -3,18 +3,26 @@
 namespace AppBundle\DomainModel\PageDataGenerators;
 
 use AppBundle\Controller\MyController;
+use AppBundle\Entity\ApplicationForBook;
 use AppBundle\Entity\Book;
+use AppBundle\Entity\TakenBook;
 use AppBundle\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\DatabaseManagement\DatabaseManager;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 class CirculationBookDataGenerator
 {
+    /** @var  MyController */
     protected $controller;
+    /** @var  DatabaseManager */
     protected $databaseManager;
+    /** @var  UserDataGenerator */
     protected $userDataGenerator;
 
+    /**
+     * CirculationBookDataGenerator constructor.
+     * @param MyController $controller
+     */
     public function __construct(MyController $controller)
     {
         $this->controller = $controller;
@@ -23,7 +31,7 @@ class CirculationBookDataGenerator
     }
 
     /**
-     * @param $bookId
+     * @param int $bookId
      * @return array
      */
     public function getReadUserData($bookId)
@@ -39,7 +47,7 @@ class CirculationBookDataGenerator
     }
 
     /**
-     * @param $bookId
+     * @param int $bookId
      * @return array
      * @internal param $readUsers
      */
@@ -69,8 +77,6 @@ class CirculationBookDataGenerator
         return $ownerData;
     }
 
-
-
     /**
      * @param $personalBooks
      * @param $readUsers
@@ -88,7 +94,6 @@ class CirculationBookDataGenerator
             );
 
             if (!in_array($owner, $readUsers)) {
-
                 array_push(
                     $ownerData,
                     array(
@@ -182,7 +187,7 @@ class CirculationBookDataGenerator
     }
 
     /**
-     * @param $getId
+     * @param int $getId
      * @return mixed
      */
     private function getTakenBookTableData($getId)
@@ -196,6 +201,7 @@ class CirculationBookDataGenerator
 
         $bookIds = array();
         $userIds = array();
+        /** @var TakenBook $takenBook */
         foreach ($takenBooks as $takenBook) {
             array_push($bookIds, $takenBook->getBookId());
             array_push($userIds, $takenBook->getOwnerId());
@@ -204,7 +210,7 @@ class CirculationBookDataGenerator
     }
 
     /**
-     * @param $getId
+     * @param int $getId
      * @return mixed
      */
     private function getGivenBookTableData($getId)
@@ -220,6 +226,7 @@ class CirculationBookDataGenerator
         $bookIds = array();
         $users = array();
         foreach ($givenBooks as $givenBook) {
+            /** @var TakenBook $givenBook */
             array_push($bookIds, $givenBook->getBookId());
             array_push($users, $givenBook->getApplicantId());
         }
@@ -242,6 +249,7 @@ class CirculationBookDataGenerator
         $bookIds = array();
         $users = array();
         foreach ($applicationForBooks as $applicationForBook) {
+            /** @var ApplicationForBook $applicationForBook */
             array_push($bookIds, $applicationForBook->getBookId());
             array_push($users, $applicationForBook->getApplicantId());
         }
@@ -251,8 +259,8 @@ class CirculationBookDataGenerator
 
 
     /**
-     * @param $bookIds
-     * @param $userIds
+     * @param int $bookIds
+     * @param int $userIds
      * @return array
      */
     private function generateTableData($bookIds, $userIds)
@@ -269,15 +277,14 @@ class CirculationBookDataGenerator
     }
 
     /**
-     * @param $bookData
+     * @param array $bookData
      * @return array
      */
-    private function getStringDeadline($bookData)
+    private function getStringDeadline(array $bookData)
     {
         // TODO : неправильный перевод даты в строковый формат
         $deadlines = array();
         foreach ($bookData as $data) {
-            //print_r($data);
             array_push($deadlines, $data->getDeadline()->format('Y-m-d H:i:s'));
         }
 
@@ -285,10 +292,10 @@ class CirculationBookDataGenerator
     }
 
     /**
-     * @param $userIds
+     * @param array $userIds
      * @return array
      */
-    private function getUsernames($userIds)
+    private function getUsernames(array $userIds)
     {
         $users = $this->databaseManager->getThings($userIds, User::class);
         $userNames = array();

@@ -59,86 +59,129 @@ class User implements UserInterface, \Serializable
     private $isAdmin;
 
 
+    /**
+     * User constructor.
+     */
     public function __construct()
     {
         $this->isActive = true;
-        // may not be needed, see section on salt below
-        // $this->salt = md5(uniqid('', true));
     }
 
-    // other properties and methods
-
+    /**
+     * @return mixed
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @param $id
+     */
     public function setId($id)
     {
         $this->email = $id;
     }
 
+    /**
+     * @return mixed
+     */
     public function getEmail()
     {
         return $this->email;
     }
 
+    /**
+     * @param $email
+     */
     public function setEmail($email)
     {
         $this->email = $email;
     }
 
+    /**
+     * @return mixed
+     */
     public function getUsername()
     {
         return $this->username;
     }
 
+    /**
+     * @param $username
+     */
     public function setUsername($username)
     {
         $this->username = $username;
     }
-	
-	// get/set for avatar
-	public function getAvatar()
+
+    /**
+     * @return mixed
+     */
+    public function getAvatar()
     {
         return $this->avatar;
     }
 
+    /**
+     * @param $avatar
+     */
     public function setAvatar($avatar)
     {
         $this->avatar = $avatar;
     }
 
+    /**
+     * @return mixed
+     */
     public function getPlainPassword()
     {
         return $this->plainPassword;
     }
 
+    /**
+     * @param $password
+     */
     public function setPlainPassword($password)
     {
         $this->plainPassword = $password;
     }
 
+    /**
+     * @return mixed
+     */
     public function getPassword()
     {
         return $this->password;
     }
 
+    /**
+     * @param $password
+     */
     public function setPassword($password)
     {
         $this->password = $password;
     }
 
+    /**
+     * @return mixed
+     */
     public function getIsAdmin()
     {
         return $this->isAdmin;
     }
 
+    /**
+     * @param $isAdmin
+     */
     public function setIsAdmin($isAdmin)
     {
         $this->isAdmin = $isAdmin;
     }
-    
+
+    /**
+     * @return null
+     */
     public function getSalt()
     {
         // The bcrypt algorithm doesn't require a separate salt.
@@ -146,8 +189,9 @@ class User implements UserInterface, \Serializable
         return null;
     }
 
-    // other methods, including security methods like getRoles()
-
+    /**
+     * @return array
+     */
     public function getRoles()
     {
         if($this->isAdmin)

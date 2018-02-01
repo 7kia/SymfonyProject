@@ -7,20 +7,21 @@ use AppBundle\DomainModel\PageDataGenerators\BookDataGenerator;
 use AppBundle\DomainModel\PageDataGenerators\UserBookCatalogDataGenerator;
 use AppBundle\DomainModel\PageDataGenerators\UserDataGenerator;
 use AppBundle\Entity\User;
-use AppBundle\Entity\UserListBook;
 use AppBundle\Controller\MyController;
-use AppBundle\DatabaseManagement\DatabaseManager;
+
 
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserBookCatalogController extends MyController
 {
+    /** @var  ActionsForUserBookCatalog */
     private $actionsForUserBookCatalog;
+    /** @var  BookDataGenerator */
     private $bookDataGenerator;
+    /** @var  UserBookCatalogDataGenerator */
     private $userBookCatalogDataGenerator;
 
     private function initComponents()
@@ -34,6 +35,8 @@ class UserBookCatalogController extends MyController
 
     /**
      * @Route("/user_book_catalog", name="user_book_catalog" )
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showPage(Request $request)
     {
@@ -41,6 +44,9 @@ class UserBookCatalogController extends MyController
         return $this->generatePage($request);
     }
 
+    /**
+     * @return array
+     */
     protected function getGenerationDataFromUrl()
     {
         $bookListName = $this->getParamFromGetRequest('book_list_name');
@@ -59,9 +65,11 @@ class UserBookCatalogController extends MyController
             'book_list_name' => $bookListName,
             'owner_id' => $ownerId
         );
-
     }
 
+    /**
+     * @return array
+     */
     protected function getCommandDataFromUrl()
     {
         $dataFromUrl = $this->getGenerationDataFromUrl();
@@ -77,14 +85,20 @@ class UserBookCatalogController extends MyController
         );
     }
 
-    protected function checkGenerationDataForPage($generationDataForPage)
+    /**
+     * @param array $generationDataForPage
+     */
+    protected function checkGenerationDataForPage(array $generationDataForPage)
     {
         $this->checkMandatoryArgument('book_list_name', $generationDataForPage['book_list_name']);
         $this->checkMandatoryArgument('owner_id', $generationDataForPage['owner_id']);
     }
 
 
-    protected function commandProcessing($commandData)
+    /**
+     * @param array $commandData
+     */
+    protected function commandProcessing(array $commandData)
     {
         if ($commandData['delete']) {
             if ($this->actionsForUserBookCatalog->deleteBookFormCatalog(
@@ -109,8 +123,12 @@ class UserBookCatalogController extends MyController
     }
 
 
-
-    protected function generatePageData($request, $generationDataForPage)
+    /**
+     * @param Request $request
+     * @param array $generationDataForPage
+     * @return array
+     */
+    protected function generatePageData(Request $request, array $generationDataForPage)
     {
         $user = $this->userDataGenerator->getUser($generationDataForPage['owner_id']);
 

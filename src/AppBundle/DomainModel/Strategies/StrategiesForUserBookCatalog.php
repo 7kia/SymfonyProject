@@ -16,6 +16,12 @@ class StrategiesForUserBookCatalog
         $this->databaseManager = new DatabaseManager($doctrine);
     }
 
+    /**
+     * @param int $bookId
+     * @param int $catalog
+     * @param int $userId
+     * @return bool
+     */
     public function addBookToUserCatalog($bookId, $catalog, $userId)
     {
         $sameBook = $this->databaseManager->findThingByCriteria(
@@ -39,6 +45,12 @@ class StrategiesForUserBookCatalog
         return true;
     }
 
+    /**
+     * @param int $deleteBookId
+     * @param string $catalog
+     * @param int $ownerId
+     * @return bool
+     */
     public function deleteBookFormCatalog($deleteBookId, $catalog, $ownerId)
     {
         $bookToCatalog = $this->databaseManager->getOneThingByCriteria(

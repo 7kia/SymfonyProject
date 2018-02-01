@@ -26,7 +26,9 @@ class SearchBookController extends MyController
 {
     private $searchForm;
 
+    /** @var  ActionsForBook */
     private $actionsForBook;
+    /** @var  BookDataGenerator */
     private $bookDataGenerator;
 
     private function initComponents()
@@ -63,9 +65,9 @@ class SearchBookController extends MyController
     }
 
     /**
-     * @param $generationDataForPage
+     * @param array $generationDataForPage
      */
-    protected function checkGenerationDataForPage($generationDataForPage)
+    protected function checkGenerationDataForPage(array $generationDataForPage)
     {
         $searchTextDefined = ($generationDataForPage['search_text'] != null);
         $searchCategoryDefined = ($generationDataForPage['search_category'] != null);
@@ -91,11 +93,11 @@ class SearchBookController extends MyController
     }
 
     /**
-     * @param $request
-     * @param $generationDataForPage
+     * @param Request $request
+     * @param array $generationDataForPage
      * @return array
      */
-    protected function generatePageData($request, $generationDataForPage)
+    protected function generatePageData(Request $request, array $generationDataForPage)
     {
         $bookCards = array();
         if ($generationDataForPage['search_category'] != null) {
@@ -116,7 +118,10 @@ class SearchBookController extends MyController
         );
     }
 
-    protected function handleFormElements($request)
+    /**
+     * @param Request $request
+     */
+    protected function handleFormElements(Request $request)
     {
         $searchData = new SearchData();
         $this->searchForm = $this->getSearchForm($searchData);
@@ -135,8 +140,8 @@ class SearchBookController extends MyController
 
     /**
      * @param $form
-     * @param $text
-     * @param $category
+     * @param string $text
+     * @param string $category
      */
     protected function handleSearchFormElements($form, $text, $category)
     {
@@ -155,10 +160,10 @@ class SearchBookController extends MyController
     }
 
     /**
-     * @param $searchData
+     * @param SearchData $searchData
      * @return \Symfony\Component\Form\FormInterface
      */
-    private function getSearchForm($searchData)
+    private function getSearchForm(SearchData $searchData)
     {
         // TODO : поправь текст кнопки
         $form = $this->createFormBuilder($searchData)

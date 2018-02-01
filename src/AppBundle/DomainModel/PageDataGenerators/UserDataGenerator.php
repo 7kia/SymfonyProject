@@ -9,16 +9,25 @@ use AppBundle\DatabaseManagement\DatabaseManager;
 
 class UserDataGenerator
 {
-
+    /** @var MyController  */
     protected $controller;
+    /** @var DatabaseManager  */
     protected $databaseManager;
 
+    /**
+     * UserDataGenerator constructor.
+     * @param MyController $controller
+     */
     public function __construct(MyController $controller)
     {
         $this->controller = $controller;
         $this->databaseManager = new DatabaseManager($this->controller->getDoctrine());
     }
 
+    /**
+     * @param int $userId
+     * @return object
+     */
     public function getUser($userId)
     {
         return $this->databaseManager->getOneThingByCriterion(
@@ -49,10 +58,9 @@ class UserDataGenerator
     }
 
     /**
-     * @param $userLogin
+     * @param bool $userLogin
      * @return string
      */
-    // TODO : посмотри точно ли нужна функция
     public function getCurrentUserName($userLogin)
     {
         if ($userLogin != false) {

@@ -31,6 +31,11 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         );
     }
 
+    /**
+     * @param mixed $credentials
+     * @param UserProviderInterface $userProvider
+     * @return UserInterface|void
+     */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $apiKey = $credentials['token'];
@@ -43,6 +48,11 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         return $userProvider->loadUserByUsername($apiKey);
     }
 
+    /**
+     * @param mixed $credentials
+     * @param UserInterface $user
+     * @return bool
+     */
     public function checkCredentials($credentials, UserInterface $user)
     {
         // check credentials - e.g. make sure the password is valid
@@ -52,12 +62,23 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         return true;
     }
 
+    /**
+     * @param Request $request
+     * @param TokenInterface $token
+     * @param string $providerKey
+     * @return null
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         // on success, let the request continue
         return null;
     }
 
+    /**
+     * @param Request $request
+     * @param AuthenticationException $exception
+     * @return JsonResponse
+     */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         $data = array(
@@ -72,6 +93,10 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     /**
      * Called when authentication is needed, but it's not sent
+     *
+     * @param Request $request
+     * @param AuthenticationException|null $authException
+     * @return JsonResponse|Response
      */
     public function start(Request $request, AuthenticationException $authException = null)
     {
