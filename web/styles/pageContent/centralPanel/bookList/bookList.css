@@ -38,12 +38,15 @@
     margin: 0 auto;
     text-align: center;
     width: 150px;
+    height: 200px;
 }
 
-.book-grid_grid-cell__cart_container
+.book-grid_grid-cell__cart-container
 {
+    height: 100px;
     width: 150px;
 }
+
 
 
 .cart_container_book-cart .image-container
@@ -52,7 +55,7 @@
     text-align: center;
 }
 
-.cart_container_book-cart .image-container_book-image
+.book-cart__image-container .image-container_book-image
 {
     width: 120px;
     height: 170px;
@@ -60,7 +63,7 @@
     position: relative;
 }
 
-.cart_container_book-cart .image-container_delete-btn
+.book-cart__image-container .image-container_delete-btn
 {
     width: 25px;
     height: 25px;

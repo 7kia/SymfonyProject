@@ -1,5 +1,5 @@
-<div class="left-part height-top-panel inline-block blue-text">
-    <ul class="left-part__element-list list-style-type_none">
+<div class="col-4 navbar navbar-default left-part">
+    <ul class="nav navbar-nav left-part__element-list list-style-type_none">
         {% if pageName == "user_list" and (ownerId == currentUser.id) %}
             {% include "topPanel\\leftPart\\userListEdits\\userListEdits.html.twig" %}
         {% elseif pageName == "book_page" %}

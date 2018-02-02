@@ -31,8 +31,10 @@ body
 
 .button-style
 {
-    background: linear-gradient(to top, #004680, #5FA9FC);
-    color: white;
+    height: 25px;
+
+    background: #bfbfbf;
+    color: black;
     margin-right: 0px;
     cursor: pointer;
 
@@ -40,8 +42,6 @@ body
     font-family: Arial;
     font-weight: bold;
 
-    border: 1px solid transparent;
-    border-color: rgba(0,0,0,.27);
 
     border-radius: 3px 3px 3px 3px;
 
