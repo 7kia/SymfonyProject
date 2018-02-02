@@ -2,9 +2,7 @@
 {
     box-sizing: border-box;
     height: 70px;
-    line-height: 60px;
     float: left;
-
 
     padding: 0px;
 }
@@ -12,8 +10,11 @@
 .left-part .left-part__element-list
 {
     margin: 0px;
-    padding-left: 10px;
+    padding-left: 0px;
+    line-height: 55px;
+    width: 120%;
 }
+
 .left-part .left-part__element-list li
 {
     display: inline;

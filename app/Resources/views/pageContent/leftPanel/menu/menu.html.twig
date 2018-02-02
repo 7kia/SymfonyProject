@@ -1,31 +1,19 @@
-<div class="menu lateral-element  blue-text">
-    <div class="menu__options-container custom-restricted-width">
-        <ul class="options-container_option-list list-style-type_none">
-            <li>
-                <a href="{{ serverUrl }}user_book_catalog?book_list_name=personal_books&owner_id={{ currentUser.id }}">
-                    Личные книги
-                </a>
-            </li>
-            <li >
-                <a href="{{ serverUrl }}circulation_books?book_list_name=taken_books&owner_id={{ currentUser.id }}">
-                    Взятые книги
-                </a>
-            </li>
-            <li >
-                <a href="{{ serverUrl }}circulation_books?book_list_name=given_books&owner_id={{ currentUser.id }}">
-                    Отданные книги
-                </a>
-            </li>
-            <li >
-                <a href="{{ serverUrl }}circulation_books?book_list_name=applications&owner_id={{ currentUser.id }}">
-                    Заявки
-                </a>
-            </li>
-            <li >
-                <a href="{{ serverUrl }}search_book">
-                    Поиск книг
-                </a>
-            </li>
-        </ul>
+<div class="menu lateral-element blue-text">
+    <div class="menu__options-container list-group">
+        <a class="list-group-item" href="{{ serverUrl }}user_book_catalog?book_list_name=personal_books&owner_id={{ currentUser.id }}">
+            Личные книги
+        </a>
+        <a class="list-group-item" href="{{ serverUrl }}circulation_books?book_list_name=taken_books&owner_id={{ currentUser.id }}">
+            Взятые книги
+        </a>
+        <a class="list-group-item" href="{{ serverUrl }}circulation_books?book_list_name=given_books&owner_id={{ currentUser.id }}">
+            Отданные книги
+        </a>
+        <a class="list-group-item" href="{{ serverUrl }}circulation_books?book_list_name=applications&owner_id={{ currentUser.id }}">
+            Заявки
+        </a>
+        <a class="list-group-item" href="{{ serverUrl }}search_book">
+            Поиск книг
+        </a>
     </div>
 </div>

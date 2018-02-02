@@ -1,29 +1,20 @@
-<div class="book-lists blue-border lateral-element blue-text">
-    <div class="pure-menu custom-restricted-width">
+<div class="book-lists lateral-element blue-text">
         {% set bookListOwnerName = currentUser.username %}
         {% set bookListOwnerId = currentUser.id %}
         {% if (pageName == "book_list") %}
             {% set bookListOwnerName = ownerName %}
             {% set bookListOwnerId = ownerId %}
         {% endif %}
-        <div class="title-book-list center-align">Списки книг {{ bookListOwnerName }}</div>
-
-        <ul class="user-book-list list-style-type_none">
-            <li class="pure-menu-item">
-                <a href="{{ serverUrl }}user_book_catalog?book_list_name=favorite_books&owner_id={{ bookListOwnerId }}" class="pure-menu-link">
-                    Любимые книги
-                </a>
-            </li>
-            <li class="pure-menu-item">
-                <a href="{{ serverUrl }}user_book_catalog?book_list_name=read_later&owner_id={{ bookListOwnerId }}" class="pure-menu-link">
-                    Прочитать позже
-                </a>
-            </li>
-            <li class="pure-menu-item">
-                <a href="{{ serverUrl }}user_book_catalog?book_list_name=personal_books&owner_id={{ bookListOwnerId }}" class="pure-menu-link">
-                    Личные книги
-                </a>
-            </li>
-        </ul>
-    </div>
+        <div class="list-group">
+            <a class="list-group-item title-book-list center-align" >Списки книг {{ bookListOwnerName }}</a>
+            <a class="list-group-item" href="{{ serverUrl }}user_book_catalog?book_list_name=favorite_books&owner_id={{ bookListOwnerId }}" class="pure-menu-link">
+                Любимые книги
+            </a>
+            <a class="list-group-item" href="{{ serverUrl }}user_book_catalog?book_list_name=read_later&owner_id={{ bookListOwnerId }}" class="pure-menu-link">
+                Прочитать позже
+            </a>
+            <a class="list-group-item" href="{{ serverUrl }}user_book_catalog?book_list_name=personal_books&owner_id={{ bookListOwnerId }}" class="pure-menu-link">
+                Личные книги
+            </a>
+        </div>
 </div>
