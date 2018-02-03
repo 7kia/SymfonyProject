@@ -3,9 +3,10 @@
         <title>Регистрация</title>
         <link rel="stylesheet" type="text/css" href="styles/colorStyles.css">
         <link rel="stylesheet" type="text/css" href="styles/authorization/register.css">
+        {% include "boostrapOptions.html.twig" %}
     </head>
     <body>
-        <div class="registration-form bold-blue-border">
+        <div class="registration-form">
             {{ form_start(form) }}
             <div class="registration-form__text_boxes">
                 <div class="text_boxes__username-field registration-form__text-boxes_text-field-properties">
@@ -23,7 +24,7 @@
 
             </div>
             <div class="registration-form__buttons">
-                <button class="registration-form__register-btn button-style" type="submit">Регистрация</button>
+                <button class="btn btn-secondary" type="submit">Регистрация</button>
             </div>
             {{ form_end(form) }}
         </div>

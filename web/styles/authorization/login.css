@@ -14,7 +14,7 @@
     text-align: center;
     padding: auto;
 
-    background-color: #c1cbff;
+    background-color: #c0c8c766;
 }
 
 .login_form .text_boxs
@@ -65,12 +65,4 @@
     height: 32px;
     
     text-align: center;
-}
-
-.buttons .log_in
-{
-    width: 100px;
-    height: 32px;
-
-    cursor: pointer;
 }

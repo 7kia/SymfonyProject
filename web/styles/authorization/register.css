@@ -5,8 +5,7 @@
 
 .registration-form
 {
-    width: 320px;
-    height: 255px;
+    width: 370px;
 
     margin-top: 150px;
     margin-left: auto;
@@ -14,24 +13,26 @@
     text-align: center;
     padding: auto;
 
-    background-color: #c1cbff;
+    background-color: #c0c8c766;
 }
 
 .registration-form .registration-form__text_boxes
 {
     margin-left: auto;
     margin-right: auto;
+
+    padding: 10px 10px 10px 15px;
 }
 
 .registration-form__text-boxes_text-field-properties
 {
-    width: 268px;
     height: 32px;
     
     margin-top: 15px;
     margin-bottom: 10px;
     margin-left: auto;
     margin-right: auto;
+
 }
 
 .registration-form__text-boxes_text-field-properties label
@@ -48,15 +49,8 @@
 {
     margin-top: 10px;
     padding : 2px 4px 2px;
-    height: 32px;
+    height: 64px;
     
     text-align: center;
 }
 
-.registration-form__buttons .registration-form__register-btn
-{
-    width: 108px;
-    height: 32px;
-
-    cursor: pointer;
-}

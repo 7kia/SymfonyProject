@@ -2,11 +2,13 @@
 {
     width: 100%;
     text-align: center;
+    margin: 10px 0px 10px;
 }
 
 .book-list-title
 {
     width: 100%;
+    margin: 10px 0px 20px;
 }
 
 .book-grid
@@ -57,8 +59,8 @@
 
 .book-cart__image-container .image-container_book-image
 {
-    width: 120px;
-    height: 170px;
+    width: 145px;
+    height: 190px;
     z-index: 1;
     position: relative;
 }
@@ -70,7 +72,6 @@
     float: right;
 
     margin-bottom: -25px;
-    margin-right: 13px;
     z-index: 2;
     position: relative;
 }
@@ -78,6 +79,12 @@
 .book-cart__name-str
 {
     width: 150px;
-    height: 40px;
+    height: 50px;
     overflow: hidden;
+    text-align: left;
+}
+
+.show-btn {
+    width: 120px;
+    margin-top: 5px;
 }

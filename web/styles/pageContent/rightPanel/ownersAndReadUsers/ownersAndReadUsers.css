@@ -3,6 +3,12 @@
     height: 200px;
 }
 
+.owners-and-read-users .owners-and-read-users__user-data-container-title
+{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 .owners-containers
 {
     height: 200px;
@@ -22,27 +28,35 @@
 }
 
 
-.owner-container
+.user-data-container
 {
     width: 100%;
     height: 58px;
+
+    padding-top: 0.15rem;
+    padding-right: 0.25rem;
+    padding-bottom: 0.15rem;
+    padding-left: 0.25rem;
+
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.23);
 }
 
-.owner-container .read-user-container__image-container
+.user-data-container .user-data-container__image-container
 {
     width: 54px;
     height: 54px;
 
 }
 
-.owner-container .read-user-container__image-container .image-container_book-image
+.user-data-container .user-data-container__image-container img
 {
     width: 50px;
     height: 50px;
     margin: 2px;
 }
 
-.owner-container .read-user-container__image-container .send_application_image
+.user-data-container .user-data-container__image-container .send_application_image
 {
     width: 24px;
     height: 24px;
@@ -93,19 +107,6 @@
     height: 58px;
 }
 
-.read-user-container .read-user-container__image-container
-{
-    width: 54px;
-    height: 54px;
-
-}
-
-.read-user-container .read-user-container__image-container img
-{
-    width: 50px;
-    height: 50px;
-    margin: 2px;
-}
 
 
 .read-user-container__read-user-name-container

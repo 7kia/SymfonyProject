@@ -1,6 +1,8 @@
 <div class="container book-list">
     {% if (pageName == "book_list") %}
-        <div class="book-list-title">{{ bookListTitle }}</div>
+        <div class="book-list-title">
+            <b>{{ bookListTitle }}</b>
+        </div>
     {% endif %}
     <div class="row">
         {% if bookCards|length > 0 %}
@@ -19,10 +21,9 @@
                                     {%  endif %}
                                 {%  endif %}
                                 <a href="{{ serverUrl }}book_page?book_id={{ bookCards[i].id }}">
-                                    <img class="image-container_book-image bold-blue-border" src="images/bookCardImages/{{ bookCards[i].bookImage }}"
+                                    <img class="image-container_book-image " src="images/bookCardImages/{{ bookCards[i].bookImage }}"
                                          alt="{{ bookCards[i].name }}"/>
                                 </a>
-
                             </div>
                             <div class="book-cart__name-str">
                                 <a href="{{ serverUrl }}book_page?book_id={{ bookCards[i].id }}">
@@ -30,15 +31,19 @@
                                 </a>
                             </div>
                             <div class="rating{{ i }} center-align">
+                                <script type="text/javascript">
+                                    var rating = JSON.parse("{{ bookCards[i].rating }}")
+                                    $('.rating{{ i }}' ).raty({
+                                        readOnly:  true,
+                                        start:     0,
+                                        score: Number(rating)
+                                    });
+                                </script>
                             </div>
-                            <script type="text/javascript">
-                                var rating = JSON.parse("{{ bookCards[i].rating }}")
-                                $('.rating{{ i }}' ).raty({
-                                    readOnly:  true,
-                                    start:     0,
-                                    score: Number(rating)
-                                });
-                            </script>
+
+                            <a href="{{ serverUrl }}book_page?book_id={{ bookCards[i].id }}">
+                                <input class="btn btn-info show-btn" value="Посмотреть"/>
+                            </a>
                         </div>
                     </div>
                 </div>

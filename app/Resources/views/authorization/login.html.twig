@@ -3,9 +3,10 @@
         <title>Авторизация</title>
         <link rel="stylesheet" type="text/css" href="styles/colorStyles.css">
         <link rel="stylesheet" type="text/css" href="styles/authorization/login.css">
+        {% include "boostrapOptions.html.twig" %}
     </head>
     <body>
-        <form class="login_form bold-blue-border" action="{{ path('login') }}" method="post">
+        <form class="login_form" action="{{ path('login') }}" method="post">
             {% if error %}
                 <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
@@ -23,7 +24,7 @@
                        name="_password" />
             </div>
             <div class="buttons">
-                <button type="submit" class="log_in button-style">Войти</button>
+                <button type="submit" class="btn btn-secondary">Войти</button>
             </div>
         </form>
     </body>

@@ -1,5 +1,7 @@
 .footer
 {
+    background-color: #e5e4e4;
+    border: 2px solid #b5b7b5;
 
 }
 
@@ -8,5 +10,7 @@
     float: right;
     line-height: 60px;
     margin: 0;
+
+
 }
 
