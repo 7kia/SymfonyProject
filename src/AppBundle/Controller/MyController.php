@@ -7,7 +7,6 @@ use AppBundle\DomainModel\PageDataGenerators\UserDataGenerator;
 use AppBundle\Entity\User;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 

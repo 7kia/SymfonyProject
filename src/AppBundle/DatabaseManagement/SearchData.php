@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Илья
- * Date: 07.12.2017
- * Time: 15:22
- */
 
 namespace AppBundle\DatabaseManagement;
 

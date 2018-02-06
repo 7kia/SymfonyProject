@@ -1,32 +1,55 @@
-<html>
-    <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Регистрация</title>
-        <link rel="stylesheet" type="text/css" href="styles/colorStyles.css">
-        <link rel="stylesheet" type="text/css" href="styles/authorization/register.css">
-        {% include "boostrapOptions.html.twig" %}
-    </head>
-    <body>
-        <div class="registration-form">
-            {{ form_start(form) }}
-            <div class="registration-form__text_boxes">
-                <div class="text_boxes__username-field registration-form__text-boxes_text-field-properties">
-                    {{ form_row(form.username) }}
-                </div>
-                <div class="text_boxes__email-field registration-form__text-boxes_text-field-properties">
-                    {{ form_row(form.email) }}
-                </div>
-                <div class="text_boxes__plainPassword-field-1 registration-form__text-boxes_text-field-properties">
-                    {{ form_row(form.plainPassword.first) }}
-                </div>
-                <div class="text_boxes__plainPassword-field-2 registration-form__text-boxes_text-field-properties">
-                    {{ form_row(form.plainPassword.second) }}
-                </div>
+{% extends 'base.html.twig' %}
 
+{% form_theme form 'form/autorizationWidget.html.twig' %}
+
+{% block title %}
+    Регистрация
+{% endblock %}
+
+{% block cssReference %}
+    <link rel="stylesheet" type="text/css" href="styles/colorStyles.css">
+    <link rel="stylesheet" type="text/css" href="styles/authorization/register.css">
+    <link rel="stylesheet" type="text/css" href="styles/common.css">
+{% endblock %}
+
+{% block jsReference %}
+{% endblock %}
+
+{% block boostrapOptions %}
+    {% include "boostrapOptions.html.twig" %}
+{% endblock %}
+
+{% block body %}
+    <div class="registration-form">
+        <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
+        {{ form_start(form) }}
+        <div class="registration-form__text_boxes">
+            <div class="mb-3">
+                <label for="login">Логин</label>
+                {{ form_widget(form.username) }}
+                {{ form_errors(form.username) }}
             </div>
-            <div class="registration-form__buttons">
-                <button class="btn btn-secondary" type="submit">Регистрация</button>
+            <div class="mb-3">
+                <label for="email">Почта</label>
+                {{ form_widget(form.email) }}
+                {{ form_errors(form.email) }}
             </div>
-            {{ form_end(form) }}
+            <div class="mb-3">
+                <label for="password">Пароль</label>
+                {{ form_widget(form.plainPassword.first) }}
+                {{ form_errors(form.plainPassword.first) }}
+            </div>
+            <div class="mb-3">
+                <label for="second-password">Подтвердите пароль</label>
+                {{ form_widget(form.plainPassword.second) }}
+                {{ form_errors(form.plainPassword.second) }}
+            </div>
+
         </div>
-    </body>
-</html>
+        <div class="registration-form__buttons">
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Регистрация</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

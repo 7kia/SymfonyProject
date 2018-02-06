@@ -4,22 +4,23 @@ namespace AppBundle\DatabaseManagement;
 
 use AppBundle\Entity\ApplicationForBook;
 use AppBundle\Entity\Book;
+use AppBundle\Entity\TakenBook;
 use AppBundle\Entity\User;
 use AppBundle\Entity\UserListBook;
 use AppBundle\Security\ApplicationStatus;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 class DatabaseManager
 {
-    /** @var DoctrineManager */
+    /** @var mixed */
     private $doctrineManager = null;
 
     /**
      * DatabaseManager constructor.
-     * @param $doctrine
+     * @param \Doctrine\Bundle\DoctrineBundle\Registry
      */
-    function __construct($doctrine)
+    function __construct(Registry $doctrine)
     {
         $this->doctrine = $doctrine;
         $this->doctrineManager = $doctrine->getManager();
@@ -225,6 +226,24 @@ class DatabaseManager
                 'bookId' => $bookId
             ),
             ApplicationForBook::class
+        );
+    }
+
+    /**
+     * @param int $bookId
+     * @param int $applicantId
+     * @param int $ownerId
+     * @return mixed
+     */
+    public function getTakenBook($bookId, $applicantId, $ownerId)
+    {
+        return $this->getOneThingByCriteria(
+            array(
+                'applicantId' => $applicantId,
+                'ownerId' => $ownerId,
+                'bookId' => $bookId
+            ),
+            TakenBook::class
         );
     }
 }

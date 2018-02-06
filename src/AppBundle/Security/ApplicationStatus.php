@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Илья
- * Date: 10.12.2017
- * Time: 19:33
- */
 
 namespace AppBundle\Security;
-
 
 abstract class ApplicationStatus
 {

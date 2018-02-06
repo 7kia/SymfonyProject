@@ -3,7 +3,6 @@
 namespace AppBundle\DomainModel\PageDataGenerators;
 
 use AppBundle\Controller\MyController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\User;
 use AppBundle\DatabaseManagement\DatabaseManager;
 

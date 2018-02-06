@@ -5,25 +5,20 @@ namespace UserPagesBundle\Controller;
 use AppBundle\DomainModel\Actions\ActionsForBook;
 use AppBundle\DomainModel\PageDataGenerators\BookDataGenerator;
 use AppBundle\DomainModel\PageDataGenerators\UserDataGenerator;
-use AppBundle\Entity\Book;
-use AppBundle\Entity\User;
-use AppBundle\Entity\UserListBook;
 use AppBundle\Controller\MyController;
 use AppBundle\DatabaseManagement\SearchData;
-use AppBundle\DatabaseManagement\DatabaseManager;
 
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SearchBookController extends MyController
 {
+    /** @var  Form */
     private $searchForm;
 
     /** @var  ActionsForBook */
@@ -81,15 +76,16 @@ class SearchBookController extends MyController
 
 
     /**
-     * @param $form
+     * @param Form $form
      * @return bool
      */
-    private function handleFormEvents($form)
+    private function handleFormEvents(Form $form)
     {
         $clickedBtn = $form->getClickedButton();
         if ($clickedBtn != null) {// TODO : WARNING может не заработать(не то имя)
             return ($clickedBtn->getName() == 'searchBtn');
         }
+        return false;
     }
 
     /**
@@ -139,7 +135,7 @@ class SearchBookController extends MyController
     }
 
     /**
-     * @param $form
+     * @param Form $form
      * @param string $text
      * @param string $category
      */

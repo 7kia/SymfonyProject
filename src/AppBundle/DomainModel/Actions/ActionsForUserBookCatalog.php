@@ -4,14 +4,12 @@ namespace AppBundle\DomainModel\Actions;
 
 use AppBundle\DomainModel\Rules\RulesForUserBookCatalog;
 use AppBundle\DomainModel\Strategies\StrategiesForUserBookCatalog;
-use AppBundle\Entity\Book;
-use AppBundle\Entity\UserListBook;
 
 class ActionsForUserBookCatalog
 {
-    /** @var  StrategiesForRegistration */
+    /** @var  RulesForUserBookCatalog */
     private $rulesForBookToUserCatalog;
-    /** @var  StrategiesForRegistration */
+    /** @var  StrategiesForUserBookCatalog */
     private $strategiesForUserBookCatalog;
 
     /**

@@ -8,7 +8,6 @@
 
 namespace AppBundle\DomainModel\Rules;
 
-
 use AppBundle\DatabaseManagement\DatabaseManager;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
@@ -62,7 +61,7 @@ class MyRule
         );
 
         if ($user == null) {
-            throw new Exception($this->getMessageNotExist($user, 'Пользователя'));
+            throw new Exception($this->getMessageNotExist($user->getId(), 'Пользователя'));
         }
 
         return true;

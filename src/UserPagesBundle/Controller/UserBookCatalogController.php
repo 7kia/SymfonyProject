@@ -6,11 +6,8 @@ use AppBundle\DomainModel\Actions\ActionsForUserBookCatalog;
 use AppBundle\DomainModel\PageDataGenerators\BookDataGenerator;
 use AppBundle\DomainModel\PageDataGenerators\UserBookCatalogDataGenerator;
 use AppBundle\DomainModel\PageDataGenerators\UserDataGenerator;
-use AppBundle\Entity\User;
 use AppBundle\Controller\MyController;
 
-
-use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

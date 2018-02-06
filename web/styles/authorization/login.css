@@ -6,63 +6,29 @@
 .login_form 
 {
     width: 300px;
-    height: 155px;
 
-    margin-top: 150px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 50px auto 50px auto;
     text-align: center;
-    padding: auto;
-
-    background-color: #c0c8c766;
 }
 
 .login_form .text_boxs
 {
     margin-left: auto;
     margin-right: auto;
+    padding: 10px 0px 10px 0px;
 }
 
-.login_form .text_boxs .text_box_login
+.login_form .text_boxs .text_box
 {
-    width: 258px;
-    height: 32px;
-
-    margin: 0px 0px 10px;
-    margin-top: 15px;
-}
-
-.login_form .text_boxs .text_box_password
-{
-    width: 258px;
-    height: 32px;
-
-    margin: 0px 0px 10px;
-}
-
-.login_form .text_boxs .text_box_login
-{
-    width: 258px;
-    height: 32px;
+    width: 280px;
+    height: 38px;
     padding: 5px 10px 5px;
 
     background-clip: padding-box;
-}
-
-.login_form .text_boxs .text_box_password
-{
-    width: 258px;
-    height: 32px;
-    padding: 5px 10px 5px;
-
-    background-clip: padding-box;
+    margin: auto;
 }
 
 .buttons
 {
-    margin-top: 10px;
-    padding : 2px 4px 2px;
-    height: 32px;
-    
-    text-align: center;
+    margin: 16px auto;
 }

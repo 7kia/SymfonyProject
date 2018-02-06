@@ -5,7 +5,6 @@ namespace AppBundle\DomainModel\Actions;
 use AppBundle\DomainModel\Rules\RulesForCirculationBook;
 use AppBundle\DomainModel\Strategies\StrategiesForCirculationBook;
 
-
 class ActionsForCirculationBook
 {
     /** @var  RulesForCirculationBook */
@@ -46,28 +45,25 @@ class ActionsForCirculationBook
                 );
         }
         return null;
-
-
-
     }
 
     /**
-     * @param $bookId
-     * @param $applicantId
-     * @param $ownerId
+     * @param int $bookId
+     * @param int $applicantId
+     * @param int $ownerId
      * @return bool
      */
-    public function deleteBookFromList($bookId, $applicantId, $ownerId)
+    public function deleteApplicationBook($bookId, $applicantId, $ownerId)
     {
         if ($this->rulesForCirculationBook
-            ->canDeleteBookFromList(
+            ->canDeleteApplicationBook(
                 $bookId,
                 $applicantId,
                 $ownerId
             )
         ) {
             return $this->strategiesForCirculationBook
-                ->deleteBookFromList(
+                ->deleteBookApplication(
                     $bookId,
                     $applicantId,
                     $ownerId
@@ -77,9 +73,9 @@ class ActionsForCirculationBook
     }
 
     /**
-     * @param $bookId
-     * @param $applicantId
-     * @param $ownerId
+     * @param int $bookId
+     * @param int $applicantId
+     * @param int $ownerId
      * @return bool
      */
     public function acceptBookFromList($bookId, $applicantId, $ownerId)
@@ -93,6 +89,31 @@ class ActionsForCirculationBook
         ) {
             return $this->strategiesForCirculationBook
                 ->acceptBookFromList(
+                    $bookId,
+                    $applicantId,
+                    $ownerId
+                );
+        }
+        return false;
+    }
+
+    /**
+     * @param int $bookId
+     * @param int $applicantId
+     * @param int $ownerId
+     * @return bool
+     */
+    public function deleteTakenBook($bookId, $applicantId, $ownerId)
+    {
+        if ($this->rulesForCirculationBook
+            ->canDeleteTakenBook(
+                $bookId,
+                $applicantId,
+                $ownerId
+            )
+        ) {
+            return $this->strategiesForCirculationBook
+                ->deleteTakenBook(
                     $bookId,
                     $applicantId,
                     $ownerId

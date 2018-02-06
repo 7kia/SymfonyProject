@@ -13,16 +13,3 @@ body
     background-color: white;
     color: black;
 }
-
-.text-field-style
-{
-    border: 1px solid transparent;
-    border-color: rgba(0,0,0,.27);
-    border-top-color: rgba(0,0,0,.38);
-    border-bottom-color: rgba(0,0,0,.16);
-
-    font-size: 15px;
-    font-family: Arial;
-
-    background-clip: padding-box;
-}

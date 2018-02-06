@@ -1,6 +1,5 @@
 <?php
 
-// src/AppBundle/Controller/SecurityController.php
 namespace AppBundle\Security;
 
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;

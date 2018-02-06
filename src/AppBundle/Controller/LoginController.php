@@ -39,10 +39,7 @@ class LoginController extends MyController
      */
     protected function generatePageData(Request $request, array $generationDataForPage)
     {
-        // get the login error if there is one
         $error = $this->authUtils->getLastAuthenticationError();
-
-        // last username entered by the user
         $lastUsername =  $this->authUtils->getLastUsername();
 
         $this->renderTemplate = 'authorization\\login.html.twig';

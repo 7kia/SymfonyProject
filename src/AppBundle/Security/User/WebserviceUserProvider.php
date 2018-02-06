@@ -1,10 +1,7 @@
 <?php
 
-// src/AppBundle/Security/User/WebserviceUserProvider.php
 namespace AppBundle\Security\User;
 
-use AppBundle\DatabaseManagement\DatabaseManager;
-use AppBundle\Security\User\WebserviceUser;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -21,7 +18,6 @@ class WebserviceUserProvider implements UserProviderInterface
         // make a call to your webservice here
         $userData = new WebserviceUser($username, null, null, null);
         // pretend it returns an array on success, false if there is no user
-        // TODO : возможно не работает
 
         if ($userData) {
             $password = null;

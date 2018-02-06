@@ -1,13 +1,22 @@
-<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Веб-сервис "Книгообменник"</title>
+{% block page %}
+ <html>
+    {% block head %}
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+            <title>Веб-сервис "Книгообменник"</title>
 
-    {% include "cssReference.html.twig" %}
-    {% include "jsReference.html.twig" %}
-    {% include "boostrapOptions.html.twig" %}
-</head>
-<body>
-    {% include "topPanel\\topPanel.html.twig" %}
-    {% include "pageContent\\pageContent.html.twig" %}
-    {% include "footer\\footer.html.twig" %}
-</body>
+            {% include "cssReference.html.twig" %}
+            {% include "jsReference.html.twig" %}
+            {% include "boostrapOptions.html.twig" %}
+        </head>
+    {% endblock %}
+
+    {% block body %}
+        <body>
+            {% include "topPanel\\topPanel.html.twig" %}
+            {% include "pageContent\\pageContent.html.twig" %}
+            {% include "footer\\footer.html.twig" %}
+        </body>
+    {% endblock %}
 </html>
+{% endblock %}

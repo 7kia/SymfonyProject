@@ -1,6 +1,5 @@
 <?php
 
-// src/AppBundle/Security/User/WebserviceUser.php
 namespace AppBundle\Security\User;
 
 use Symfony\Component\Security\Core\User\UserInterface;

@@ -6,7 +6,6 @@ use AppBundle\Controller\MyController;
 use AppBundle\DatabaseManagement\DatabaseManager;
 use AppBundle\DomainModel\Rules\RulesForUser;
 use AppBundle\DomainModel\Rules\RulesForUserBookCatalog;
-use AppBundle\Entity\User;
 
 class UserBookCatalogDataGenerator
 {

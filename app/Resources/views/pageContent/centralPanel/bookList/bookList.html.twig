@@ -21,8 +21,13 @@
                                     {%  endif %}
                                 {%  endif %}
                                 <a href="{{ serverUrl }}book_page?book_id={{ bookCards[i].id }}">
-                                    <img class="image-container_book-image " src="images/bookCardImages/{{ bookCards[i].bookImage }}"
-                                         alt="{{ bookCards[i].name }}"/>
+                                    {% if bookCards[i].bookImage != null %}
+                                        <img class="image-container_book-image " src="images/bookCardImages/{{ bookCards[i].bookImage }}"
+                                             alt="{{ bookCards[i].name }}"/>
+                                    {% else %}
+                                        <img class="image-container_book-image " src="images/NoBook.png"
+                                             alt="{{ bookCards[i].name }}"/>
+                                    {% endif %}
                                 </a>
                             </div>
                             <div class="book-cart__name-str">
@@ -40,7 +45,6 @@
                                     });
                                 </script>
                             </div>
-
                             <a href="{{ serverUrl }}book_page?book_id={{ bookCards[i].id }}">
                                 <input class="btn btn-info show-btn" value="Посмотреть"/>
                             </a>

@@ -3,7 +3,6 @@
 namespace AppBundle\DomainModel\Strategies;
 
 use AppBundle\DatabaseManagement\DatabaseManager;
-use AppBundle\Entity\ApplicationForBook;
 use AppBundle\Entity\TakenBook;
 use AppBundle\Security\ApplicationStatus;
 
@@ -30,6 +29,7 @@ class StrategiesForCirculationBook
         $ownerId
     )
     {
+        /** @var ApplicationStatus $applicationStatus */
         $applicationStatus = $this->databaseManager->sendApplication(
             $bookId,
             $applicantId,
@@ -64,9 +64,23 @@ class StrategiesForCirculationBook
      * @param int $ownerId
      * @return bool
      */
-    public function deleteBookFromList($bookId, $applicantId, $ownerId)
+    public function deleteBookApplication($bookId, $applicantId, $ownerId)
     {
         $applicationForBook = $this->databaseManager->getApplicationForBook($bookId, $applicantId, $ownerId);
+        $this->databaseManager->remove($applicationForBook);
+
+        return true;
+    }
+
+    /**
+     * @param int $bookId
+     * @param int $applicantId
+     * @param int $ownerId
+     * @return bool
+     */
+    public function deleteTakenBook($bookId, $applicantId, $ownerId)
+    {
+        $applicationForBook = $this->databaseManager->getTakenBook($bookId, $applicantId, $ownerId);
         $this->databaseManager->remove($applicationForBook);
 
         return true;

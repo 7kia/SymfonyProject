@@ -1,0 +1,18 @@
+ <html>
+    {% block head %}
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+            <title>{% block title %}{% endblock %}</title>
+
+            {% block cssReference %}{% endblock %}
+            {% block jsReference %}{% endblock %}
+            {% block boostrapOptions %}{% endblock %}
+        </head>
+    {% endblock %}
+
+    <body>
+    {% block body %}
+    {% endblock %}
+    </body>
+</html>

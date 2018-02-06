@@ -1,31 +1,46 @@
-<html>
-    <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Авторизация</title>
-        <link rel="stylesheet" type="text/css" href="styles/colorStyles.css">
-        <link rel="stylesheet" type="text/css" href="styles/authorization/login.css">
-        {% include "boostrapOptions.html.twig" %}
-    </head>
-    <body>
-        <form class="login_form" action="{{ path('login') }}" method="post">
-            {% if error %}
-                <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
-            <div class="text_boxs">
-                <input class="text_box_login text-field-style"
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Авторизация
+{% endblock %}
+
+{% block cssReference %}
+    <link rel="stylesheet" type="text/css" href="styles/colorStyles.css">
+    <link rel="stylesheet" type="text/css" href="styles/authorization/login.css">
+    <link rel="stylesheet" type="text/css" href="styles/common.css">
+{% endblock %}
+
+{% block jsReference %}
+{% endblock %}
+
+{% block boostrapOptions %}
+    {% include "boostrapOptions.html.twig" %}
+{% endblock %}
+
+{% block body %}
+    <form class="login_form" action="{{ path('login') }}" method="post">
+        <h1 class="h3 mb-3 font-weight-normal">Авторизация</h1>
+        {% if error %}
+            <div class="error-message">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+        <div class="text_boxs">
+            <div class="input-group">
+                <input class="form-control text_box"
                        placeholder="логин"
                        type="text"
                        id="username"
                        name="_username" value="{{ last_username }}" />
-
-                <input class="text_box_password text-field-style"
+            </div>
+            <div class="input-group">
+                <input class="form-control text_box"
                        placeholder="пароль"
                        type="password"
                        id="password"
                        name="_password" />
             </div>
             <div class="buttons">
-                <button type="submit" class="btn btn-secondary">Войти</button>
+                <button type="submit" class="btn btn-lg btn-primary btn-block">Войти</button>
             </div>
-        </form>
-    </body>
-</html>
+        </div>
+    </form>
+{% endblock %}

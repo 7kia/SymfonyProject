@@ -3,8 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @ORM\Entity
@@ -21,6 +20,7 @@ class Book implements \Serializable
 	
 	/**
      * @ORM\Column(name="name", type="string")
+     * @var string
      */
     private $name;
 
@@ -50,9 +50,9 @@ class Book implements \Serializable
     private $rating;
 
     /**
-     * @ORM\Column(name="deadline",type="date")
+     * @ORM\Column(name="publishingYear",type="datetime")
      */
-    private $deadline;
+    private $publishingYear;
 
 	/**
      * @ORM\Column(name="bookImage", type="string")
@@ -177,15 +177,15 @@ class Book implements \Serializable
      */
     public function getDeadline()
     {
-        return $this->deadline;
+        return $this->publishingYear;
     }
 
     /**
-     * @param $deadline
+     * @param DateTime $publishingYear
      */
-    public function setDeadline($deadline)
+    public function setDeadline(DateTime $publishingYear)
     {
-        $this->deadline = $deadline;
+        $this->publishingYear = $publishingYear;
     }
 
     /**
@@ -216,17 +216,17 @@ class Book implements \Serializable
 
     // TODO : некорректное считывание
     /**
-     * @param $name
+     * @param string $name
      * @param $publishingYear
-     * @param $pageAmount
-     * @param $rating
-     * @param $bookImage
+     * @param int $pageCount
+     * @param int $rating
+     * @param string $bookImage
      * @return Book
      */
     public static function generateWithData(
 		$name, 
 		$publishingYear,
-		$pageAmount,
+		$pageCount,
 		$rating,
 		$bookImage
 	) {
@@ -234,7 +234,7 @@ class Book implements \Serializable
 		$instance->fill(
 			$name, 
 			$publishingYear,
-			$pageAmount,
+			$pageCount,
 			$rating,
 			$bookImage
 		);
@@ -244,21 +244,21 @@ class Book implements \Serializable
     /**
      * @param $name
      * @param $publishingYear
-     * @param $pageAmount
+     * @param $pageCount
      * @param $rating
      * @param $bookImage
      */
     public function fill(
 		$name, 
 		$publishingYear,
-		$pageAmount,
+		$pageCount,
 		$rating,
 		$bookImage
 	) {
         $this->name = $name;
         $this->author = $name;
 		$this->publishingYear = $publishingYear;
-		$this->pageAmount = $pageAmount;
+		$this->pageCount = $pageCount;
 		$this->rating = $rating;
 		$this->bookImage = $bookImage;
     }
@@ -279,7 +279,9 @@ class Book implements \Serializable
         ));
     }
 
-    /** @see \Serializable::unserialize() */
+    /** @see \Serializable::unserialize()
+     * @param string $serialized
+     */
     public function unserialize($serialized)
     {
         list (

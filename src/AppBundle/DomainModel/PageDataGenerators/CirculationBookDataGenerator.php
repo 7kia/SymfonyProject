@@ -8,6 +8,7 @@ use AppBundle\Entity\Book;
 use AppBundle\Entity\TakenBook;
 use AppBundle\Entity\User;
 use AppBundle\DatabaseManagement\DatabaseManager;
+use AppBundle\Entity\UserListBook;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 class CirculationBookDataGenerator
@@ -85,6 +86,7 @@ class CirculationBookDataGenerator
     private function extractUserData($personalBooks, $readUsers)
     {
         $ownerData = array();
+        /** @var UserListBook $personalBook */
         foreach ($personalBooks as &$personalBook)
         {
             $owner = $this->databaseManager->getOneThingByCriterion(
@@ -116,6 +118,7 @@ class CirculationBookDataGenerator
     private function extractReadUserData($takenBooks)
     {
         $ownerData = array();
+        /** @var TakenBook $takenBook */
         foreach ($takenBooks as &$takenBook)
         {
             $owner = $this->databaseManager->getOneThingByCriterion(
@@ -259,8 +262,8 @@ class CirculationBookDataGenerator
 
 
     /**
-     * @param int $bookIds
-     * @param int $userIds
+     * @param array $bookIds
+     * @param array $userIds
      * @return array
      */
     private function generateTableData($bookIds, $userIds)
@@ -299,6 +302,7 @@ class CirculationBookDataGenerator
     {
         $users = $this->databaseManager->getThings($userIds, User::class);
         $userNames = array();
+        /** @var User $user */
         foreach ($users as $user) {
             if ($user != null) {
                 array_push($userNames, $user->getUsername());

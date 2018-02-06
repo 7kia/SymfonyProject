@@ -3,30 +3,14 @@
 namespace UserPagesBundle\Controller;
 
 use AppBundle\DomainModel\Actions\ActionsForCirculationBook;
-use AppBundle\DomainModel\Actions\ActionsForUserBookCatalog;
 use AppBundle\DomainModel\PageDataGenerators\CirculationBookDataGenerator;
 use AppBundle\DomainModel\PageDataGenerators\UserDataGenerator;
-use AppBundle\Entity\ApplicationForBook;
-use AppBundle\Entity\Book;
-use AppBundle\Entity\TakenBook;
-use AppBundle\Entity\User;
-use AppBundle\Entity\UserListBook;
 use AppBundle\Controller\MyController;
-use AppBundle\DatabaseManagement\SearchData;
-use AppBundle\DatabaseManagement\DatabaseManager;
 
-use AppBundle\Security\ApplicationStatus;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
-use Symfony\Component\BrowserKit\Response;
+use AppBundle\Entity\User;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-
 
 class CirculationBooksController extends MyController
 {
@@ -193,7 +177,7 @@ class CirculationBooksController extends MyController
     protected function commandProcessing(array $commandData)
     {
         if ($commandData['typeRequest'] != null) {
-            if ($this->executeRequest($commandData, $commandData['book_list_name'])) {
+            if ($this->executeRequest($commandData)) {
                 $this->redirectData = array(
                     'route' =>'circulation_books',
                     'arguments' => array(
@@ -208,15 +192,32 @@ class CirculationBooksController extends MyController
     }
 
     /**
-     * @param \appDevDebugProjectContainer $requestValue
+     * @param array $requestValue
      * @return bool
      */
     private function executeRequest($requestValue)
     {
+        /** @var User $currentUser */
         $currentUser = $this->userDataGenerator->getCurrentUser();
 
+        if ($requestValue['book_list_name'] == 'applications') {
+            return $this->executeApplicationBookCommand($requestValue, $currentUser);
+        } else if ($requestValue['book_list_name'] == 'given_books') {
+            return $this->executeTakenBookCommand($requestValue, $currentUser);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param array $requestValue
+     * @param User $currentUser
+     * @return bool
+     */
+    private function executeApplicationBookCommand($requestValue, User $currentUser)
+    {
         if ($requestValue['typeRequest'] == 'delete') {
-            return $this->actionsForCirculationBook->deleteBookFromList(
+            return $this->actionsForCirculationBook->deleteApplicationBook(
                 $requestValue['bookId'],
                 $requestValue['otherUserId'],
                 $currentUser->getId()
@@ -231,6 +232,22 @@ class CirculationBooksController extends MyController
         return false;
     }
 
+    /**
+     * @param array $requestValue
+     * @param User $currentUser
+     * @return bool
+     */
+    private function executeTakenBookCommand($requestValue, User $currentUser)
+    {
+        if ($requestValue['typeRequest'] == 'delete') {
+            return $this->actionsForCirculationBook->deleteTakenBook(
+                $requestValue['bookId'],
+                $requestValue['otherUserId'],
+                $currentUser->getId()
+            );
+        }
+        return false;
+    }
     /**
      * @param Request $request
      * @param array $generationDataForPage

@@ -1,0 +1,18 @@
+{%- block widget_attributes -%}
+    id="{{ id }}" name="{{ full_name }}"
+    class="form-control"
+    {%- if disabled %} disabled="disabled"{% endif -%}
+    {%- if required %} required="required"{% endif -%}
+    {{ block('attributes') }}
+{%- endblock widget_attributes -%}
+
+
+{%- block form_errors -%}
+    {%- if errors|length > 0 -%}
+        <div class="error-message">
+            {%- for error in errors -%}
+                <b>{{ error.message }}</b>
+            {%- endfor -%}
+        </div>
+    {%- endif -%}
+{%- endblock form_errors -%}

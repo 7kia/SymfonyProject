@@ -4,10 +4,8 @@ namespace AdminPagesBundle\Controller;
 use AppBundle\Entity\User;
 use AppBundle\Controller\MyController;
 
-
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;// PhpStorm считает ненужным. Нужен для @Route
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class UserTableController extends MyController
 {

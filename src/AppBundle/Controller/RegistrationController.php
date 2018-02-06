@@ -5,7 +5,7 @@ use AppBundle\DomainModel\Actions\ActionsForRegistration;
 use AppBundle\DomainModel\PageDataGenerators\UserDataGenerator;
 use AppBundle\Form\UserType;
 use AppBundle\Entity\User;
-use AppBundle\Controller\MyController;
+
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,7 +49,6 @@ class RegistrationController extends MyController
         $user = new User();
         $this->registerForm = $this->createForm(UserType::class, $user);
         $this->registerForm->handleRequest($request);
-
         if ($this->registerForm->isSubmitted() && $this->registerForm->isValid()) {
             $this->actionsForRegistration->registerUser($user, $this->passwordEncoder);
 
@@ -73,7 +72,8 @@ class RegistrationController extends MyController
         return array_merge(
             MyController::generatePageData($request, $generationDataForPage),
             array(
-                'form' => $this->registerForm->createView()
+                'form' => $this->registerForm->createView(),
+                'errors' => $this->registerForm->getErrors()
             )
         );
     }

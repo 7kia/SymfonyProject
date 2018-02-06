@@ -3,7 +3,6 @@
 namespace AppBundle\DomainModel\Rules;
 
 use AppBundle\DatabaseManagement\DatabaseManager;
-use AppBundle\Entity\ApplicationForBook;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 class RulesForCirculationBook extends MyRule
@@ -42,7 +41,7 @@ class RulesForCirculationBook extends MyRule
      * @param int $ownerId
      * @return bool
      */
-    public function canDeleteBookFromList($bookId, $applicantId, $ownerId)
+    public function canDeleteApplicationBook($bookId, $applicantId, $ownerId)
     {
         $applicationForBook = $this->databaseManager->getApplicationForBook($bookId, $applicantId, $ownerId);
         return ($applicationForBook != null);
@@ -58,5 +57,17 @@ class RulesForCirculationBook extends MyRule
     {
         $applicationForBook = $this->databaseManager->getApplicationForBook($bookId, $applicantId, $ownerId);
         return ($applicationForBook != null);
+    }
+
+    /**
+     * @param int $bookId
+     * @param int $applicantId
+     * @param int $ownerId
+     * @return bool
+     */
+    public function canDeleteTakenBook($bookId, $applicantId, $ownerId)
+    {
+        $takenBook = $this->databaseManager->getTakenBook($bookId, $applicantId, $ownerId);
+        return ($takenBook != null);
     }
 }

@@ -7,32 +7,20 @@ use AppBundle\DomainModel\Actions\ActionsForUserBookCatalog;
 use AppBundle\DomainModel\PageDataGenerators\BookDataGenerator;
 use AppBundle\DomainModel\PageDataGenerators\CirculationBookDataGenerator;
 use AppBundle\DomainModel\PageDataGenerators\UserDataGenerator;
-use AppBundle\Entity\ApplicationForBook;
-use AppBundle\Entity\Book;
-use AppBundle\Entity\User;
-use AppBundle\Entity\UserListBook;
 use AppBundle\Controller\MyController;
-use AppBundle\DatabaseManagement\SearchData;
-use AppBundle\DatabaseManagement\DatabaseManager;
 
 
 use AppBundle\Security\ApplicationStatus;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class BookPageController extends MyController
 {
     /** @var  ActionsForUserBookCatalog */
     private $actionsForUserBookCatalog;
-    /** @var  ActionsForUserBookCatalog */
+    /** @var  ActionsForCirculationBook */
     private $actionsForCirculationBook;
     /** @var  CirculationBookDataGenerator */
     private $circulationBookDataGenerator;
