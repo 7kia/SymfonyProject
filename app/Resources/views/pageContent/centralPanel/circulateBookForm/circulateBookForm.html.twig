@@ -1,22 +1,35 @@
 <div class="circulate-book-form">
     {% if bookData.books|length > 0 %}
+    <div class="content-page-title">
+        <b>
+            {% if book_list_name == "taken_books" %}
+                Взятые книги
+            {% elseif book_list_name == "applications" %}
+                Заявки на книги
+            {% elseif book_list_name == "given_books" %}
+                Отданные книги
+            {% endif %}
+        </b>
+    </div>
     <table id="circulate-book-grid" class="display" cellspacing="2" border='1'>
         <thead>
         <tr>
             <th>Название</th>
             <th>Автор</th>
             <th>Рейтинг</th>
-            {% if book_list_name == "taken_books" %}
-                <th>Владелец</th>
-            {% elseif book_list_name == "applications" %}
-                <th>Кто возьмёт</th>
-            {% elseif book_list_name == "given_books" %}
-                <th>Кто взял</th>
-            {% endif %}
-            <th>Срок сдачи</th>
-            {% if book_list_name != "taken_books" %}
-                <th>Опции</th>
-            {% endif %}
+            <th>
+                {% if book_list_name == "taken_books" %}
+                    Владелец
+                {% elseif book_list_name == "applications" %}
+                    Кто возьмёт
+                {% elseif book_list_name == "given_books" %}
+                    Кто взял
+                {% endif %}
+                Срок сдачи
+                {% if book_list_name != "taken_books" %}
+                    Опции
+                {% endif %}
+            </th>
         </tr>
         </thead>
         <tbody style='cursor:pointer;'>

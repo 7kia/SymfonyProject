@@ -1,5 +1,5 @@
 {% include "pageContent\\centralPanel\\notification\\bookPageNotification.html.twig" %}
-<div class="book-page-content ">
+<div class="book-page-content container">
     <div class="book-page-content__image-and-characteristics ">
         <div class="image-container center-align">
             {% if bookData.bookImage != null %}
@@ -9,60 +9,68 @@
                 <img class="image-container_book-image " src="images/NoBook.png"
                      alt="{{ bookData.name }}"/>
             {% endif %}
+            <div class="book-page-content__amount ">
+                <ul class="amount-container inline-block">
+                    <li>
+                        <b>Взято/всего</b>
+                    </li>
+                    <li>
+                        <a>{{ readCount }}/{{ ownerCount }}</a>
+                    </li>
+                </ul>
+            </div>
+
         </div>
-        <div class="book-page-content__characteristics-container ">
-            <ul>
-                <li>
-                    <b>Название: </b><a>{{ bookData.name }}</a>
-                </li>
-                <li>
-                    <b>Автор: </b><a>{{ bookData.author }}</a>
-                </li>
-                <li>
-                    <b>Количество страниц: </b><a>{{ bookData.pageCount }}</a>
-                </li>
-                <li>
-                    <b>ISBN: </b><a>{{ bookData.isbn }}</a>
-                </li>
-                <li>
-                    <div class="rating-book">
-                        <b>Рейтинг: </b>
-                    </div>
-                    <script type="text/javascript">
-                        var rating = JSON.parse("{{ bookData.rating }}")
-                        $('.rating-book' ).raty({
-                            readOnly:  true,
-                            start:     0,
-                            score: Number(rating)
-                        });
-                    </script>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="book-page-content__amount-and-description ">
-        <div class="amount-container inline-block">
-            <ul>
-                <li>
-                    <b>Количество</b>
-                </li>
-                <li>
-                    <b>(взято/всего): </b>
-                </li>
-                <li>
-                    <a>{{ readCount }}/{{ ownerCount }}</a>
-                </li>
-            </ul>
-        </div>
-        <div class="description-container inline-block">
-            <ul>
-                <li>
-                    <b>Описание</b>
-                </li>
-                <li>
-                    <a>{{ bookData.description }}</a>
-                </li>
-            </ul>
-        </div>
+        <table class="book-page-content__characteristics-container table">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th><b>Название</b></th>
+                        <td><a>{{ bookData.name }}</a></td>
+                    </tr>
+                    <tr>
+                        <th><b>Автор</b></th>
+                        <td><a>{{ bookData.author }}</a></td>
+                    </tr>
+                    <tr>
+                        <th><b>Количество страниц</b></th>
+                        <td><a>{{ bookData.pageCount }}</a></td>
+                    </tr>
+                    <tr>
+                        <th><b>ISBN</b></th>
+                        <td><a>{{ bookData.isbn }}</a></td>
+                    </tr>
+                    <tr>
+                        <th><b>Рейтинг</b></th>
+                        <td>
+                            <div class="rating-book"></div>
+                            <script type="text/javascript">
+                                var rating = JSON.parse("{{ bookData.rating }}")
+                                $('.rating-book' ).raty({
+                                    readOnly:  true,
+                                    start:     0,
+                                    score: Number(rating)
+                                });
+                            </script>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        <ul class="description-container list-style-type_none">
+            <li>
+                <b>Описание</b>
+            </li>
+            <li>
+                <a>{{ bookData.description }}</a>
+            </li>
+        </ul>
+
+
     </div>
 </div>

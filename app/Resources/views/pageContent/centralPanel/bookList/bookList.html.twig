@@ -1,6 +1,6 @@
 <div class="container book-list">
     {% if (pageName == "book_list") %}
-        <div class="book-list-title">
+        <div class="content-page-title">
             <b>{{ bookListTitle }}</b>
         </div>
     {% endif %}
@@ -20,20 +20,18 @@
                                         </a>
                                     {%  endif %}
                                 {%  endif %}
-                                <a href="{{ serverUrl }}book_page?book_id={{ bookCards[i].id }}">
-                                    {% if bookCards[i].bookImage != null %}
-                                        <img class="image-container_book-image " src="images/bookCardImages/{{ bookCards[i].bookImage }}"
-                                             alt="{{ bookCards[i].name }}"/>
-                                    {% else %}
-                                        <img class="image-container_book-image " src="images/NoBook.png"
-                                             alt="{{ bookCards[i].name }}"/>
-                                    {% endif %}
-                                </a>
+
+                                {% if bookCards[i].bookImage != null %}
+                                    <img class="image-container_book-image " src="images/bookCardImages/{{ bookCards[i].bookImage }}"
+                                         alt="{{ bookCards[i].name }}"/>
+                                {% else %}
+                                    <img class="image-container_book-image " src="images/NoBook.png"
+                                         alt="{{ bookCards[i].name }}"/>
+                                {% endif %}
+
                             </div>
                             <div class="book-cart__name-str">
-                                <a href="{{ serverUrl }}book_page?book_id={{ bookCards[i].id }}">
-                                    {{ bookCards[i].name }}
-                                </a>
+                                {{ bookCards[i].name }}
                             </div>
                             <div class="rating{{ i }} center-align">
                                 <script type="text/javascript">

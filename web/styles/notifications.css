@@ -19,41 +19,14 @@
     border: 1px solid #888;
     width: 60%;
 }
-
-/* The Close Button */
-.closess {
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.closess:hover,
-.closess:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.send-application-notification__notification-container
+.send-application-notification
 {
-    background-color: white;
-    width: 270px;
-    height: 85px;;
-    margin: 0px auto;
 
 }
 
-.send-application-notification__button-layer
+.send-application-notification .send-application-notification__button-container
 {
-    height: 60%;
-    position: relative;
-}
-
-.send-application-notification__ok-btn
-{
-    position: absolute;
-    bottom: 5px;
-    left: 115px;
+    width: 100%;
+    text-align: center;
 }
 
