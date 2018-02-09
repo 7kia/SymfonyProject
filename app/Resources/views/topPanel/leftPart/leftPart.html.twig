@@ -1,11 +1,14 @@
-<div class="col-4 left-part line-height-top-panel height-top-panel">
-    <ul class="left-part__element-list list-style-type_none">
-        {% if pageName == "user_list" and (ownerId == currentUser.id) %}
-            {% include "topPanel\\leftPart\\userListEdits\\userListEdits.html.twig" %}
-        {% elseif pageName == "book_page" %}
-            {% include "topPanel\\leftPart\\bookPageEdits\\bookPageEdits.html.twig" %}
-        {% elseif pageName == "user_book_catalog" %}
-            {% include "topPanel\\leftPart\\bookPageEdits\\userBookCatalogEdits.html.twig" %}
-        {% endif %}
-    </ul>
+<div class="left-part line-height-top-panel height-top-panel">
+    {% include "topPanel\\leftPart\\menu\\menu.html.twig" %}
 </div>
+
+{#// TODO : перенести в другое место согласно схеме
+
+
+{% if pageName == "user_list" and (ownerId == currentUser.id) %}#}
+            {#{% include "topPanel\\leftPart\\userListEdits\\userListEdits.html.twig" %}#}
+        {#{% elseif pageName == "book_page" %}#}
+            {#{% include "topPanel\\leftPart\\bookPageEdits\\bookPageEdits.html.twig" %}#}
+        {#{% elseif pageName == "user_book_catalog" %}#}
+            {#{% include "topPanel\\leftPart\\bookPageEdits\\userBookCatalogEdits.html.twig" %}#}
+        {#{% endif %}#}

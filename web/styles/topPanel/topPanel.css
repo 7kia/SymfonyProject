@@ -25,23 +25,3 @@
 {
     line-height: 48px;
 }
-
-.left-part
-{
-    width: 34%;
-    box-sizing: border-box;
-    float: left;
-
-    padding: 0px;
-}
-
-.right-part
-{
-    width: 34%;
-    float: right;
-}
-
-.central-part
-{
-    width: 30.8%;
-}

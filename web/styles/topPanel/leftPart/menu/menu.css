@@ -1,0 +1,9 @@
+.menu__options-container {
+    margin-top: -8px;
+}
+
+.menu__options-container_menu-element
+{
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
