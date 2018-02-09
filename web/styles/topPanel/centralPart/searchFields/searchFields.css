@@ -1,19 +1,23 @@
 .search-fields
 {
-    padding-top: 24px;
+    margin: 0;
 }
 
 .search-fields .search-btn
 {
     width: 15%;
+
+    float: left;
+    margin-right: 1px;
 }
 
 .search-fields .search-text-field
 {
-    width: 50%;
+    width: 54.5%;
 }
 
 .search-fields .search-category
 {
-    width: 20%;
+    width: 28%;
+    float: right;
 }

@@ -161,25 +161,7 @@ class SearchBookController extends MyController
      */
     private function getSearchForm(SearchData $searchData)
     {
-        // TODO : поправь текст кнопки
         $form = $this->createFormBuilder($searchData)
-            ->add(
-                'searchBtn',
-                SubmitType::class,
-                array(
-                    'attr' => array('class' => 'searchBtn'),
-                    'label' => 'Поиск'
-                )
-            )
-            ->add(
-                'searchTextField',
-                null,
-                array(
-                    'label' => false,
-                    'attr' => array('class' => 'search-text-field'),
-
-                )
-            )
             ->add(
                 'searchCategory',
                 ChoiceType::class,
@@ -189,9 +171,30 @@ class SearchBookController extends MyController
                         'Автор' => 'author'
                     ),
                     'label' => false,
-                    'attr' => array('class' => 'search-category'),
+                    'attr' => array('class' => 'search-category form-control'),
                 )
             )
+            ->add(
+                'searchBtn',
+                SubmitType::class,
+                array(
+                    'attr' => array('class' => 'search-btn btn btn-secondary'),
+                    'label' => 'Поиск'
+                )
+            )
+            ->add(
+                'searchTextField',
+                null,
+                array(
+                    'label' => false,
+                    'attr' => array(
+                        'class' => 'search-text-field form-control',
+                        'placeholder' => 'Вводить сюда'
+                    ),
+
+                )
+            )
+
             ->getForm();
 
         return $form;

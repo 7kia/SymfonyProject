@@ -1,26 +1,30 @@
-<div class="user-info">
-    <ul class="">
-        {% if userLogin == true %}
-            <li>
-                <div class="avatar bold-blue-border">
-                    <img src="images/avatars/{{ currentUser.avatar }}" width="150" height="150"></a>
-                </div>
-            </li>
-            <li>
-                <label for="UserFullName">{{ app.user.username }}</label>
-            </li>
-            <li>
-                <a href="{{ serverUrl }}login">
-                    <input type="submit" class="btn btn-secondary log_out" value="Выйти">
-                </a>
-            </li>
-        {% else %}
-            <li>
-                <a href="{{ serverUrl }}login">
-                    <input type="submit" class="btn btn-secondary log_in" value="Войти">
-                </a>
-            </li>
-        {% endif %}
+<div class="user-options height-top-panel">
+    <ul class="user-options__visible-info line-height-top-panel nav-item nav-link dropdown-toggle"
+        href="http://example.com"
+        id="dropdown02"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="true">
+        <li>
+            <a class="user-options__dropdown-toggle nav-link dropdown-toggle"
+               href="http://example.com"
+               id="dropdown02"
+               data-toggle="dropdown"
+               aria-haspopup="true"
+               aria-expanded="false"></a>
+        </li>
+        <li>
+            <div class="visible-info__avatar bold-blue-border">
+                <img src="images/avatars/{{ currentUser.avatar }}" width="150" height="150">
+            </div>
+        </li>
+        <li>
+            <label class="white-text" for="UserFullName">{{ app.user.username }}</label>
+        </li>
     </ul>
+    <div class="user-options__dropdown-menu dropdown-menu" aria-labelledby="dropdown02">
+        <a class="dropdown-item" href="{{ serverUrl }}login">
+            Выйти
+        </a>
+    </div>
 </div>
-

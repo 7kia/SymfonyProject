@@ -1,6 +1,6 @@
 <div class="owners-and-read-users lateral-element">
-    <div class="owners-and-read-users__user-data-container-title center-align"><b>Есть у пользователей</b></div>
-    <div class="owners-containers">
+    <div class="owners-and-read-users__user-data-container-title center-align white-container"><b>Есть у пользователей</b></div>
+    <div class="owners-containers white-container">
         <table class="owner-list" >
             <thead >
             <tr>
@@ -37,8 +37,8 @@
         </table>
     </div>
 
-    <div class="owners-and-read-users__user-data-container-title center-align"><b>Читают</b></div>
-    <div class="read-users-container ">
+    <div class="owners-and-read-users__user-data-container-title center-align white-container"><b>Читают</b></div>
+    <div class="read-users-container white-container">
         <table class="read-user-list" >
             <thead >
             <tr>
@@ -52,11 +52,11 @@
                         <td>
                             <div class="user-data-container ">
                                 <div class="user-data-container__image-container inline-block ">
-                                    <img class="bookImage mr-2 rounded" src="images/avatars/{{ readUserList[i].avatar }}"
+                                    <img class="image-container_book-image mr-2 rounded" src="images/avatars/{{ readUserList[i].avatar }}"
                                              alt="{{ readUserList[i].name }}"/>
                                 </div>
-                                <div class="read-user-container__read-user-name-container inline-block center-align">
-                                    <div class="read-user-container__read-user-name">
+                                <div class="owner-name-container inline-block  center-align">
+                                    <div class="owner-name-container__owner-name">
                                         <a href="{{ serverUrl }}user_book_catalog?book_list_name=personal_books&read_user_name={{ readUserList[i].userId }}">
                                             <b>{{ readUserList[i].name }}</b>
                                         </a>

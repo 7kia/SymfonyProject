@@ -1,10 +1,13 @@
+.page-content-container
+{
+    width: 100%;
+}
+
 .page-content
 {
     max-width: 980px;
-    margin: 0 auto;
+    margin: 0 auto 0;
 
-    outline: 2px;
-    outline-color: #000000;
 }
 
 .left-panel

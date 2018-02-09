@@ -3,24 +3,42 @@
     box-sizing: border-box;
     width: 100%;
     margin: 0 auto;
-
-    height: 74px;
-    background-color: #e5e4e4;
 }
+
+.white-text
+{
+    color: white;
+}
+
+.navbar-height
+{
+    height: 64px;
+}
+
 
 .height-top-panel
 {
-    height: 72px;
+    height: 48px;
+}
+
+.line-height-top-panel
+{
+    line-height: 48px;
 }
 
 .left-part
 {
     width: 34%;
+    box-sizing: border-box;
+    float: left;
+
+    padding: 0px;
 }
 
 .right-part
 {
     width: 34%;
+    float: right;
 }
 
 .central-part

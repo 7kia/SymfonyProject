@@ -1,17 +1,8 @@
-.left-part
-{
-    box-sizing: border-box;
-    height: 70px;
-    float: left;
-
-    padding: 0px;
-}
-
 .left-part .left-part__element-list
 {
     margin: 0px;
     padding-left: 0px;
-    line-height: 55px;
+    line-height: 38px;
     width: 120%;
 }
 

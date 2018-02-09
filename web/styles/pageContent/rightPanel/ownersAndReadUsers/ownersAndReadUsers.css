@@ -6,7 +6,6 @@
 .owners-and-read-users .owners-and-read-users__user-data-container-title
 {
     margin-top: 5px;
-    margin-bottom: 5px;
 }
 
 .owners-containers
@@ -21,6 +20,17 @@
     table-layout: fixed;
 }
 
+.white-container
+{
+    padding-top: 0.15rem;
+    padding-right: 0.25rem;
+    padding-bottom: 0.15rem;
+    padding-left: 0.25rem;
+
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.23);
+}
+
 .owner-list td
 {
     width: 100%;
@@ -32,14 +42,6 @@
 {
     width: 100%;
     height: 58px;
-
-    padding-top: 0.15rem;
-    padding-right: 0.25rem;
-    padding-bottom: 0.15rem;
-    padding-left: 0.25rem;
-
-    background-color: #fff;
-    border: 1px solid rgba(0,0,0,.23);
 }
 
 .user-data-container .user-data-container__image-container
@@ -67,7 +69,7 @@
 
 .owner-name-container
 {
-    width: 74px;
+    width: 60%;
     height: 54px;
     float: right;
 
@@ -75,10 +77,9 @@
 
 .owner-name-container .owner-name-container__owner-name
 {
-    width: 68px;
+
     height: 20px;
     padding-top: 17px;
-
 }
 
 .read-users-container
@@ -105,21 +106,4 @@
 {
     width: 100%;
     height: 58px;
-}
-
-
-
-.read-user-container__read-user-name-container
-{
-    width: 74px;
-    height: 54px;
-    float: right;
-
-}
-
-.read-user-container__read-user-name-container .read-user-container__read-user-name
-{
-    width: 68px;
-    height: 20px;
-    padding-top: 17px;
 }
