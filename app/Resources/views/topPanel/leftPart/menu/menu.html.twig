@@ -1,0 +1,29 @@
+<div class="menu">
+    <ul class="menu__options-container navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link menu__options-container_menu-element" href="{{ serverUrl }}user_book_catalog?book_list_name=personal_books&owner_id={{ currentUser.id }}">
+                Мои книги
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link menu__options-container_menu-element" href="{{ serverUrl }}circulation_books?book_list_name=taken_books&owner_id={{ currentUser.id }}">
+                Взятые книги
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link menu__options-container_menu-element" href="{{ serverUrl }}circulation_books?book_list_name=given_books&owner_id={{ currentUser.id }}">
+                Отданные книги
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link menu__options-container_menu-element" href="{{ serverUrl }}circulation_books?book_list_name=applications&owner_id={{ currentUser.id }}">
+                Заявки
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link menu__options-container_menu-element" href="{{ serverUrl }}search_book">
+                Поиск книг
+            </a>
+        </li>
+    </ul>
+</div>

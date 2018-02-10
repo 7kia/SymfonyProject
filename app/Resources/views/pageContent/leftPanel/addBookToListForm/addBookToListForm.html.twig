@@ -1,0 +1,19 @@
+<div class="user-data-container-title center-align white-container">
+    <b>Мои каталоги</b>
+</div>
+<div class="list-group">
+    <div class="list-group-item">
+        <a href="{{ serverUrl }}book_page?book_id={{ bookData.id }}&add_to_catalog=read_later">
+            {% include "pageContent\\leftPanel\\addBookToListForm\\addButton.html.twig" %}
+        </a>
+        Прочитать позже
+    </div>
+    <div class="list-group-item">
+        <a href="{{ serverUrl }}book_page?book_id={{ bookData.id }}&add_to_catalog=favorite_books">
+            {% include "pageContent\\leftPanel\\addBookToListForm\\addButton.html.twig" %}
+        </a>
+        Любимые
+    </div>
+
+</div>
+

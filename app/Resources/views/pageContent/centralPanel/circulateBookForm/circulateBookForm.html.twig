@@ -1,7 +1,7 @@
 <div class="circulate-book-form">
     {% if bookData.books|length > 0 %}
     <div class="content-page-title">
-        <b>
+        <h3>
             {% if book_list_name == "taken_books" %}
                 Взятые книги
             {% elseif book_list_name == "applications" %}
@@ -9,9 +9,9 @@
             {% elseif book_list_name == "given_books" %}
                 Отданные книги
             {% endif %}
-        </b>
+        </h3>
     </div>
-    <table id="circulate-book-grid" class="display" cellspacing="2" border='1'>
+    <table id="circulate-book-grid" class="circulate-book-table table">
         <thead>
         <tr>
             <th>Название</th>
@@ -25,11 +25,13 @@
                 {% elseif book_list_name == "given_books" %}
                     Кто взял
                 {% endif %}
-                Срок сдачи
-                {% if book_list_name != "taken_books" %}
-                    Опции
-                {% endif %}
             </th>
+            <th>Срок сдачи</th>
+            {% if book_list_name != "taken_books" %}
+                <th>
+                    Опции
+                </th>
+            {% endif %}
         </tr>
         </thead>
         <tbody style='cursor:pointer;'>

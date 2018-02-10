@@ -1,5 +1,7 @@
 <div class="col-2 left-panel lateral-element blue-text inline-block">
     {% if pageName == "book_list" %}
         {% include "pageContent\\leftPanel\\bookLists\\bookLists.html.twig" %}
+    {% elseif pageName == "book_page"%}
+        {% include "pageContent\\leftPanel\\addBookToListForm\\addBookToListForm.html.twig" %}
     {% endif %}
 </div>
