@@ -1,11 +1,11 @@
 .search-fields
 {
-    margin: 0;
+    padding: 15px 0px;
 }
 
 .search-fields .search-btn
 {
-    width: 15%;
+    width: 20%;
 
     float: left;
     margin-right: 1px;
@@ -13,11 +13,12 @@
 
 .search-fields .search-text-field
 {
-    width: 54.5%;
+    width: 59%;
+    display: contents;
 }
 
 .search-fields .search-category
 {
-    width: 28%;
+    width: 20%;
     float: right;
 }

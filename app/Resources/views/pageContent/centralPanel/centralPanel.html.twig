@@ -1,4 +1,8 @@
 <div class="col-8 central-panel central-element">
+    {% if pageName == "search_book" %}
+        {% include "pageContent\\centralPanel\\searchFields\\searchFields.html.twig" %}
+    {% endif %}
+
     {% if pageName == "add_book_page" %}
         {% include "pageContent\\centralPanel\\addBook\\addBook.html.twig" %}
     {% elseif (pageName == "book_list") or (pageName == "search_book")  %}

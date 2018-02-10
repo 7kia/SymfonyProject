@@ -1,43 +1,5 @@
 <div class="owners-and-read-users lateral-element">
-    <div class="owners-and-read-users__user-data-container-title center-align white-container"><b>Есть у пользователей</b></div>
-    <div class="owners-containers white-container">
-        <table class="owner-list" >
-            <thead >
-            <tr>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            {% if ownerList|length > 0 %}
-                {% for i in 0..(ownerList|length - 1) %}
-                    <tr>
-                        <td>
-                            <div class="user-data-container ">
-                                <div class="user-data-container__image-container inline-block ">
-                                    <img class="image-container_book-image mr-2 rounded" src="images/avatars/{{ ownerList[i].avatar }}"
-                                         alt="{{ ownerList[i].name }}"/>
-                                    <a href="{{ path('book_page') }}?book_id={{ bookData.id }}&send_application_to={{ ownerList[i].userId }}">
-                                        <img class="send_application_image" src="images/sendApplication.png"
-                                             alt="Подать заявку"/>
-                                    </a>
-                                </div>
-                                <div class="owner-name-container inline-block  center-align">
-                                    <div class="owner-name-container__owner-name">
-                                        <a href="{{ serverUrl }}user_book_catalog?book_list_name=personal_books&owner_id={{ ownerList[i].userId }}">
-                                            <b>{{ ownerList[i].name }}</b>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                {% endfor %}
-            {% endif %}
-            </tbody>
-        </table>
-    </div>
-
-    <div class="owners-and-read-users__user-data-container-title center-align white-container"><b>Читают</b></div>
+    <div class="user-data-container-title center-align white-container"><b>Читают</b></div>
     <div class="read-users-container white-container">
         <table class="read-user-list" >
             <thead >
@@ -52,13 +14,64 @@
                         <td>
                             <div class="user-data-container ">
                                 <div class="user-data-container__image-container inline-block ">
-                                    <img class="image-container_book-image mr-2 rounded" src="images/avatars/{{ readUserList[i].avatar }}"
-                                             alt="{{ readUserList[i].name }}"/>
+                                    {% if readUserList[i].avatar != null %}
+                                        <img class="image-container_book-image mr-2 rounded"
+                                             src="images/avatars/{{ readUserList[i].avatar }}"/>
+                                    {% else %}
+                                        <img class="image-container_book-image mr-2 rounded"
+                                             src="images/NoAvatar.png"/>
+                                    {% endif %}
                                 </div>
                                 <div class="owner-name-container inline-block  center-align">
                                     <div class="owner-name-container__owner-name">
                                         <a href="{{ serverUrl }}user_book_catalog?book_list_name=personal_books&read_user_name={{ readUserList[i].userId }}">
                                             <b>{{ readUserList[i].name }}</b>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="user-data-container-title center-align white-container">
+        <b>Имеют</b>
+    </div>
+    <div class="owners-containers white-container">
+        <table class="owner-list" >
+            <thead >
+            <tr>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if ownerList|length > 0 %}
+                {% for i in 0..(ownerList|length - 1) %}
+                    <tr>
+                        <td>
+                            <div class="user-data-container ">
+                                <div class="user-data-container__image-container inline-block ">
+                                    {% if ownerList[i].avatar != null %}
+                                        <img class="image-container_book-image mr-2 rounded"
+                                             src="images/avatars/{{ ownerList[i].avatar }}"/>
+                                    {% else %}
+                                        <img class="image-container_book-image mr-2 rounded"
+                                             src="images/NoAvatar.png"/>
+                                    {% endif %}
+
+                                    <a href="{{ path('book_page') }}?book_id={{ bookData.id }}&send_application_to={{ ownerList[i].userId }}">
+                                        <img class="send_application_image" src="images/sendApplication.png"
+                                             alt="Подать заявку"/>
+                                    </a>
+                                </div>
+                                <div class="owner-name-container inline-block  center-align">
+                                    <div class="owner-name-container__owner-name">
+                                        <a href="{{ serverUrl }}user_book_catalog?book_list_name=personal_books&owner_id={{ ownerList[i].userId }}">
+                                            <b>{{ ownerList[i].name }}</b>
                                         </a>
                                     </div>
                                 </div>

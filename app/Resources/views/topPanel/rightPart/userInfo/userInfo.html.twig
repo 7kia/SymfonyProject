@@ -11,12 +11,17 @@
                id="dropdown02"
                data-toggle="dropdown"
                aria-haspopup="true"
-               aria-expanded="false"></a>
+               aria-expanded="true"></a>
         </li>
         <li>
             <div class="visible-info__avatar bold-blue-border">
-                <img src="images/avatars/{{ currentUser.avatar }}" width="150" height="150">
+                {% if currentUser.avatar != null %}
+                    <img src="images/avatars/{{ currentUser.avatar }}""/>
+                {% else %}
+                    <img src="images/NoAvatar.png""/>
+                {% endif %}
             </div>
+
         </li>
         <li>
             <label class="white-text" for="UserFullName">{{ app.user.username }}</label>

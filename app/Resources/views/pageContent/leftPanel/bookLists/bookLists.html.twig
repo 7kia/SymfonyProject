@@ -1,0 +1,20 @@
+<div class="book-lists lateral-element blue-text">
+    {% set bookListOwnerName = currentUser.username %}
+    {% set bookListOwnerId = currentUser.id %}
+    {% if (pageName == "book_list") %}
+        {% set bookListOwnerName = ownerName %}
+        {% set bookListOwnerId = ownerId %}
+        <div class="list-group">
+            <a class="list-group-item  center-align title-book-list " >Списки книг {{ bookListOwnerName }}</a>
+            <a class="list-group-item" href="{{ serverUrl }}user_book_catalog?book_list_name=favorite_books&owner_id={{ bookListOwnerId }}">
+                Любимые книги
+            </a>
+            <a class="list-group-item" href="{{ serverUrl }}user_book_catalog?book_list_name=read_later&owner_id={{ bookListOwnerId }}">
+                Прочитать позже
+            </a>
+            <a class="list-group-item" href="{{ serverUrl }}user_book_catalog?book_list_name=personal_books&owner_id={{ bookListOwnerId }}">
+                Личные книги
+            </a>
+        </div>
+    {% endif %}
+</div>

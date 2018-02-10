@@ -3,9 +3,9 @@
     height: 200px;
 }
 
-.owners-and-read-users .owners-and-read-users__user-data-container-title
+.user-data-container-title
 {
-    margin-top: 5px;
+    line-height: 25px;
 }
 
 .owners-containers
